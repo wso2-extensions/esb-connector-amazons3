@@ -29,7 +29,6 @@
     <url>http://wso2.org</url>
     <properties>
         <connector.name>amazons3</connector.name>
-        <connector.version>1.0.0</connector.version>
         <test.framework.version>4.2.0</test.framework.version>
         <esb.version>4.8.1</esb.version>
         <carbon.kernel.version>4.4.1</carbon.kernel.version>
@@ -135,6 +134,12 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <scm>
+        <connection>scm:git:https://github.com/wso2-extensions/esb-connector-amazons3.git</connection>
+        <url>https://github.com/wso2-extensions/esb-connector-amazons3.git</url>
+        <developerConnection>scm:git:https://github.com/wso2-extensions/esb-connector-amazons3</developerConnection>
+        <tag>org.wso2.carbon.connector.agilezen-1.0.0</tag>
+    </scm>
     <build>
         <plugins>
             <plugin>
@@ -182,7 +187,7 @@
                             <goal>attached</goal>
                         </goals>
                         <configuration>
-                            <finalName>${connector.name}-connector-${connector.version}</finalName>
+                            <finalName>${connector.name}-connector-${version}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <filters>
                                 <filter>src/main/assembly/filter.properties</filter>
