@@ -2,7 +2,7 @@
 	<accessKeyId>11AKIAJ5H4DUFA3O2VJMLA</accessKeyId>
 	<secretAccessKey>11oz22F2mwtR+JGCGaykQmKHZj56zhUiiEb48Fynwt</secretAccessKey>
 	<methodType>POST</methodType>
-	<contentType>application/xml</contentType>
+	<contentType>application/xml; charset=UTF-8</contentType>
 	<isXAmzDate>true</isXAmzDate>
 	<contentMD5></contentMD5>
 	<bucketName>invalidBucket</bucketName>

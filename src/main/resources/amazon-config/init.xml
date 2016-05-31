@@ -42,6 +42,7 @@
 	<parameter name="xAmzMfa" description="The value is the concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device." />
 
 	<parameter name="xAmzCopySource" description="The name of the source bucket and key name of the source object, separated by a slash." />
+	<parameter name="xAmzCopySourceRange" description="The range of bytes to copy from the source object." />
 	<parameter name="xAmzMetadataDirective" description="Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request." />
 	<parameter name="xAmzCopySourceIfMatch" description="Copies the object if its entity tag (ETag) matches the specified tag." />
 	<parameter name="xAmzCopySourceIfNoneMatch" description="Copies the object if its entity tag (ETag) is different than the specified ETag." />
@@ -55,6 +56,7 @@
 		<property name="uri.var.methodType" expression="$func:methodType" />
 		<property name="uri.var.contentLength" expression="$func:contentLength" />
 		<property name="uri.var.contentType" expression="$func:contentType" />
+		<!--<property name="uri.var.contentType" value="application/xml; charset=UTF-8" />-->
 		<property name="uri.var.contentMD5" expression="$func:contentMD5" />
 		<property name="uri.var.expect" expression="$func:expect" />
 		<property name="uri.var.host" expression="$func:host" />
@@ -76,12 +78,16 @@
 		<property name="uri.var.xAmzMfa" expression="$func:xAmzMfa" />
 
 		<property name="uri.var.xAmzCopySource" expression="$func:xAmzCopySource" />
+		<property name="uri.var.xAmzCopySourceRange" expression="$func:xAmzCopySourceRange" />
 		<property name="uri.var.xAmzMetadataDirective" expression="$func:xAmzMetadataDirective" />
 		<property name="uri.var.xAmzCopySourceIfMatch" expression="$func:xAmzCopySourceIfMatch" />
 		<property name="uri.var.xAmzCopySourceIfNoneMatch" expression="$func:xAmzCopySourceIfNoneMatch" />
 		<property name="uri.var.xAmzCopySourceIfUnmodifiedSince" expression="$func:xAmzCopySourceIfUnmodifiedSince" />
 		<property name="uri.var.xAmzCopySourceIfModifiedSince" expression="$func:xAmzCopySourceIfModifiedSince" />
 
+
+        <header name="Content-Type" scope="transport" expression="get-property('uri.var.contentType')" />
+        <property name="messageType" expression="get-property('uri.var.contentType')" scope="axis2"/>
 		<!-- InitAclHeaders Setup -->
 
 	    <filter xpath="(string(get-property('uri.var.xAmzAcl'))) or get-property('uri.var.xAmzAcl') != ''">   
@@ -133,7 +139,7 @@
 			</then>
 		</filter>
 
-		<filter xpath="(string(get-property('uri.var.contentType'))) or get-property('uri.var.contentType') != ''">  
+		<filter xpath="(string(get-property('uri.var.contentType'))) or get-property('uri.var.contentType') != ''">
 			<then>
 				<property name="Content-Type" expression="get-property('uri.var.contentType')" scope="transport" type="STRING" />
 			</then>

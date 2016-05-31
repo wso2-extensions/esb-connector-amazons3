@@ -64,7 +64,7 @@ public final class AmazonS3Constants {
     /**
      * Constant for bucketName.
      */
-    public static final String BUCKET_NAME = "bucketName";
+    public static final String BUCKET_NAME = "uri.var.bucketName";
     
     /**
      * Constant for time zone (GMT).
@@ -93,27 +93,27 @@ public final class AmazonS3Constants {
     /**
      * Constant for accessKeyId.
      */
-    public static final String ACCESS_KEY_ID = "accessKeyId";
+    public static final String ACCESS_KEY_ID = "uri.var.accessKeyId";
     
     /**
      * Constant for secretAccessKey.
      */
-    public static final String SECRET_ACCESS_KEY = "secretAccessKey";
+    public static final String SECRET_ACCESS_KEY = "uri.var.secretAccessKey";
     
     /**
      * Constant for methodType.
      */
-    public static final String METHOD_TYPE = "methodType";
+    public static final String METHOD_TYPE = "uri.var.methodType";
     
     /**
      * Constant for contentMD5.
      */
-    public static final String CONTENT_MD5 = "contentMD5";
+    public static final String CONTENT_MD5 = "uri.var.contentMD5";
     
     /**
      * Constant for contentType.
      */
-    public static final String CONTENT_TYPE = "contentType";
+    public static final String CONTENT_TYPE = "uri.var.contentType";
     
     /**
      * Constant for uriRemainder.
@@ -128,102 +128,134 @@ public final class AmazonS3Constants {
     /**
      * Constant for xAmzDate.
      */
-    public static final String IS_XAMZ_DATE = "isXAmzDate";
+    public static final String IS_XAMZ_DATE = "uri.var.isXAmzDate";
     
     /**
      * Constant for xAmzSecurityToken.
      */
-    public static final String XAMZ_SECURITY_TOKEN = "xAmzSecurityToken";
+    public static final String XAMZ_SECURITY_TOKEN = "uri.var.xAmzSecurityToken";
     
     /**
      * Constant for xAmzAcl.
      */
-    public static final String XAMZ_ACL = "xAmzAcl";
+    public static final String XAMZ_ACL = "uri.var.xAmzAcl";
     
     /**
      * Constant for xAmzGrantRead.
      */
-    public static final String XAMZ_GRANT_READ = "xAmzGrantRead";
+    public static final String XAMZ_GRANT_READ = "uri.var.xAmzGrantRead";
     
     /**
      * Constant for xAmzGrantWrite.
      */
-    public static final String XAMZ_GRANT_WRITE = "xAmzGrantWrite";
+    public static final String XAMZ_GRANT_WRITE = "uri.var.xAmzGrantWrite";
     
     /**
      * Constant for xAmzGrantReadAcp.
      */
-    public static final String XAMZ_GRANT_READ_ACP = "xAmzGrantReadAcp";
+    public static final String XAMZ_GRANT_READ_ACP = "uri.var.xAmzGrantReadAcp";
     
     /**
      * Constant for xAmzGrantWriteAcp.
      */
-    public static final String XAMZ_GRANT_WRITE_ACP = "xAmzGrantWriteAcp";
+    public static final String XAMZ_GRANT_WRITE_ACP = "uri.var.xAmzGrantWriteAcp";
     
     /**
      * Constant for xAmzGrantFullControl.
      */
-    public static final String XAMZ_GRANT_FULL_CONTROL = "xAmzGrantFullControl";
+    public static final String XAMZ_GRANT_FULL_CONTROL = "uri.var.xAmzGrantFullControl";
     
     // CreateObject method related Amz header Constants.
     
     /**
      * Constant for xAmzMeta.
      */
-    public static final String XAMZ_META = "xAmzMeta";
+    public static final String XAMZ_META = "uri.var.xAmzMeta";
     
     /**
      * Constant for xAmzServeEncryption.
      */
-    public static final String XAMZ_SERVE_ENCRYPTION = "xAmzServeEncryption";
+    public static final String XAMZ_SERVE_ENCRYPTION = "uri.var.xAmzServeEncryption";
     
     /**
      * Constant for xAmzStorageClass.
      */
-    public static final String XAMZ_STORAGE_CLASS = "xAmzStorageClass";
+    public static final String XAMZ_STORAGE_CLASS = "uri.var.xAmzStorageClass";
     
     /**
      * Constant for xAmzWebsiteLocation.
      */
-    public static final String XAMZ_WEBSITE_LOCATION = "xAmzWebsiteLocation";
+    public static final String XAMZ_WEBSITE_LOCATION = "uri.var.xAmzWebsiteLocation";
     
     /**
      * Constant for xAmzMfa.
      */
-    public static final String XAMZ_MFA = "xAmzMfa";
+    public static final String XAMZ_MFA = "uri.var.xAmzMfa";
     
     // createObjectCopy method related Amz header Constants.
     
     /**
      * Constant for xAmzCopySource.
      */
-    public static final String XAMZ_COPY_SOURCE = "xAmzCopySource";
+    public static final String XAMZ_COPY_SOURCE = "uri.var.xAmzCopySource";
     
     /**
      * Constant for xAmzMetadataDirective.
      */
-    public static final String XAMZ_METADATA_DIRECTIVE = "xAmzMetadataDirective";
+    public static final String XAMZ_METADATA_DIRECTIVE = "uri.var.xAmzMetadataDirective";
     
     /**
      * Constant for xAmzCopySourceIfMatch.
      */
-    public static final String XAMZ_COPY_SOURCE_IF_MATCH = "xAmzCopySourceIfMatch";
+    public static final String XAMZ_COPY_SOURCE_IF_MATCH = "uri.var.xAmzCopySourceIfMatch";
     
     /**
      * Constant for xAmzCopySourceIfNoneMatch.
      */
-    public static final String XAMZ_COPY_SOURCE_IF_NONE_MATCH = "xAmzCopySourceIfNoneMatch";
+    public static final String XAMZ_COPY_SOURCE_IF_NONE_MATCH = "uri.var.xAmzCopySourceIfNoneMatch";
     
     /**
      * Constant for xAmzCopySourceIfModifiedSince.
      */
-    public static final String XAMZ_COPY_SOURCE_IF_MODIFIED_SINCE = "xAmzCopySourceIfModifiedSince";
+    public static final String XAMZ_COPY_SOURCE_IF_MODIFIED_SINCE = "uri.var.xAmzCopySourceIfModifiedSince";
     
     /**
      * Constant for xAmzCopySourceIfUnmodifiedSince.
      */
-    public static final String XAMZ_COPY_SOURCE_IF_UNMODIFIED_SINCE = "xAmzCopySourceIfUnmodifiedSince";
-    
+    public static final String XAMZ_COPY_SOURCE_IF_UNMODIFIED_SINCE = "uri.var.xAmzCopySourceIfUnmodifiedSince";
+
+    //headObject method constants
+    /**
+     * Constant for xAmzServerSide​Encryption​CustomerAlgorithm.
+     */
+    public static final String XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM = "uri.var.xAmzServerSide​Encryption​CustomerAlgorithm";
+
+    /**
+     * Constant for x-amz-server-side​-encryption​-customer-algorithm.
+     */
+    public static final String HD_XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM = "x-amz-server-side​-encryption​-customer-algorithm";
+
+    /**
+     * Constant for xAmzServerSide​Encryption​CustomerKey.
+     */
+    public static final String XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY = "uri.var.xAmzServerSide​Encryption​CustomerKey";
+
+    /**
+     * Constant for x-amz-server-side​-encryption​-customer-algorithm.
+     */
+    public static final String HD_XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY = "x-amz-server-side​-encryption​-customer-key";
+
+    /**
+     * Constant for xAmzServerSide​Encryption​CustomerKey.
+     */
+    public static final String XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5 = "uri.var.xAmzServerSide​Encryption​CustomerKeyMD5";
+
+    /**
+     * Constant for x-amz-server-side​-encryption​-customer-algorithm.
+     */
+    public static final String HD_XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5 = "x-amz-server-side​-encryption​-customer-key-MD5";
+
+
     // Common Amz header Constants.
     
     /**

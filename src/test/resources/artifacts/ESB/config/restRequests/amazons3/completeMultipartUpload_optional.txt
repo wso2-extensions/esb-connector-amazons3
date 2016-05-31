@@ -2,7 +2,7 @@
 	<accessKeyId>%s</accessKeyId>
 	<secretAccessKey>%s</secretAccessKey>
 	<methodType>POST</methodType>
-	<contentType>application/xml</contentType>
+	<contentType>application/xml; charset=UTF-8</contentType>
 	<isXAmzDate>true</isXAmzDate>
 	<contentMD5></contentMD5>
 	<bucketName>%s</bucketName>

@@ -17,50 +17,44 @@
  */
 package org.wso2.carbon.connector.amazons3.auth;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TimeZone;
-import java.util.TreeSet;
-
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseConstants;
 import org.wso2.carbon.connector.amazons3.util.AmazonS3Constants;
 import org.wso2.carbon.connector.core.AbstractConnector;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 /**
  * Class AmazonS3AuthConnector which helps to generate authentication header for Amazon S3 WSO2 ESB Connector.
  */
 public class AmazonS3AuthConnector extends AbstractConnector {
-    
+
     /**
      * Connect method which is generating authentication of the connector for each request.
-     * 
+     *
      * @param messageContext ESB messageContext.
      */
     public final void connect(final MessageContext messageContext) {
-    
+
         final StringBuilder builder = new StringBuilder();
-        final Map<String, String> parametersMap = getParametersMap(messageContext);
+        final Map< String, String > parametersMap = getParametersMap(messageContext);
         final Locale defaultLocale = Locale.getDefault();
-        
+
         final SimpleDateFormat dateFormat = new SimpleDateFormat(AmazonS3Constants.CURR_DATE_FORMAT, defaultLocale);
         dateFormat.setTimeZone(TimeZone.getTimeZone(AmazonS3Constants.TIME_ZONE));
         final String currentDate = dateFormat.format(new Date());
-        
+
         builder.append(parametersMap.get(AmazonS3Constants.METHOD_TYPE)).append(AmazonS3Constants.NEW_LINE);
         builder.append(parametersMap.get(AmazonS3Constants.CONTENT_MD5)).append(AmazonS3Constants.NEW_LINE);
         builder.append(parametersMap.get(AmazonS3Constants.CONTENT_TYPE)).append(AmazonS3Constants.NEW_LINE);
-        
+
         final String dateTrimmed = currentDate.trim();
-        final Map<String, String> amzHeadersMap = new HashMap<String, String>();
-        
+        final Map< String, String > amzHeadersMap = new HashMap< String, String >();
+
         if (Boolean.parseBoolean(parametersMap.get(AmazonS3Constants.IS_XAMZ_DATE))) {
             builder.append(AmazonS3Constants.NEW_LINE);
             amzHeadersMap.put(AmazonS3Constants.HD_XAMZ_DATE, dateTrimmed);
@@ -68,9 +62,9 @@ public class AmazonS3AuthConnector extends AbstractConnector {
         } else {
             builder.append(dateTrimmed).append(AmazonS3Constants.NEW_LINE);
         }
-        
-        final Map<String, String> amzHeaderKeysMap = getAmzHeaderKeysMap();
-        for (Map.Entry<String, String> entry : amzHeaderKeysMap.entrySet()) {
+
+        final Map< String, String > amzHeaderKeysMap = getAmzHeaderKeysMap();
+        for (Map.Entry< String, String > entry : amzHeaderKeysMap.entrySet()) {
             String key = entry.getKey();
             String tempParam = parametersMap.get(key);
             if (!tempParam.isEmpty()) {
@@ -78,21 +72,21 @@ public class AmazonS3AuthConnector extends AbstractConnector {
                         tempParam.replaceAll(AmazonS3Constants.REGEX, AmazonS3Constants.EMPTY_STR));
             }
         }
-        
-        final SortedSet<String> keys = new TreeSet<String>(amzHeadersMap.keySet());
+
+        final SortedSet< String > keys = new TreeSet< String >(amzHeadersMap.keySet());
         for (String key : keys) {
             String headerValues = amzHeadersMap.get(key);
             builder.append(key.toLowerCase(defaultLocale)).append(AmazonS3Constants.COLON).append(headerValues)
                     .append(AmazonS3Constants.NEW_LINE);
         }
-        
+
         // Setting the canonicalized resource.
         builder.append(AmazonS3Constants.FORWARD_SLASH).append(parametersMap.get(AmazonS3Constants.BUCKET_NAME));
         String urlRemainder = (String) messageContext.getProperty(AmazonS3Constants.URI_REMAINDER);
         if (urlRemainder != null && !urlRemainder.isEmpty()) {
             builder.append(urlRemainder);
         }
-        
+
         // Sign the created string.
         final AmazonS3Authentication amazonS3Authentication =
                 new AmazonS3Authentication(parametersMap.get(AmazonS3Constants.ACCESS_KEY_ID),
@@ -120,19 +114,19 @@ public class AmazonS3AuthConnector extends AbstractConnector {
             storeErrorResponseStatus(messageContext, exc, AmazonS3Constants.ERROR_CODE_EXCEPTION);
             handleException("Error occured in connector", exc, messageContext);
         }
-        
+
         // Set Message Headers.
         messageContext.setProperty(AmazonS3Constants.DATE, currentDate);
     }
-    
+
     /**
      * getKeys method used to return list of predefined parameter keys.
-     * 
+     *
      * @return list of parameter key value.
      */
     private String[] getKeys() {
-    
-        return new String[] { AmazonS3Constants.ACCESS_KEY_ID, AmazonS3Constants.SECRET_ACCESS_KEY,
+
+        return new String[]{AmazonS3Constants.ACCESS_KEY_ID, AmazonS3Constants.SECRET_ACCESS_KEY,
                 AmazonS3Constants.METHOD_TYPE, AmazonS3Constants.CONTENT_MD5, AmazonS3Constants.CONTENT_TYPE,
                 AmazonS3Constants.BUCKET_NAME, AmazonS3Constants.IS_XAMZ_DATE, AmazonS3Constants.XAMZ_SECURITY_TOKEN,
                 AmazonS3Constants.XAMZ_ACL, AmazonS3Constants.XAMZ_GRANT_READ, AmazonS3Constants.XAMZ_GRANT_WRITE,
@@ -143,19 +137,20 @@ public class AmazonS3AuthConnector extends AbstractConnector {
                 AmazonS3Constants.XAMZ_COPY_SOURCE, AmazonS3Constants.XAMZ_METADATA_DIRECTIVE,
                 AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MATCH, AmazonS3Constants.XAMZ_COPY_SOURCE_IF_NONE_MATCH,
                 AmazonS3Constants.XAMZ_COPY_SOURCE_IF_UNMODIFIED_SINCE,
-                AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MODIFIED_SINCE };
+                AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MODIFIED_SINCE, AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM,
+                AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY, AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5};
     }
-    
+
     /**
      * getParametersMap method used to return list of parameter values passed in via proxy.
-     * 
+     *
      * @param messageContext ESB messageContext.
      * @return assigned parameter values as a HashMap.
      */
-    private Map<String, String> getParametersMap(final MessageContext messageContext) {
-    
+    private Map< String, String > getParametersMap(final MessageContext messageContext) {
+
         String[] keys = getKeys();
-        Map<String, String> parametersMap = new HashMap<String, String>();
+        Map< String, String > parametersMap = new HashMap< String, String >();
         for (byte index = 0; index < keys.length; index++) {
             String paramValue =
                     (messageContext.getProperty(keys[index]) != null) ? (String) messageContext
@@ -164,16 +159,16 @@ public class AmazonS3AuthConnector extends AbstractConnector {
         }
         return parametersMap;
     }
-    
+
     /**
      * getAmzHeaderKeysMap method used to return list of predefined XAMZ keys with values.
-     * 
+     *
      * @return list of Amz header keys and values Map.
      */
-    private Map<String, String> getAmzHeaderKeysMap() {
-    
-        Map<String, String> amzHeaderKeysMap = new HashMap<String, String>();
-        
+    private Map< String, String > getAmzHeaderKeysMap() {
+
+        Map< String, String > amzHeaderKeysMap = new HashMap< String, String >();
+
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_SECURITY_TOKEN, AmazonS3Constants.HD_XAMZ_SECURITY_TOKEN);
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_ACL, AmazonS3Constants.HD_XAMZ_ACL);
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_GRANT_READ, AmazonS3Constants.HD_XAMZ_GRANT_READ);
@@ -196,23 +191,29 @@ public class AmazonS3AuthConnector extends AbstractConnector {
                 AmazonS3Constants.HD_XAMZ_COPY_SOURCE_IF_UNMODIFIED_SINCE);
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MODIFIED_SINCE,
                 AmazonS3Constants.HD_XAMZ_COPY_SOURCE_IF_MODIFIED_SINCE);
-        
+        amzHeaderKeysMap.put(AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM,
+                AmazonS3Constants.HD_XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM);
+        amzHeaderKeysMap.put(AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY,
+                AmazonS3Constants.HD_XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY);
+        amzHeaderKeysMap.put(AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5,
+                AmazonS3Constants.HD_XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5);
+
         return amzHeaderKeysMap;
     }
-    
+
     /**
      * Add a Throwable to a message context, the message from the throwable is embedded as the Synapse Constant
      * ERROR_MESSAGE.
-     * 
-     * @param ctxt message context to which the error tags need to be added
+     *
+     * @param ctxt      message context to which the error tags need to be added
      * @param throwable Throwable that needs to be parsed and added
      * @param errorCode errorCode mapped to the exception
      */
     public void storeErrorResponseStatus(final MessageContext ctxt, final Throwable throwable, final int errorCode) {
-    
+
         ctxt.setProperty(SynapseConstants.ERROR_CODE, errorCode);
         ctxt.setProperty(SynapseConstants.ERROR_MESSAGE, throwable.getMessage());
         ctxt.setFaultResponse(true);
     }
-    
+
 }
