@@ -2,7 +2,7 @@
     "accessKeyId": "%s",
     "secretAccessKey": "%s",
     "methodType": "PUT",
-    "contentType": "application/json",
+    "contentType": "application/json; charset=UTF-8",
     "bucketName": "%s",
     "isXAmzDate": "true",
     "bucketUrl": "%s", 
@@ -12,15 +12,15 @@
 	"expect":"",
 	"contentLength":"",  
     "bucketPolicy": {
-  	    "Version":"2015-1-7",
-  		"Statement":[{
-		"Sid":"AddPerm",
-        "Effect":"Allow",
-	  	"Principal": {
-            "AWS": "*"
-        },
-     	"Action":["s3:GetObject"],
-      	"Resource":["arn:aws:s3:::invalidBucket/*"]
-    	}]
-	}
+  					"Version":"2015-1-7",
+  					"Statement":[{
+						"Sid":"AddPerm",
+        					"Effect":"Allow",
+	  					"Principal": {
+            					"AWS": "*"
+         					},
+     					 "Action":["s3:GetObject"],
+      					"Resource":["arn:aws:s3:::invalidBucket/*"]
+    					}]
+				}
 }

@@ -1,5 +1,5 @@
 <createObject>
-  	<accessKeyId>%s</accessKeyId>
+	<accessKeyId>%s</accessKeyId>
 	<secretAccessKey>%s</secretAccessKey>
 	<methodType>PUT</methodType>
 	<contentType>application/xml</contentType>

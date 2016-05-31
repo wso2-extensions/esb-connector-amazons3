@@ -3,7 +3,7 @@
 	<secretAccessKey>%s</secretAccessKey>
 	<methodType>PUT</methodType>
 	<contentLength>2000</contentLength>
-	<contentType>application/xml</contentType>
+	<contentType>application/xml; charset=UTF-8</contentType>
 	<contentMD5></contentMD5>
 	<expect></expect>
 	<host></host>

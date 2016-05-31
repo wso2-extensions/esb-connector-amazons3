@@ -3,7 +3,7 @@
   <secretAccessKey>%s</secretAccessKey>
   <methodType>PUT</methodType>
   <contentLength>256</contentLength>
-  <contentType>application/xml</contentType> 
+  <contentType>application/xml; charset=UTF-8</contentType>
   <host>s3.amazonaws.com</host>
   <isXAmzDate>true</isXAmzDate>
   <bucketName>%s</bucketName>

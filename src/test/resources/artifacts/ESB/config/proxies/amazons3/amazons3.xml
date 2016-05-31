@@ -136,6 +136,11 @@
 						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
 					</amazons3.getBucketVersioning>
 				</case>
+				<case regex="urn:getBucketReplication">
+					<amazons3.getBucketReplication>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+					</amazons3.getBucketReplication>
+				</case>
 				<case regex="urn:getBucketRequestPayment">
 					<amazons3.getBucketRequestPayment>
 						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
@@ -145,6 +150,11 @@
 					<amazons3.getBucketACL>
 						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
 					</amazons3.getBucketACL>
+				</case>
+				<case regex="urn:getBucketTagging">
+					<amazons3.getBucketTagging>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+					</amazons3.getBucketTagging>
 				</case>
 				<case regex="urn:getBucketLifeCycle">
 					<amazons3.getBucketLifeCycle>
@@ -176,10 +186,30 @@
 						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
 					</amazons3.getBucketACL>
 				</case>
+                <case regex="urn:getBucketLocation">
+					<amazons3.getBucketLocation>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+					</amazons3.getBucketLocation>
+				</case>
+                <case regex="urn:getBucketLogging">
+					<amazons3.getBucketLogging>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+					</amazons3.getBucketLogging>
+				</case>
 				<case regex="urn:getBucketLifeCycle">
 					<amazons3.getBucketLifeCycle>
 						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
 					</amazons3.getBucketLifeCycle>
+				</case>
+				<case regex="urn:getBucketCors">
+					<amazons3.getBucketCors>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+					</amazons3.getBucketCors>
+				</case>
+				<case regex="urn:getBucketNotification">
+					<amazons3.getBucketNotification>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+					</amazons3.getBucketNotification>
 				</case>
 				<case regex="urn:getWebSiteConfiguration">
 					<amazons3.getWebSiteConfiguration>
@@ -199,6 +229,12 @@
 						<ownerDisplayName>{$ctx:ownerDisplayName}</ownerDisplayName>
 						<accessControlList>{$ctx:accessControlList}</accessControlList>
 					</amazons3.createObjectACL>
+				</case>
+				<case regex="urn:createBucketCors">
+					<amazons3.createBucketCors>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+						<corsConfiguration>{$ctx:corsConfiguration}</corsConfiguration>
+					</amazons3.createBucketCors>
 				</case>
 				<case regex="urn:createObjectCopy">
 					<amazons3.createObjectCopy>

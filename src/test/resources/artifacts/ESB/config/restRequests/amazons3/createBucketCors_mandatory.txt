@@ -1,0 +1,22 @@
+<createBucketCors>
+	<accessKeyId>%s</accessKeyId>
+	<secretAccessKey>%s</secretAccessKey>
+	<methodType>PUT</methodType>
+	<contentLength>256</contentLength>
+	<contentType>application/xml; charset=UTF-8</contentType>
+	<contentMD5></contentMD5>
+	<expect></expect>
+	<host></host>
+	<isXAmzDate>true</isXAmzDate>
+	<xAmzSecurityToken></xAmzSecurityToken>
+	<bucketName>%s</bucketName>
+	<bucketUrl>%s</bucketUrl>
+	<corsConfiguration>
+		<CORSRule>
+           <AllowedOrigin>*</AllowedOrigin>
+           <AllowedMethod>GET</AllowedMethod>
+           <AllowedHeader>*</AllowedHeader>
+           <MaxAgeSeconds>3000</MaxAgeSeconds>
+        </CORSRule>
+    </corsConfiguration>
+</createBucketCors>
