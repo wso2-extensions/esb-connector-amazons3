@@ -37,15 +37,15 @@ import org.wso2.carbon.connector.core.AbstractConnector;
  * Amazon S3 WSO2 ESB Connector.
  */
 public class AmazonS3ContentMD5Builder extends AbstractConnector {
-    
+
     /**
      * Connect method which is generating content MD5 header value for given delete configuration for delete multiple
      * objects method.
-     * 
+     *
      * @param messageContext ESB messageContext.
      */
     public final void connect(final MessageContext messageContext) {
-    
+
         String contentMD5Header = null;
         try {
             final SOAPBody body = messageContext.getEnvelope().getBody();
@@ -67,23 +67,23 @@ public class AmazonS3ContentMD5Builder extends AbstractConnector {
             handleException("Error occured in connector", exc, messageContext);
         }
     }
-    
+
     /**
      * Consume the string type delete configuration and returns its Base-64 encoded MD5 checksum as a string.
-     * 
+     *
      * @param deleteConfig gets delete configuration as a string.
      * @return String type base-64 encoded MD5 checksum.
-     * @throws java.io.IOException if an I/O error occurs when reading bytes of data from input stream.
+     * @throws java.io.IOException                    if an I/O error occurs when reading bytes of data from input stream.
      * @throws java.security.NoSuchAlgorithmException if no implementation for the specified algorithm.
      */
     private String getContentMD5Header(final String deleteConfig) throws IOException, NoSuchAlgorithmException {
-    
+
         String contentHeader = null;
         // convert String into InputStream
         final InputStream inputStream = new ByteArrayInputStream(deleteConfig.getBytes(Charset.defaultCharset()));
         final DigestInputStream digestInputStream =
                 new DigestInputStream(inputStream, MessageDigest.getInstance(AmazonS3Constants.MD5));
-        
+
         final byte[] buffer = new byte[AmazonS3Constants.BUFFER_SIZE];
         while (digestInputStream.read(buffer) > 0) {
             contentHeader =
@@ -92,18 +92,18 @@ public class AmazonS3ContentMD5Builder extends AbstractConnector {
         }
         return contentHeader;
     }
-    
+
     /**
      * Add a Throwable to a message context, the message from the throwable is embedded as the Synapse Constant
      * ERROR_MESSAGE.
-     * 
-     * @param ctxt message context to which the error tags need to be added
+     *
+     * @param ctxt      message context to which the error tags need to be added
      * @param throwable Throwable that needs to be parsed and added
      * @param errorCode errorCode mapped to the exception
      */
     public static void storeErrorResponseStatus(final MessageContext ctxt, final Throwable throwable,
-            final int errorCode) {
-    
+                                                final int errorCode) {
+
         ctxt.setProperty(SynapseConstants.ERROR_CODE, errorCode);
         ctxt.setProperty(SynapseConstants.ERROR_MESSAGE, throwable.getMessage());
         ctxt.setFaultResponse(true);

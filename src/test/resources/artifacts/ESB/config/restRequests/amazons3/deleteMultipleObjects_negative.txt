@@ -5,12 +5,12 @@
 	<contentType>application/xml; charset=UTF-8</contentType>
 	<bucketName>invalid</bucketName>
 	<isXAmzDate>true</isXAmzDate>
-	<xAmzSecurityToken />
-	<expect />
-	<xAmzMfa />
+	<xAmzSecurityToken></xAmzSecurityToken>
+	<expect></expect>
+	<xAmzMfa></xAmzMfa>
 	<bucketUrl>http://s3.amazonaws.com/invalid</bucketUrl>
 	<host>invalid.s3.amazonaws.com</host>
 	<deleteConfig>
 		<Delete><Quiet>true</Quiet><Object><Key>%s</Key></Object><Object><Key>%s</Key></Object></Delete>
-	</deleteConfig> 
+	</deleteConfig>
 </deleteMultipleObjects>

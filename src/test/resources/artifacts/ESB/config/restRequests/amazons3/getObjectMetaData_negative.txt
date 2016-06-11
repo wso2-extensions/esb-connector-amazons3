@@ -1,5 +1,4 @@
 <getObjectMetaData>
-	
 	<!-- Header Parameters -->
 	<accessKeyId>%s</accessKeyId>
 	<secretAccessKey>%s</secretAccessKey>
@@ -10,12 +9,10 @@
 	<bucketName>invalidBucket</bucketName>
 	<bucketUrl>%s</bucketUrl>	            
 	<objectName>%s</objectName>
-	
 	<!-- Optional Header Parameters -->
 	<range></range>
 	<ifModifiedSince></ifModifiedSince>
 	<ifUnmodifiedSince></ifUnmodifiedSince>
 	<ifMatch></ifMatch>
 	<ifNoneMatch></ifNoneMatch>
-	
 </getObjectMetaData>

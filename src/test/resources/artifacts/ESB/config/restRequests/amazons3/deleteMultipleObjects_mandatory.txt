@@ -5,12 +5,13 @@
 	<contentType>application/xml; charset=UTF-8</contentType>
 	<bucketName>%s</bucketName>
 	<isXAmzDate>true</isXAmzDate>
-	<xAmzSecurityToken />
-	<expect />
-	<xAmzMfa />
+	<xAmzSecurityToken></xAmzSecurityToken>
+	<expect></expect>
+	<xAmzMfa></xAmzMfa>
 	<bucketUrl>%s</bucketUrl>
 	<host></host>
 	<deleteConfig>
-		<Delete><Quiet>true</Quiet><Object><Key>%s</Key></Object><Object><Key>%s</Key></Object></Delete>
-	</deleteConfig> 
+		<Quiet>true</Quiet>
+		<Objects><Object><Key>%s</Key></Object><Object><Key>%s</Key></Object></Objects>
+	</deleteConfig>
 </deleteMultipleObjects>

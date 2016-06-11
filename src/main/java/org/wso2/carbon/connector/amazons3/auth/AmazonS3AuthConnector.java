@@ -26,7 +26,13 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TimeZone;
+import java.util.TreeSet;
 
 /**
  * Class AmazonS3AuthConnector which helps to generate authentication header for Amazon S3 WSO2 ESB Connector.
@@ -41,7 +47,7 @@ public class AmazonS3AuthConnector extends AbstractConnector {
     public final void connect(final MessageContext messageContext) {
 
         final StringBuilder builder = new StringBuilder();
-        final Map< String, String > parametersMap = getParametersMap(messageContext);
+        final Map<String, String> parametersMap = getParametersMap(messageContext);
         final Locale defaultLocale = Locale.getDefault();
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat(AmazonS3Constants.CURR_DATE_FORMAT, defaultLocale);
@@ -53,7 +59,7 @@ public class AmazonS3AuthConnector extends AbstractConnector {
         builder.append(parametersMap.get(AmazonS3Constants.CONTENT_TYPE)).append(AmazonS3Constants.NEW_LINE);
 
         final String dateTrimmed = currentDate.trim();
-        final Map< String, String > amzHeadersMap = new HashMap< String, String >();
+        final Map<String, String> amzHeadersMap = new HashMap<String, String>();
 
         if (Boolean.parseBoolean(parametersMap.get(AmazonS3Constants.IS_XAMZ_DATE))) {
             builder.append(AmazonS3Constants.NEW_LINE);
@@ -63,8 +69,8 @@ public class AmazonS3AuthConnector extends AbstractConnector {
             builder.append(dateTrimmed).append(AmazonS3Constants.NEW_LINE);
         }
 
-        final Map< String, String > amzHeaderKeysMap = getAmzHeaderKeysMap();
-        for (Map.Entry< String, String > entry : amzHeaderKeysMap.entrySet()) {
+        final Map<String, String> amzHeaderKeysMap = getAmzHeaderKeysMap();
+        for (Map.Entry<String, String> entry : amzHeaderKeysMap.entrySet()) {
             String key = entry.getKey();
             String tempParam = parametersMap.get(key);
             if (!tempParam.isEmpty()) {
@@ -73,7 +79,7 @@ public class AmazonS3AuthConnector extends AbstractConnector {
             }
         }
 
-        final SortedSet< String > keys = new TreeSet< String >(amzHeadersMap.keySet());
+        final SortedSet<String> keys = new TreeSet<String>(amzHeadersMap.keySet());
         for (String key : keys) {
             String headerValues = amzHeadersMap.get(key);
             builder.append(key.toLowerCase(defaultLocale)).append(AmazonS3Constants.COLON).append(headerValues)
@@ -147,10 +153,10 @@ public class AmazonS3AuthConnector extends AbstractConnector {
      * @param messageContext ESB messageContext.
      * @return assigned parameter values as a HashMap.
      */
-    private Map< String, String > getParametersMap(final MessageContext messageContext) {
+    private Map<String, String> getParametersMap(final MessageContext messageContext) {
 
         String[] keys = getKeys();
-        Map< String, String > parametersMap = new HashMap< String, String >();
+        Map<String, String> parametersMap = new HashMap<String, String>();
         for (byte index = 0; index < keys.length; index++) {
             String paramValue =
                     (messageContext.getProperty(keys[index]) != null) ? (String) messageContext
@@ -165,9 +171,9 @@ public class AmazonS3AuthConnector extends AbstractConnector {
      *
      * @return list of Amz header keys and values Map.
      */
-    private Map< String, String > getAmzHeaderKeysMap() {
+    private Map<String, String> getAmzHeaderKeysMap() {
 
-        Map< String, String > amzHeaderKeysMap = new HashMap< String, String >();
+        Map<String, String> amzHeaderKeysMap = new HashMap<String, String>();
 
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_SECURITY_TOKEN, AmazonS3Constants.HD_XAMZ_SECURITY_TOKEN);
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_ACL, AmazonS3Constants.HD_XAMZ_ACL);

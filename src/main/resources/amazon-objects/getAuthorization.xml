@@ -29,13 +29,11 @@
                 </getAuthorizationResponse>
             </format>
             <args>
-                <arg expression="get-property('authenticationCode')"/>
-                <arg expression="get-property('date')"/>
-                <arg expression="get-property('isXAmzDateValue')"/>
+                <arg expression="$ctx:authenticationCode"/>
+                <arg expression="$ctx:date"/>
+                <arg expression="$ctx:isXAmzDateValue"/>
             </args>
         </payloadFactory>
-        <!--<header name="Authorization" scope="transport" value="get-property('authenticationCode')" />-->
-        <!--<header name="x-amz-date" scope="transport" value="get-property('isXAmzDateValue')" />-->
         <respond/>
     </sequence>
 </template>

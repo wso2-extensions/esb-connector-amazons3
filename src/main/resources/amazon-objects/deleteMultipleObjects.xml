@@ -25,50 +25,50 @@
         <property name="uri.var.quiet" expression="$func:quiet"/>
         <property name="uri.var.uriRemainder" value="/?delete"/>
         <!-- Append Quiet Element to the original request if quiet is sent. -->
-        <filter xpath="(string(get-property('uri.var.quiet'))) or get-property('uri.var.quiet') != ''">
-            <then>
-                <script language="js">
-                    <![CDATA[
-					var deleteConfig = "<Quiet>"+mc.getProperty('uri.var.quiet')+"</Quiet>"+mc.getProperty('uri.var.deleteConfig');
-					mc.setProperty("uri.var.deleteConfig",deleteConfig); 
-				]]>
-                </script>
-            </then>
-        </filter>
         <payloadFactory media-type="xml">
             <format>
-                <Delete xmlns="">$1</Delete>
+                <Delete>
+                    <Quiet>$1</Quiet>
+                    $ctx:uri.var.deleteConfig
+                </Delete>
             </format>
             <args>
-                <arg expression="get-property('uri.var.deleteConfig')"/>
+                <arg expression="$ctx:uri.var.quiet"/>
             </args>
         </payloadFactory>
+        <script language="js">
+            <![CDATA[
+			    var quiet = mc.getProperty('uri.var.quiet');
+				payload = mc.getPayloadXML();
+                if(quiet == null || quiet == "") {
+				    delete payload.Quiet;
+				}
+                mc.setPayloadXML(payload);
+			]]>
+        </script>
         <!-- Generate MD5 Content -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3ContentMD5Builder"/>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Properties assigned in AmazonS3AuthConnector -->
-        <filter xpath="(string(get-property('date'))) or get-property('date') != ''">
+        <filter xpath="string($ctx:date) or $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')"
-                          scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) or get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) or $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')"
-                          scope="transport" type="STRING"/>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) or get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) or $ctx:authenticationCode != ''">
             <then>
                 <property name="Authorization" expression="get-property('authenticationCode')"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('contentMD5'))) or get-property('contentMD5') != ''">
+        <filter xpath="string($ctx:uri.var.contentMD5) or $ctx:uri.var.contentMD5 != ''">
             <then>
-                <property name="Content-MD5" expression="get-property('contentMD5')"
-                          scope="transport" type="STRING"/>
+                <property name="Content-MD5" expression="$ctx:uri.var.contentMD5" scope="transport" type="STRING"/>
             </then>
         </filter>
         <call>

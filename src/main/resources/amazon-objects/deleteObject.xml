@@ -24,39 +24,34 @@
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.versionId" expression="$func:versionId"/>
         <!-- urlRemainder needs to be sent to generate authentication code -->
-        <filter xpath="(string(get-property('uri.var.versionId'))) and get-property('uri.var.versionId') != ''">
+        <property name="uri.var.uriRemainder" expression="fn:concat('/', $ctx:uri.var.objectName)"/>
+        <filter xpath="string(uri.var.versionId) and uri.var.versionId != ''">
             <then>
                 <property name="uri.var.uriRemainder"
-                          expression="fn:concat('/', get-property('uri.var.objectName'), '?versionId=', get-property('uri.var.versionId'))"/>
+                          expression="fn:concat($ctx:uri.var.uriRemainder, '/', '?versionId=', $ctx:uri.var.versionId)"/>
             </then>
-            <else>
-                <property name="uri.var.uriRemainder" expression="fn:concat('/', get-property('uri.var.objectName'))"/>
-            </else>
         </filter>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Properties assigned in AmazonS3AuthConnector -->
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
-                          type="STRING"/>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
-                          type="STRING"/>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzMfa'))) and get-property('uri.var.xAmzMfa') != ''">
+        <filter xpath="string($ctx:xAmzMfa) and $ctx:xAmzMfa != ''">
             <then>
-                <property name="x-amz-mfa" expression="get-property('uri.var.xAmzMfa')" scope="transport"
-                          type="STRING"/>
+                <property name="x-amz-mfa" expression="$ctx:xAmzMfa" scope="transport" type="STRING"/>
             </then>
         </filter>
         <call>

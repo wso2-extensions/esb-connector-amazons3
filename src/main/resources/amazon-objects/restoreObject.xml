@@ -26,37 +26,38 @@
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.numberOfDays" expression="$func:numberOfDays"/>
         <property name="uri.var.versionId" expression="$func:versionId"/>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',get-property('uri.var.objectName'),'?restore')"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName,'?restore')"/>
         <!-- Setting the ACL of a specified object version -->
-        <filter xpath="(string(get-property('uri.var.versionId'))) and get-property('uri.var.versionId') != ''">
+        <filter xpath="string($ctx:uri.var.versionId) and $ctx:uri.var.versionId != ''">
             <then>
                 <property name="uri.var.uriRemainder"
-                          expression="fn:concat(get-property('uri.var.uriRemainder'),'&amp;versionId=',get-property('uri.var.versionId'))"/>
+                          expression="fn:concat($ctx:uri.var.uriRemainder,'&amp;versionId=',$ctx:uri.var.versionId)"/>
             </then>
         </filter>
+        <!-- Generate MD5 Content -->
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3ContentMD5Builder"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('contentMD5'))) or get-property('contentMD5') != ''">
+        <filter xpath="string($ctx:contentMD5) or $ctx:contentMD5 != ''">
             <then>
-                <property name="Content-MD5" expression="get-property('contentMD5')"
-                          scope="transport" type="STRING"/>
+                <property name="Content-MD5" expression="$ctx:contentMD5" scope="transport" type="STRING"/>
             </then>
         </filter>
         <payloadFactory media-type="xml">
@@ -66,7 +67,7 @@
                 </RestoreRequest>
             </format>
             <args>
-                <arg expression="get-property('uri.var.numberOfDays')"/>
+                <arg expression="$ctx:uri.var.numberOfDays"/>
             </args>
         </payloadFactory>
         <call>

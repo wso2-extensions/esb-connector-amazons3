@@ -1,4 +1,4 @@
-<createBucketCors>
+<createBucketTagging>
 	<accessKeyId>%s</accessKeyId>
 	<secretAccessKey>%s</secretAccessKey>
 	<methodType>PUT</methodType>
@@ -10,12 +10,10 @@
 	<xAmzSecurityToken></xAmzSecurityToken>
 	<bucketName>%s</bucketName>
 	<bucketUrl>%s</bucketUrl>
-	<corsConfiguration>
-		<CORSRule>
-           <AllowedOrigin>*</AllowedOrigin>
-           <AllowedMethod>GET</AllowedMethod>
-           <AllowedHeader>*</AllowedHeader>
-           <MaxAgeSeconds>3000</MaxAgeSeconds>
-        </CORSRule>
-    </corsConfiguration>
-</createBucketCors>
+	<tagSet>
+        <Tag>
+            <Key>Project</Key>
+            <Value>Project One</Value>
+        </Tag>
+    </tagSet>
+</createBucketTagging>

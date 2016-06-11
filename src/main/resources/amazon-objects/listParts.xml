@@ -31,43 +31,43 @@
         <property name="uri.var.encodingType" expression="$func:encodingType"/>
         <property name="uri.var.partNumberMarker" expression="$func:partNumberMarker"/>
         <property name="uri.var.uriRemainder"
-                  expression="fn:concat('/',get-property('uri.var.objectName'),'?uploadId=',get-property('uri.var.uploadId'))"/>
-        <property name="uri.var.query" value="&amp;"/>
+                  expression="fn:concat('/',$ctx:uri.var.objectName,'?uploadId=',$ctx:uri.var.uploadId)"/>
+        <property name="uri.var.query" value=""/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="(string(get-property('uri.var.encodingType'))) and get-property('uri.var.encodingType') != ''">
+        <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'encoding-type=',get-property('uri.var.encodingType'),'&amp;')"/>
+                          expression="fn:concat('&amp;',$ctx:uri.var.query,'encoding-type=',$ctx:uri.var.encodingType)"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.maxParts'))) and get-property('uri.var.maxParts') != ''">
+        <filter xpath="string($ctx:uri.var.maxParts) and $ctx:uri.var.maxParts != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'max-parts=',get-property('uri.var.maxParts'),'&amp;')"/>
+                          expression="fn:concat('&amp;',$ctx:uri.var.query,'max-parts=',$ctx:uri.var.maxParts)"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.partNumberMarker'))) and get-property('uri.var.partNumberMarker') != ''">
+        <filter xpath="string($ctx:uri.var.partNumberMarker) and $ctx:uri.var.partNumberMarker != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'part-number-marker=',get-property('uri.var.partNumberMarker'))"/>
+                          expression="fn:concat('&amp;',$ctx:uri.var.query,'part-number-marker=',$ctx:uri.var.partNumberMarker)"/>
             </then>
         </filter>
         <!-- Properties Assigned in AmazonS3AuthConnector -->
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
                           type="STRING"/>
             </then>
         </filter>

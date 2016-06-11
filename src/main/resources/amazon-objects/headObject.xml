@@ -36,112 +36,112 @@
         <property name="uri.var.ifMatch" expression="$func:ifMatch"/>
         <property name="uri.var.ifNoneMatch" expression="$func:ifNoneMatch"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',get-property('uri.var.objectName'))"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName)"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.range'))) and get-property('uri.var.range') != ''">
+        <filter xpath="string($ctx:uri.var.range) and $ctx:uri.var.range != ''">
             <then>
-                <property name="Range" expression="get-property('uri.var.range')" scope="transport"
+                <property name="Range" expression="$ctx:uri.var.range" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.ifModifiedSince'))) and get-property('uri.var.ifModifiedSince') != ''">
+        <filter xpath="string($ctx:uri.var.ifModifiedSince) and $ctx:uri.var.ifModifiedSince != ''">
             <then>
-                <property name="If-Modified-Since" expression="get-property('uri.var.ifModifiedSince')"
+                <property name="If-Modified-Since" expression="$ctx:uri.var.ifModifiedSince"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.ifUnmodifiedSince'))) and get-property('uri.var.ifUnmodifiedSince') != ''">
+        <filter xpath="string($ctx:uri.var.ifUnmodifiedSince) and $ctx:uri.var.ifUnmodifiedSince != ''">
             <then>
-                <property name="If-Unmodified-Since" expression="get-property('uri.var.ifUnmodifiedSince')"
+                <property name="If-Unmodified-Since" expression="$ctx:uri.var.ifUnmodifiedSince"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.ifMatch'))) and get-property('uri.var.ifMatch') != ''">
+        <filter xpath="string($ctx:uri.var.ifMatch) and $ctx:uri.var.ifMatch != ''">
             <then>
-                <property name="If-Match" expression="get-property('uri.var.ifMatch')" scope="transport"
+                <property name="If-Match" expression="$ctx:uri.var.ifMatch" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.ifNoneMatch'))) and get-property('uri.var.ifNoneMatch') != ''">
+        <filter xpath="string($ctx:uri.var.ifNoneMatch) and $ctx:uri.var.ifNoneMatch != ''">
             <then>
-                <property name="If-None-Match" expression="get-property('uri.var.ifNoneMatch')" scope="transport"
+                <property name="If-None-Match" expression="$ctx:uri.var.ifNoneMatch" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzCopySource'))) and get-property('uri.var.xAmzCopySource') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzCopySource) and $ctx:uri.var.xAmzCopySource != ''">
             <then>
-                <property name="x-amz-copy-source" expression="get-property('uri.var.xAmzCopySource')"
+                <property name="x-amz-copy-source" expression="$ctx:uri.var.xAmzCopySource"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzMetadataDirective'))) and get-property('uri.var.xAmzMetadataDirective') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzMetadataDirective) and $ctx:uri.var.xAmzMetadataDirective != ''">
             <then>
-                <property name="x-amz-metadata-directive" expression="get-property('uri.var.xAmzMetadataDirective')"
+                <property name="x-amz-metadata-directive" expression="$ctx:uri.var.xAmzMetadataDirective"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzCopySourceIfMatch'))) and get-property('uri.var.xAmzCopySourceIfMatch') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfMatch) and $ctx:uri.var.xAmzCopySourceIfMatch != ''">
             <then>
-                <property name="x-amz-copy-source-if-match" expression="get-property('uri.var.xAmzCopySourceIfMatch')"
+                <property name="x-amz-copy-source-if-match" expression="$ctx:uri.var.xAmzCopySourceIfMatch"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzCopySourceIfNoneMatch'))) and get-property('uri.var.xAmzCopySourceIfNoneMatch') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfNoneMatch) and $ctx:uri.var.xAmzCopySourceIfNoneMatch != ''">
             <then>
                 <property name="x-amz-copy-source-if-none-match"
-                          expression="get-property('uri.var.xAmzCopySourceIfNoneMatch')"
+                          expression="$ctx:uri.var.xAmzCopySourceIfNoneMatch"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzCopySourceIfUnmodifiedSince'))) and get-property('uri.var.xAmzCopySourceIfUnmodifiedSince') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfUnmodifiedSince) and $ctx:uri.var.xAmzCopySourceIfUnmodifiedSince != ''">
             <then>
                 <property name="x-amz-copy-source-if-unmodified-since"
-                          expression="get-property('uri.var.xAmzCopySourceIfUnmodifiedSince')"
+                          expression="$ctx:uri.var.xAmzCopySourceIfUnmodifiedSince"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzCopySourceIfModifiedSince'))) and get-property('uri.var.xAmzCopySourceIfModifiedSince') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfModifiedSince) and $ctx:uri.var.xAmzCopySourceIfModifiedSince != ''">
             <then>
                 <property name="x-amz-copy-source-if-modified-since"
-                          expression="get-property('uri.var.xAmzCopySourceIfModifiedSince')"
+                          expression="$ctx:uri.var.xAmzCopySourceIfModifiedSince"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzServeEncryptionValue'))) and get-property('uri.var.xAmzServeEncryptionValue') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzServeEncryptionValue) and $ctx:uri.var.xAmzServeEncryptionValue != ''">
             <then>
                 <property name="x-amz-server-side-encryption"
-                          expression="get-property('uri.var.xAmzServeEncryptionValue')"
+                          expression="$ctx:uri.var.xAmzServeEncryptionValue"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzStorageClassValue'))) and get-property('uri.var.xAmzStorageClassValue') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzStorageClassValue) and $ctx:uri.var.xAmzStorageClassValue != ''">
             <then>
-                <property name="x-amz-storage-class" expression="get-property('uri.var.xAmzStorageClassValue')"
+                <property name="x-amz-storage-class" expression="$ctx:uri.var.xAmzStorageClassValue"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.xAmzWebsiteLocationValue'))) and get-property('uri.var.xAmzWebsiteLocationValue') != ''">
+        <filter xpath="string($ctx:uri.var.xAmzWebsiteLocationValue) and $ctx:uri.var.xAmzWebsiteLocationValue != ''">
             <then>
                 <property name="x-amz-website-redirect-location"
-                          expression="get-property('uri.var.xAmzWebsiteLocationValue')" scope="transport"
+                          expression="$ctx:uri.var.xAmzWebsiteLocationValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>

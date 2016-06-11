@@ -37,58 +37,58 @@
         <property name="uri.var.query" value="&amp;"/>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Properties Assigned in AmazonS3AuthConnector -->
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
         <!-- Building Custom Query -->
-        <filter xpath="(string(get-property('uri.var.delimiter'))) and get-property('uri.var.delimiter') != ''">
+        <filter xpath="string($ctx:uri.var.delimiter) and $ctx:uri.var.delimiter != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'delimiter=',get-property('uri.var.delimiter'),'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'delimiter=',$ctx:uri.var.delimiter,'&amp;')"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.encodingType'))) and get-property('uri.var.encodingType') != ''">
+        <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'encoding-type=',get-property('uri.var.encodingType'),'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'encoding-type=',$ctx:uri.var.encodingType,'&amp;')"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.maxUploads'))) and get-property('uri.var.maxUploads') != ''">
+        <filter xpath="string($ctx:uri.var.maxUploads) and $ctx:uri.var.maxUploads != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'max-uploads=',get-property('uri.var.maxUploads'),'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'max-uploads=',$ctx:uri.var.maxUploads,'&amp;')"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.keyMarker'))) and get-property('uri.var.keyMarker') != ''">
+        <filter xpath="string($ctx:uri.var.keyMarker) and $ctx:uri.var.keyMarker != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'key-marker=',get-property('uri.var.keyMarker'),'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'key-marker=',$ctx:uri.var.keyMarker,'&amp;')"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.prefix'))) and get-property('uri.var.prefix') != ''">
+        <filter xpath="string($ctx:uri.var.prefix) and $ctx:uri.var.prefix != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'prefix=',get-property('uri.var.prefix'),'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'prefix=',$ctx:uri.var.prefix,'&amp;')"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.uploadIdMarker'))) and get-property('uri.var.uploadIdMarker') != ''">
+        <filter xpath="string($ctx:uri.var.uploadIdMarker) and $ctx:uri.var.uploadIdMarker != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat(get-property('uri.var.query'),'upload-id-marker=',get-property('uri.var.uploadIdMarker'),'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'upload-id-marker=',$ctx:uri.var.uploadIdMarker,'&amp;')"/>
             </then>
         </filter>
         <call>

@@ -59,7 +59,8 @@
         <component name="createBucketLifecycle">
             <file>createBucketLifecycle.xml</file>
             <description>Creates a new lifecycle configuration for the bucket or replaces an existing
-                lifecycle configuration</description>
+                lifecycle configuration
+            </description>
         </component>
         <component name="createBucketReplication">
             <file>createBucketReplication.xml</file>

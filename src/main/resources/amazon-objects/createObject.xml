@@ -17,20 +17,13 @@
 -->
 <template name="createObject" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="bucketUrl" description="End point URL of the request."/>
-    <!--<parameter name="contentType" description="Content type."/>-->
     <sequence>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
-        <!--<property name="uri.var.contentType" expression="$func:contentType"/>-->
-        <!--<log level="custom">-->
-            <!--<property name="1121212122112121212121222112" expression="get-property('uri.var.contentType')"/>-->
-        <!--</log>-->
         <!-- Force ESB to send the content length to the AmazonS3 API -->
         <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
         <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
-        <!-- The POST operation adds an object to a specified bucket using HTML forms -->
         <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
-        <!--<header name="Content-Type" scope="transport" expression="get-property('uri.var.contentType')" />-->
-        <!--<header name="Content-Type" scope="transport" value="multipart/form-data" />-->
+        <!-- The POST operation adds an object to a specified bucket using HTML forms -->
         <call>
             <endpoint>
                 <http method="post" uri-template="{uri.var.bucketUrl}"/>

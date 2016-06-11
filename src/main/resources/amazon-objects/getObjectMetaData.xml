@@ -35,53 +35,53 @@
         <property name="uri.var.ifMatch" expression="$func:ifMatch"/>
         <property name="uri.var.ifNoneMatch" expression="$func:ifNoneMatch"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',get-property('uri.var.objectName'))"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName)"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.range'))) and get-property('uri.var.range') != ''">
+        <filter xpath="string($ctx:uri.var.range) and $ctx:uri.var.range != ''">
             <then>
-                <property name="Range" expression="get-property('uri.var.range')" scope="transport"
+                <property name="Range" expression="$ctx:uri.var.range" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.ifModifiedSince'))) and get-property('uri.var.ifModifiedSince') != ''">
+        <filter xpath="string($ctx:uri.var.ifModifiedSince) and $ctx:uri.var.ifModifiedSince != ''">
             <then>
-                <property name="If-Modified-Since" expression="get-property('uri.var.ifModifiedSince')"
+                <property name="If-Modified-Since" expression="$ctx:uri.var.ifModifiedSince"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.ifUnmodifiedSince'))) and get-property('uri.var.ifUnmodifiedSince') != ''">
+        <filter xpath="string($ctx:uri.var.ifUnmodifiedSince) and $ctx:uri.var.ifUnmodifiedSince != ''">
             <then>
-                <property name="If-Unmodified-Since" expression="get-property('uri.var.ifUnmodifiedSince')"
+                <property name="If-Unmodified-Since" expression="$ctx:uri.var.ifUnmodifiedSince"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.ifMatch'))) and get-property('uri.var.ifMatch') != ''">
+        <filter xpath="string($ctx:uri.var.ifMatch) and $ctx:uri.var.ifMatch != ''">
             <then>
-                <property name="If-Match" expression="get-property('uri.var.ifMatch')" scope="transport"
+                <property name="If-Match" expression="$ctx:uri.var.ifMatch" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('uri.var.ifNoneMatch'))) and get-property('uri.var.ifNoneMatch') != ''">
+        <filter xpath="string($ctx:uri.var.ifNoneMatch) and $ctx:uri.var.ifNoneMatch != ''">
             <then>
-                <property name="If-None-Match" expression="get-property('uri.var.ifNoneMatch')" scope="transport"
+                <property name="If-None-Match" expression="$ctx:uri.var.ifNoneMatch" scope="transport"
                           type="STRING"/>
             </then>
         </filter>

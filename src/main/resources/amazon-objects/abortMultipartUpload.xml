@@ -35,23 +35,23 @@
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.uriRemainder"
-                  expression="fn:concat('/',get-property('uri.var.objectName'),'?uploadId=',get-property('uri.var.uploadId'))"/>
+                  expression="fn:concat('/',$ctx:uri.var.objectName,'?uploadId=',$ctx:uri.var.uploadId)"/>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Properties Assigned in AmazonS3AuthConnector -->
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
                           type="STRING"/>
             </then>
         </filter>

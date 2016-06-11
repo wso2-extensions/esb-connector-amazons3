@@ -49,7 +49,7 @@
 			<property name="ownerId" expression="//ownerId/text()" />
 			<property name="bucketPolicy" expression="json-eval($.bucketPolicy)" />
 			<property name="ownerDisplayName" expression="//ownerDisplayName/text()" />
-			<property name="accessControlList" expression="//accessControlList/Grant" />
+			<property name="accessControlList" expression="//accessControlList/Grants/*" />
 			<property name="accessControlPolicy" expression="//accessControlPolicy/*" />
 			<property name="destinationObject" expression="//destinationObject/text()" />
 			<property name="delimiter" expression="//delimiter/text()" />
@@ -71,11 +71,17 @@
 			<property name="ifUnmodifiedSince" expression="//ifUnmodifiedSince/text()" />
 			<property name="ifMatch" expression="//ifMatch/text()" />
 			<property name="ifNoneMatch" expression="//ifNoneMatch/text()" />
-			<property name="quiet" expression="//deleteConfig/Delete/Quiet/text()" />
-			<property name="deleteConfig" expression="//deleteConfig/Delete/Object" />
+			<property name="quiet" expression="//deleteConfig/Quiet/text()" />
+			<property name="deleteConfig" expression="//deleteConfig/Objects/*" />
 			<property name="uploadId" expression="//uploadId/text()" />
 			<property name="partDetails" expression="//partDetails/node()" />
 			<property name="uriRemainder" expression="//uriRemainder/text()" />
+			<property name="rules" expression="//rules/*" />
+			<property name="role" expression="//role/text()" />
+			<property name="corsConfiguration" expression="//corsConfiguration/*" />
+			<property name="status" expression="//status/text()" />
+			<property name="mfaDelete" expression="//mfaDelete/text()" />
+			<property name="tagSet" expression="//tagSet/*" />
 			<amazons3.init>
 				<accessKeyId>{$ctx:accessKeyId}</accessKeyId>
 				<secretAccessKey>{$ctx:secretAccessKey}</secretAccessKey>
@@ -131,10 +137,24 @@
 						<apiUrl>{$ctx:apiUrl}</apiUrl>
 					</amazons3.getBuckets>
 				</case>
+				<case regex="urn:createBucketVersioning">
+					<amazons3.createBucketVersioning>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+						<status>{$ctx:status}</status>
+						<mfaDelete>{$ctx:mfaDelete}</mfaDelete>
+					</amazons3.createBucketVersioning>
+				</case>
 				<case regex="urn:getBucketVersioning">
 					<amazons3.getBucketVersioning>
 						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
 					</amazons3.getBucketVersioning>
+				</case>
+				<case regex="urn:createBucketReplication">
+					<amazons3.createBucketReplication>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+						<role>{$ctx:role}</role>
+						<rules>{$ctx:rules}</rules>
+					</amazons3.createBucketReplication>
 				</case>
 				<case regex="urn:getBucketReplication">
 					<amazons3.getBucketReplication>
@@ -150,6 +170,12 @@
 					<amazons3.getBucketACL>
 						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
 					</amazons3.getBucketACL>
+				</case>
+				<case regex="urn:createBucketTagging">
+					<amazons3.createBucketTagging>
+						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+						<tagSet>{$ctx:tagSet}</tagSet>
+					</amazons3.createBucketTagging>
 				</case>
 				<case regex="urn:getBucketTagging">
 					<amazons3.getBucketTagging>
@@ -416,4 +442,4 @@
 		</outSequence>
 	</target>
 	<description />
-</proxy>                             
+</proxy>

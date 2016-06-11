@@ -29,31 +29,30 @@
         <property name="uri.var.ownerDisplayName" expression="$func:ownerDisplayName"/>
         <property name="uri.var.accessControlList" expression="$func:accessControlList"/>
         <property name="uri.var.versionId" expression="$func:versionId"/>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',get-property('uri.var.objectName'),'?acl')"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName,'?acl')"/>
         <!-- Setting the ACL of a specified object version -->
-        <filter xpath="(string(get-property('uri.var.versionId'))) and get-property('uri.var.versionId') != ''">
+        <filter xpath="string($ctx:uri.var.versionId) and $ctx:uri.var.versionId != ''">
             <then>
                 <property name="uri.var.uriRemainder"
-                          expression="fn:concat(get-property('uri.var.uriRemainder'),'&amp;versionId=',get-property('uri.var.versionId'))"/>
+                          expression="fn:concat($ctx:uri.var.uriRemainder,'&amp;versionId=',$ctx:uri.var.versionId)"/>
             </then>
         </filter>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
-                          type="STRING"/>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
         <payloadFactory media-type="xml">
@@ -63,13 +62,12 @@
                         <ID>$1</ID>
                         <DisplayName>$2</DisplayName>
                     </Owner>
-                    <AccessControlList>$3</AccessControlList>
+                    <AccessControlList>$ctx:uri.var.accessControlList</AccessControlList>
                 </AccessControlPolicy>
             </format>
             <args>
-                <arg expression="get-property('uri.var.ownerId')"/>
-                <arg expression="get-property('uri.var.ownerDisplayName')"/>
-                <arg expression="get-property('uri.var.accessControlList')"/>
+                <arg expression="$ctx:uri.var.ownerId"/>
+                <arg expression="$ctx:uri.var.ownerDisplayName"/>
             </args>
         </payloadFactory>
         <call>

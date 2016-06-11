@@ -18,7 +18,8 @@
 <template name="createBucketVersioning" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="bucketUrl" description="End point URL of the request."/>
     <parameter name="status" description="Versioning state of the bucket."/>
-    <parameter name="mfaDelete" description="Specifies whether MFA Delete is enabled in the bucket versioning configuration."/>
+    <parameter name="mfaDelete"
+               description="Specifies whether MFA Delete is enabled in the bucket versioning configuration."/>
     <sequence>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.status" expression="$func:status"/>
@@ -26,39 +27,46 @@
         <property name="uri.var.uriRemainder" value="/?versioning"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="(string(get-property('date'))) and get-property('date') != ''">
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
-                <property name="Date" expression="get-property('date')" scope="transport" type="STRING"/>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('isXAmzDateValue'))) and get-property('isXAmzDateValue') != ''">
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="get-property('isXAmzDateValue')" scope="transport"
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="(string(get-property('authenticationCode'))) and get-property('authenticationCode') != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
                           type="STRING"/>
             </then>
         </filter>
         <payloadFactory media-type="xml">
             <format>
                 <VersioningConfiguration>
+                    <Status>$1</Status>
+                    <MfaDelete>$2</MfaDelete>
                 </VersioningConfiguration>
             </format>
+            <args>
+                <arg expression="$ctx:uri.var.status"/>
+                <arg expression="$ctx:uri.var.mfaDelete"/>
+            </args>
         </payloadFactory>
         <script language="js">
             <![CDATA[
            payload = mc.getPayloadXML();
            var status=mc.getProperty('uri.var.status');
            var mfaDelete=mc.getProperty('uri.var.mfaDelete');
-           if (status != null && status != "") {
-              payload.VersioningConfiguration.Status = status;
-              if (mfaDelete != null && mfaDelete != "") {
-                payload.VersioningConfiguration.MfaDelete = mfaDelete;
-              }
+           if (status == null || status == "") {
+               delete payload.VersioningConfiguration.Status;
+               delete payload.VersioningConfiguration.MfaDelete;
+           }
+           if (mfaDelete == null || mfaDelete == "") {
+               delete payload.VersioningConfiguration.MfaDelete;
            }
            mc.setPayloadXML(payload);
         ]]>

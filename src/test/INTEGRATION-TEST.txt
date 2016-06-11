@@ -58,13 +58,15 @@ Steps to follow in setting integration test.
     Follow these steps before start testing.
     a)  Create a fresh account in amazons3 and Log on to http://aws.amazon.com/s3/ with the web browser.
     b)  Save the AWSAccessKeyId and AWSSecretKey while continuing the registration process.
-    c)  Update the AmazonS3 properties file at location "{AmazonS3_Connector_Home}/src/test/resources/artifacts/ESB/connector/config" as below.
+    c)  Create a bucket and upload a file in to that bucket. Use the location of that file for copySource mentioned in 3) d) 21)
+            Value of copySource should be in the form of <BUCKET_NAME>/<FILE_NAME>. E.g: NewBucket/testFile.jpg
+    d)  Update the AmazonS3 properties file at location "{AmazonS3_Connector_Home}/src/test/resources/artifacts/ESB/connector/config" as below.
 
         1)    accessKeyId is the access key id for the application generated from Amazon.
 
         2)    secretAccessKey is the secret access key for the application generated from Amazon.
 			
-		3)    ownderId is the ID of the owner of the created buckets and objects.
+		3)    ownderId is the ID of the owner of the created buckets and objects. You can get it from http://www.bucketexplorer.com/awsutility.aspx.
 		
 		4) 	  ownerdisplayName is the display name of the owner of the created buckets.
 		
@@ -112,6 +114,7 @@ Steps to follow in setting integration test.
 		
 		25)   timeOut is the amount of time to wait for manipulate the responses.
         
+ Note: bucketName_1, bucketName_2 & bucketName_3 are unique names and should be in lowercase. We can leave as it is.
 
  4.Navigate to "<ESB_CONNECTORS_HOME>" and run the following command.
                 $ mvn clean install
