@@ -65,6 +65,7 @@
                description="Copies the object if it has been modified since the specified time."/>
     <parameter name="xAmzServerSideEncryption"
                description="Specifies the server-side encryption algorithm to use when Amazon S3 creates the target object."/>
+    <parameter name="uriRemainder" description="This specifies remainder of the request URL."/>
     <sequence>
         <property name="uri.var.accessKeyId" expression="$func:accessKeyId"/>
         <property name="uri.var.secretAccessKey" expression="$func:secretAccessKey"/>
@@ -95,6 +96,7 @@
         <property name="uri.var.xAmzCopySourceIfNoneMatch" expression="$func:xAmzCopySourceIfNoneMatch"/>
         <property name="uri.var.xAmzCopySourceIfUnmodifiedSince" expression="$func:xAmzCopySourceIfUnmodifiedSince"/>
         <property name="uri.var.xAmzCopySourceIfModifiedSince" expression="$func:xAmzCopySourceIfModifiedSince"/>
+        <property name="uri.var.uriRemainder" expression="$func:uriRemainder"/>
         <header name="Content-Type" scope="transport" expression="$ctx:uri.var.contentType"/>
         <property name="messageType" expression="$ctx:uri.var.contentType" scope="axis2"/>
         <!-- InitAclHeaders Setup -->
@@ -130,15 +132,13 @@
         <filter xpath="string($ctx:uri.var.xAmzGrantFullControl) or $ctx:uri.var.xAmzGrantFullControl != ''">
             <then>
                 <property name="x-amz-grant-full-control" expression="$ctx:uri.var.xAmzGrantFullControl"
-                          scope="transport"
-                          type="STRING"/>
+                          scope="transport" type="STRING"/>
             </then>
         </filter>
         <!-- InitCommonHeaders Setup -->
         <filter xpath="string($ctx:uri.var.contentLength) or $ctx:uri.var.contentLength != ''">
             <then>
-                <property name="Content-Length" expression="$ctx:uri.var.contentLength" scope="transport"
-                          type="STRING"/>
+                <property name="Content-Length" expression="$ctx:uri.var.contentLength" scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.contentType) or $ctx:uri.var.contentType != ''">
@@ -210,6 +210,48 @@
         <filter xpath="string($ctx:uri.var.xAmzWebsiteLocation) or $ctx:uri.var.xAmzWebsiteLocation != ''">
             <then>
                 <property name="x-amz-website-redirect-location" expression="$ctx:uri.var.xAmzWebsiteLocation"
+                          scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzCopySource) and $ctx:uri.var.xAmzCopySource != ''">
+            <then>
+                <property name="x-amz-copy-source" expression="$ctx:uri.var.xAmzCopySource" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceRange) and $ctx:uri.var.xAmzCopySourceRange != ''">
+            <then>
+                <property name="x-amz-copy-source-range" expression="$ctx:uri.var.xAmzCopySourceRange" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfMatch) and $ctx:uri.var.xAmzCopySourceIfMatch != ''">
+            <then>
+                <property name="x-amz-copy-source-if-match" expression="$ctx:uri.var.xAmzCopySourceIfMatch"
+                          scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfNoneMatch) and $ctx:uri.var.xAmzCopySourceIfNoneMatch != ''">
+            <then>
+                <property name="x-amz-copy-source-if-none-match" expression="$ctx:uri.var.xAmzCopySourceIfNoneMatch"
+                          scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfUnmodifiedSince) and $ctx:uri.var.xAmzCopySourceIfUnmodifiedSince != ''">
+            <then>
+                <property name="x-amz-copy-source-if-unmodified-since"
+                          expression="$ctx:uri.var.xAmzCopySourceIfUnmodifiedSince" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfModifiedSince) and $ctx:uri.var.xAmzCopySourceIfModifiedSince != ''">
+            <then>
+                <property name="x-amz-copy-source-if-modified-since"
+                          expression="$ctx:uri.var.xAmzCopySourceIfModifiedSince" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzMetadataDirective) and $ctx:uri.var.xAmzMetadataDirective != ''">
+            <then>
+                <property name="x-amz-metadata-directive" expression="$ctx:uri.var.xAmzMetadataDirective"
                           scope="transport" type="STRING"/>
             </then>
         </filter>

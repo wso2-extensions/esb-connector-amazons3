@@ -38,6 +38,8 @@ Steps to follow in setting integration test.
 
 			<messageBuilder contentType="image/x-icon" class="org.wso2.carbon.relay.BinaryRelayBuilder"/>
 
+			<messageBuilder contentType="application/x-bittorrent" class="org.wso2.carbon.relay.BinaryRelayBuilder"/>
+
 			<messageFormatter contentType="image/gif" class="org.wso2.carbon.relay.ExpandingMessageFormatter"/>
 
 			<messageFormatter contentType="img/gif" class="org.wso2.carbon.relay.ExpandingMessageFormatter"/>
@@ -52,6 +54,7 @@ Steps to follow in setting integration test.
 
 			<messageFormatter contentType="application/octet-stream" class="org.apache.axis2.format.BinaryFormatter"/>
 
+			<messageFormatter contentType="application/x-bittorrent" class="org.wso2.carbon.relay.ExpandingMessageFormatter"/>
 
  3. Prerequisites for AmazonS3 Connector Integration Testing
 
@@ -118,5 +121,3 @@ Steps to follow in setting integration test.
 
  4.Navigate to "<ESB_CONNECTORS_HOME>" and run the following command.
                 $ mvn clean install
-     
-     

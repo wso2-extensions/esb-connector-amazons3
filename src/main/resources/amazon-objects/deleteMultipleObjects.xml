@@ -62,8 +62,8 @@
         </filter>
         <filter xpath="string($ctx:authenticationCode) or $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="get-property('authenticationCode')"
-                          scope="transport" type="STRING"/>
+                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.contentMD5) or $ctx:uri.var.contentMD5 != ''">

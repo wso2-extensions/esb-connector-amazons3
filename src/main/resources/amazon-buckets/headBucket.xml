@@ -29,14 +29,12 @@
         </filter>
         <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
-                          type="STRING"/>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
-                          type="STRING"/>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
         <!-- Send Empty Message Body -->

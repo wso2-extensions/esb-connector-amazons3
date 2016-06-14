@@ -51,38 +51,34 @@
         </filter>
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
-                          type="STRING"/>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.range) and $ctx:uri.var.range != ''">
             <then>
-                <property name="Range" expression="$ctx:uri.var.range" scope="transport"
-                          type="STRING"/>
+                <property name="Range" expression="$ctx:uri.var.range" scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.ifModifiedSince) and $ctx:uri.var.ifModifiedSince != ''">
             <then>
-                <property name="If-Modified-Since" expression="$ctx:uri.var.ifModifiedSince"
-                          scope="transport" type="STRING"/>
+                <property name="If-Modified-Since" expression="$ctx:uri.var.ifModifiedSince" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.ifUnmodifiedSince) and $ctx:uri.var.ifUnmodifiedSince != ''">
             <then>
-                <property name="If-Unmodified-Since" expression="$ctx:uri.var.ifUnmodifiedSince"
-                          scope="transport" type="STRING"/>
+                <property name="If-Unmodified-Since" expression="$ctx:uri.var.ifUnmodifiedSince" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.ifMatch) and $ctx:uri.var.ifMatch != ''">
             <then>
-                <property name="If-Match" expression="$ctx:uri.var.ifMatch" scope="transport"
-                          type="STRING"/>
+                <property name="If-Match" expression="$ctx:uri.var.ifMatch" scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.ifNoneMatch) and $ctx:uri.var.ifNoneMatch != ''">
             <then>
-                <property name="If-None-Match" expression="$ctx:uri.var.ifNoneMatch" scope="transport"
-                          type="STRING"/>
+                <property name="If-None-Match" expression="$ctx:uri.var.ifNoneMatch" scope="transport" type="STRING"/>
             </then>
         </filter>
         <call>

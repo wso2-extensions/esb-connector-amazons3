@@ -19,7 +19,6 @@
     <parameter name="objectName" description="Name of the object to be restored."/>
     <parameter name="bucketUrl" description="End point URL of the request."/>
     <parameter name="numberOfDays" description="Lifetime of the restored (active) copy."/>
-    <parameter name="accessControlList" description="Container for ACL information."/>
     <parameter name="versionId" description="Version Id of an object to restore a specific object version."/>
     <sequence>
         <property name="uri.var.objectName" expression="$func:objectName"/>
@@ -34,32 +33,6 @@
                           expression="fn:concat($ctx:uri.var.uriRemainder,'&amp;versionId=',$ctx:uri.var.versionId)"/>
             </then>
         </filter>
-        <!-- Generate MD5 Content -->
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3ContentMD5Builder"/>
-        <!-- Authentication Header Setup -->
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="string($ctx:date) and $ctx:date != ''">
-            <then>
-                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
-            <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:contentMD5) or $ctx:contentMD5 != ''">
-            <then>
-                <property name="Content-MD5" expression="$ctx:contentMD5" scope="transport" type="STRING"/>
-            </then>
-        </filter>
         <payloadFactory media-type="xml">
             <format>
                 <RestoreRequest>
@@ -70,6 +43,30 @@
                 <arg expression="$ctx:uri.var.numberOfDays"/>
             </args>
         </payloadFactory>
+        <!-- Generate MD5 Content -->
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3ContentMD5Builder"/>
+        <!-- Authentication Header Setup -->
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
+        <filter xpath="string($ctx:uri.var.contentMD5) or $ctx:uri.var.contentMD5 != ''">
+            <then>
+                <property name="Content-MD5" expression="$ctx:uri.var.contentMD5" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
+            <then>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
+            <then>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
+            <then>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
                 <http method="post" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>

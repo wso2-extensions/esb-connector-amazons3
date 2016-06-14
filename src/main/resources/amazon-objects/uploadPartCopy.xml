@@ -25,8 +25,14 @@
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.partNumber" expression="$func:partNumber"/>
-        <!-- Force ESB to send the content length to the AmazonS3 API -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
+        <!-- Force ESB to send the content length to the AmazonS3 API -->
+        <!-- Authentication Header Setup -->
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
+            <then>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
+        </filter>
         <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
                 <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
@@ -34,59 +40,41 @@
         </filter>
         <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
-                          type="STRING"/>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySource) and $ctx:uri.var.xAmzCopySource != ''">
-            <then>
-                <property name="x-amz-copy-source" expression="$ctx:uri.var.xAmzCopySource"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzMetadataDirective) and $ctx:uri.var.xAmzMetadataDirective != ''">
-            <then>
-                <property name="x-amz-metadata-directive" expression="$ctx:uri.var.xAmzMetadataDirective"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfMatch) and $ctx:uri.var.xAmzCopySourceIfMatch != ''">
-            <then>
-                <property name="x-amz-copy-source-if-match" expression="$ctx:uri.var.xAmzCopySourceIfMatch"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfNoneMatch) and $ctx:uri.var.xAmzCopySourceIfNoneMatch != ''">
-            <then>
-                <property name="x-amz-copy-source-if-none-match"
-                          expression="$ctx:uri.var.xAmzCopySourceIfNoneMatch"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfUnmodifiedSince) and $ctx:uri.var.xAmzCopySourceIfUnmodifiedSince != ''">
-            <then>
-                <property name="x-amz-copy-source-if-unmodified-since"
-                          expression="$ctx:uri.var.xAmzCopySourceIfUnmodifiedSince"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfModifiedSince) and $ctx:uri.var.xAmzCopySourceIfModifiedSince != ''">
-            <then>
-                <property name="x-amz-copy-source-if-modified-since"
-                          expression="$ctx:uri.var.xAmzCopySourceIfModifiedSince"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
+        <!-- Remove response custom header information -->
+        <header name="Transfer-Encoding" scope="transport" action="remove"/>
+        <!-- Force ESB to send the content length to the AmazonS3 API -->
+        <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
+        <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
+        <!-- Sending an empty payload to support FORCE_POST_PUT_NOBODY property-->
+        <payloadFactory media-type="xml">
+            <format>
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                    <soapenv:Header/>
+                    <soapenv:Body/>
+                </soapenv:Envelope>
+            </format>
+            <args/>
+        </payloadFactory>
+        <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
+        <property name="NO_KEEPALIVE" value="false" scope="axis2"/>
+        <property name="POST_TO_URI" value="true" scope="axis2" type="STRING"></property>
         <call>
-            <endpoint>
+            <endpoint blocking="true">
                 <http method="put"
-                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?partNumber={+uri.var.partNumber}&amp;uploadId={+uri.var.uploadId}"/>
+                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?partNumber={+uri.var.partNumber}&amp;uploadId={+uri.var.uploadId}">
+                    <timeout>
+                        <duration>120000</duration>
+                        <responseAction>fault</responseAction>
+                    </timeout>
+                    <!--<suspendOnFailure>-->
+                        <!--<initialDuration>25000</initialDuration>-->
+                        <!--<progressionFactor>1.0</progressionFactor>-->
+                        <!--<maximumDuration>30000</maximumDuration>-->
+                    <!--</suspendOnFailure>-->
+                </http>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

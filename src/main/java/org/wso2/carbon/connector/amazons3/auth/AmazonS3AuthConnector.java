@@ -140,11 +140,13 @@ public class AmazonS3AuthConnector extends AbstractConnector {
                 AmazonS3Constants.XAMZ_GRANT_FULL_CONTROL, AmazonS3Constants.XAMZ_META,
                 AmazonS3Constants.XAMZ_SERVE_ENCRYPTION, AmazonS3Constants.XAMZ_STORAGE_CLASS,
                 AmazonS3Constants.XAMZ_WEBSITE_LOCATION, AmazonS3Constants.XAMZ_MFA,
-                AmazonS3Constants.XAMZ_COPY_SOURCE, AmazonS3Constants.XAMZ_METADATA_DIRECTIVE,
-                AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MATCH, AmazonS3Constants.XAMZ_COPY_SOURCE_IF_NONE_MATCH,
-                AmazonS3Constants.XAMZ_COPY_SOURCE_IF_UNMODIFIED_SINCE,
-                AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MODIFIED_SINCE, AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM,
-                AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY, AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5};
+                AmazonS3Constants.XAMZ_COPY_SOURCE, AmazonS3Constants.XAMZ_COPY_SOURCE_RANGE,
+                AmazonS3Constants.XAMZ_METADATA_DIRECTIVE, AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MATCH,
+                AmazonS3Constants.XAMZ_COPY_SOURCE_IF_NONE_MATCH, AmazonS3Constants.XAMZ_COPY_SOURCE_IF_UNMODIFIED_SINCE,
+                AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MODIFIED_SINCE,
+                AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_ALGORITHM,
+                AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY,
+                AmazonS3Constants.XMAZ_SERVER_SIDE_ENCRYPTION_CUSTOMER_KEY_MD5};
     }
 
     /**
@@ -188,6 +190,7 @@ public class AmazonS3AuthConnector extends AbstractConnector {
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_WEBSITE_LOCATION, AmazonS3Constants.HD_XAMZ_WEBSITE_LOCATION);
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_MFA, AmazonS3Constants.HD_XAMZ_MFA);
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_COPY_SOURCE, AmazonS3Constants.HD_XAMZ_COPY_SOURCE);
+        amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_COPY_SOURCE_RANGE, AmazonS3Constants.HD_XAMZ_COPY_SOURCE_RANGE);
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_METADATA_DIRECTIVE, AmazonS3Constants.HD_XAMZ_METADATA_DIRECTIVE);
         amzHeaderKeysMap.put(AmazonS3Constants.XAMZ_COPY_SOURCE_IF_MATCH,
                 AmazonS3Constants.HD_XAMZ_COPY_SOURCE_IF_MATCH);

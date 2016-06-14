@@ -31,73 +31,30 @@
         </filter>
         <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
-                          type="STRING"/>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySource) and $ctx:uri.var.xAmzCopySource != ''">
-            <then>
-                <property name="x-amz-copy-source" expression="$ctx:uri.var.xAmzCopySource"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzMetadataDirective) and $ctx:uri.var.xAmzMetadataDirective != ''">
-            <then>
-                <property name="x-amz-metadata-directive" expression="$ctx:uri.var.xAmzMetadataDirective"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfMatch) and $ctx:uri.var.xAmzCopySourceIfMatch != ''">
-            <then>
-                <property name="x-amz-copy-source-if-match" expression="$ctx:uri.var.xAmzCopySourceIfMatch"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfNoneMatch) and $ctx:uri.var.xAmzCopySourceIfNoneMatch != ''">
-            <then>
-                <property name="x-amz-copy-source-if-none-match"
-                          expression="$ctx:uri.var.xAmzCopySourceIfNoneMatch"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfUnmodifiedSince) and $ctx:uri.var.xAmzCopySourceIfUnmodifiedSince != ''">
-            <then>
-                <property name="x-amz-copy-source-if-unmodified-since"
-                          expression="$ctx:uri.var.xAmzCopySourceIfUnmodifiedSince"
-                          scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzCopySourceIfModifiedSince) and $ctx:uri.var.xAmzCopySourceIfModifiedSince != ''">
-            <then>
-                <property name="x-amz-copy-source-if-modified-since"
-                          expression="$ctx:uri.var.xAmzCopySourceIfModifiedSince"
-                          scope="transport" type="STRING"/>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.xAmzServeEncryptionValue) and $ctx:uri.var.xAmzServeEncryptionValue != ''">
             <then>
-                <property name="x-amz-server-side-encryption"
-                          expression="$ctx:uri.var.xAmzServeEncryptionValue"
+                <property name="x-amz-server-side-encryption" expression="$ctx:uri.var.xAmzServeEncryptionValue"
                           scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.xAmzStorageClassValue) and $ctx:uri.var.xAmzStorageClassValue != ''">
             <then>
-                <property name="x-amz-storage-class" expression="$ctx:uri.var.xAmzStorageClassValue"
-                          scope="transport" type="STRING"/>
+                <property name="x-amz-storage-class" expression="$ctx:uri.var.xAmzStorageClassValue" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.xAmzWebsiteLocationValue) and $ctx:uri.var.xAmzWebsiteLocationValue != ''">
             <then>
                 <property name="x-amz-website-redirect-location"
-                          expression="$ctx:uri.var.xAmzWebsiteLocationValue" scope="transport"
-                          type="STRING"/>
+                          expression="$ctx:uri.var.xAmzWebsiteLocationValue" scope="transport" type="STRING"/>
             </then>
         </filter>
         <!-- Send Empty Message Body -->

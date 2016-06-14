@@ -1093,7 +1093,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
      * Positive test case for getWebSiteConfiguration method with mandatory parameters.
      */
     @Test(dependsOnMethods = {"testCreateBucketWebsiteConfigurationWithMandatoryParameters"},
-            groups = {"wso2.esb"}, description = "AmazonS3 {getWebSiteConfiguration} integration test with mandatory parameters.")
+            groups = {"wso2.esb"},
+            description = "AmazonS3 {getWebSiteConfiguration} integration test with mandatory parameters.")
     public void testGetWebSiteConfigurationWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getWebSiteConfiguration");
@@ -1225,7 +1226,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for createObject method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testGetAuthorizationForCreateObjectWithMandatoryParameters"},
+    @Test(enabled = false, groups = {"wso2.esb"}, dependsOnMethods = {"testGetAuthorizationForCreateObjectWithMandatoryParameters"},
             description = "AmazonS3 {createObject} integration test with mandatory parameters.")
     public void testCreateObjectWithMandatoryParameters() throws Exception {
 
@@ -1913,16 +1914,21 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         String xmlRequestFilePath = pathToRequestsDirectory + "initMultipartUpload_mandatory.txt";
 
         final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
-        final String modifiedxmlString =
+        final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("objectName_6"));
-        int statusCode =
-                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
-                        modifiedxmlString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        Assert.assertTrue(statusCode == 200);
+        final String uploadIDPreFix = "<UploadId>";
+        final String uploadIDPostFix = "</UploadId>";
+        String response =
+                ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        String uploadIdForCopyPart = response.substring(response.lastIndexOf(uploadIDPreFix) + uploadIDPreFix.length(),
+                response.lastIndexOf(uploadIDPostFix));
+        amazons3ConnectorProperties.setProperty("uploadIdForCopyPart", uploadIdForCopyPart);
+        Assert.assertNotNull(uploadIdForCopyPart);
     }
 
     /**
@@ -2086,14 +2092,14 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for uploadPart method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"},
-            dependsOnMethods = {"testGetAuthorizationForUploadPartWithMandatoryParameters"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testGetAuthorizationForUploadPartWithMandatoryParameters"},
             description = "AmazonS3 {uploadPart} integration test with mandatory parameters.")
     public void testUploadPartWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:uploadPart");
 
         esbRequestHeadersMap.put("Authorization", authorizationCode);
+        esbRequestHeadersMap.put("isXAmzDate", "true");
         esbRequestHeadersMap.put("x-amz-date", dateValue);
         esbRequestHeadersMap.put("Content-Type", "text/plain; charset=UTF-8");
 
@@ -2150,7 +2156,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for listMultipartUploads method with optional parameters.
      */
-    @Test(groups = {"wso2.esb"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testInitMultipartUploadWithMandatoryParameters"},
             description = "AmazonS3 {listMultipartUploads} integration test with optional parameters.")
     public void testListMultipartUploadsWithOptionalParameters() throws Exception {
 
@@ -2361,5 +2367,350 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                 ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
                         modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
         Assert.assertTrue(statusCode == 403);
+    }
+
+    /**
+     * Mandatory parameter test case for createBucketLifecycle method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+            description = "AmazonS3 {createBucketLifecycle} integration test with mandatory parameter.")
+    public void testCreateBucketLifecycleWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:createBucketLifecycle");
+        String xmlRequestFilePath = pathToRequestsDirectory + "createBucketLifecycle_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
+    }
+
+    /**
+     * Mandatory parameter test case for getObjectACL method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCompleteMultipartUplaodWithMandatoryParameters"},
+            description = "AmazonS3 {getObjectACL} integration test with mandatory parameter.")
+    public void testGetObjectACLWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:getObjectACL");
+        String xmlRequestFilePath = pathToRequestsDirectory + "getObjectACL_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("objectName_6"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
+    }
+
+    /**
+     * Mandatory parameter test case for uploadPartCopy method.
+     */
+    @Test(enabled = false, groups = {"wso2.esb"}, dependsOnMethods = {"testInitMultipartUploadWithMandatoryParameters"},
+            description = "AmazonS3 {uploadPartCopy} integration test with mandatory parameter.")
+    public void testUploadPartCopyWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:uploadPartCopy");
+        String xmlRequestFilePath = pathToRequestsDirectory + "uploadPartCopy_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("objectName_6"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"),
+                        amazons3ConnectorProperties.getProperty("uploadIdForCopyPart"), "2",
+                        amazons3ConnectorProperties.getProperty("objectName_6"), "2",
+                        amazons3ConnectorProperties.getProperty("uploadIdForCopyPart"),
+                        amazons3ConnectorProperties.getProperty("copySource"),
+                        amazons3ConnectorProperties.getProperty("xAmzCopySourceRange"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        String eTagPreFix = "<ETag>";
+        String eTagPostFix = "</ETag>";
+        String response =
+                ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        String eTag = response.substring(response.lastIndexOf(eTagPreFix) + eTagPreFix.length(),
+                response.lastIndexOf(eTagPostFix));
+        Assert.assertNotNull(eTag);
+    }
+
+    /**
+     * Mandatory parameter test case for restoreObject method.
+     */
+    @Test(enabled = false, groups = {"wso2.esb"}, dependsOnMethods = {"testCompleteMultipartUplaodWithMandatoryParameters"},
+            description = "AmazonS3 {restoreObject} integration test with mandatory parameter.")
+    public void testRestoreObjectWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:restoreObject");
+        String xmlRequestFilePath = pathToRequestsDirectory + "restoreObject_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("objectName_6"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
+    }
+
+    /**
+     * Mandatory parameter test case for headObject method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCompleteMultipartUplaodWithMandatoryParameters"},
+            description = "AmazonS3 {headObject} integration test with mandatory parameter.")
+    public void testHeadObjectWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:headObject");
+        String xmlRequestFilePath = pathToRequestsDirectory + "headObject_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("objectName_6"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
+    }
+
+    /**
+     * Optional parameter test case for headObject method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCompleteMultipartUplaodWithMandatoryParameters"},
+            description = "AmazonS3 {headObject} integration test with optional parameter.")
+    public void testHeadObjectWithOptionalParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:headObject");
+        String xmlRequestFilePath = pathToRequestsDirectory + "headObject_optional.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("objectName_6"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
+    }
+
+    /**
+     * Mandatory parameter test case for createBucketACL method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+            description = "AmazonS3 {createBucketACL} integration test with mandatory parameter.")
+    public void testCreateBucketACLWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:createBucketACL");
+        String xmlRequestFilePath = pathToRequestsDirectory + "createBucketACL_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"),
+                        amazons3ConnectorProperties.getProperty("ownerId"),
+                        amazons3ConnectorProperties.getProperty("displayName"),
+                        amazons3ConnectorProperties.getProperty("ownerId"),
+                        amazons3ConnectorProperties.getProperty("displayName"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
+    }
+
+    /**
+     * Mandatory parameter test case for createBucketRequestPayment method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+            description = "AmazonS3 {createBucketRequestPayment} integration test with mandatory parameter.")
+    public void testCreateBucketRequestPaymentWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:createBucketRequestPayment");
+        String xmlRequestFilePath = pathToRequestsDirectory + "createBucketRequestPayment_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
+    }
+
+    /**
+     * Mandatory parameter test case for deleteBucketCors method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters",
+            "testGetBucketCorsWithMandatoryParameters"},
+            description = "AmazonS3 {deleteBucketCors} integration test with mandatory parameter.")
+    public void testDeleteBucketCorsWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:deleteBucketCors");
+        String xmlRequestFilePath = pathToRequestsDirectory + "deleteBucketCors_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 204);
+    }
+    /**
+     * Mandatory parameter test case for deleteBucketLifecycle method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+            description = "AmazonS3 {deleteBucketLifecycle} integration test with mandatory parameter.")
+    public void testDeleteBucketLifecycleWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:deleteBucketLifecycle");
+        String xmlRequestFilePath = pathToRequestsDirectory + "deleteBucketLifecycle_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 204);
+    }
+
+    /**
+     * Mandatory parameter test case for deleteBucketReplication method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters",
+            "testGetBucketReplicationWithMandatoryParameters"},
+            description = "AmazonS3 {deleteBucketReplication} integration test with mandatory parameter.")
+    public void testDeleteBucketReplicationWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:deleteBucketReplication");
+        String xmlRequestFilePath = pathToRequestsDirectory + "deleteBucketReplication_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 204);
+    }
+
+    /**
+     * Mandatory parameter test case for deleteBucketTagging method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters",
+            "testGetBucketTaggingWithMandatoryParameters"},
+            description = "AmazonS3 {deleteBucketTagging} integration test with mandatory parameter.")
+    public void testDeleteBucketTaggingWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:deleteBucketTagging");
+        String xmlRequestFilePath = pathToRequestsDirectory + "deleteBucketTagging_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 204);
+    }
+
+    /**
+     * Mandatory parameter test case for headBucket method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+            description = "AmazonS3 {headBucket} integration test with mandatory parameter.")
+    public void testHeadBucketWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:headBucket");
+        String xmlRequestFilePath = pathToRequestsDirectory + "headBucket_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
     }
 }

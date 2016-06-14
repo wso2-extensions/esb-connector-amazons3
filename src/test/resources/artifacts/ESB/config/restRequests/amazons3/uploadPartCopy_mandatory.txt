@@ -1,0 +1,24 @@
+<uploadPartCopy>
+    <accessKeyId>%s</accessKeyId>
+    <secretAccessKey>%s</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentType>application/xml; charset=UTF-8</contentType>
+    <contentLength>256</contentLength>
+    <contentMD5></contentMD5>
+    <bucketName>%s</bucketName>
+    <objectName>%s</objectName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <host></host>
+    <expect></expect>
+    <bucketUrl>%s</bucketUrl>
+    <uploadId>%s</uploadId>
+    <partNumber>%s</partNumber>
+    <uriRemainder>/%s?partNumber=%s&amp;uploadId=%s</uriRemainder>
+    <xAmzCopySource>%s</xAmzCopySource>
+    <xAmzCopySourceRange>bytes=%s</xAmzCopySourceRange>
+    <xAmzCopySourceIfMatch></xAmzCopySourceIfMatch>
+    <xAmzCopySourceIfNoneMatch></xAmzCopySourceIfNoneMatch>
+    <xAmzCopySourceIfUnmodifiedSince></xAmzCopySourceIfUnmodifiedSince>
+    <xAmzCopySourceIfModifiedSince></xAmzCopySourceIfModifiedSince>
+</uploadPartCopy>

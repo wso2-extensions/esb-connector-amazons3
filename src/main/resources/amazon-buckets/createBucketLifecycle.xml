@@ -20,10 +20,28 @@
     <parameter name="lifecycleConfiguration" description="Container for lifecycle rules."/>
     <sequence>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
-        <property name="uri.var.accessControlList" expression="$func:accessControlList"/>
+        <property name="uri.var.lifecycleConfiguration" expression="$func:lifecycleConfiguration"/>
         <property name="uri.var.uriRemainder" value="/?lifecycle"/>
+        <payloadFactory media-type="xml">
+            <format>
+                <LifecycleConfiguration>$ctx:uri.var.lifecycleConfiguration</LifecycleConfiguration>
+            </format>
+            <args/>
+        </payloadFactory>
+        <!-- Generate MD5 Content -->
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3ContentMD5Builder"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
+        <filter xpath="string($ctx:uri.var.contentMD5) or $ctx:uri.var.contentMD5 != ''">
+            <then>
+                <property name="Content-MD5" expression="$ctx:uri.var.contentMD5" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
+            <then>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
+        </filter>
         <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>
                 <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
@@ -31,24 +49,9 @@
         </filter>
         <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
-                          type="STRING"/>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <payloadFactory media-type="xml">
-            <format>
-                <LifecycleConfiguration>$1</LifecycleConfiguration>
-            </format>
-            <args>
-                <arg expression="$ctx:uri.var.lifecycleConfiguration"/>
-            </args>
-        </payloadFactory>
         <call>
             <endpoint>
                 <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
