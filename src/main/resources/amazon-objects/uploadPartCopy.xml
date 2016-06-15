@@ -59,22 +59,10 @@
             <args/>
         </payloadFactory>
         <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
-        <property name="NO_KEEPALIVE" value="false" scope="axis2"/>
-        <property name="POST_TO_URI" value="true" scope="axis2" type="STRING"></property>
         <call>
-            <endpoint blocking="true">
+            <endpoint>
                 <http method="put"
-                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?partNumber={+uri.var.partNumber}&amp;uploadId={+uri.var.uploadId}">
-                    <timeout>
-                        <duration>120000</duration>
-                        <responseAction>fault</responseAction>
-                    </timeout>
-                    <!--<suspendOnFailure>-->
-                        <!--<initialDuration>25000</initialDuration>-->
-                        <!--<progressionFactor>1.0</progressionFactor>-->
-                        <!--<maximumDuration>30000</maximumDuration>-->
-                    <!--</suspendOnFailure>-->
-                </http>
+                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?partNumber={+uri.var.partNumber}&amp;uploadId={+uri.var.uploadId}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->
