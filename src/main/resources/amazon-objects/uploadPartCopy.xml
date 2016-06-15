@@ -43,8 +43,6 @@
                 <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <!-- Remove response custom header information -->
-        <header name="Transfer-Encoding" scope="transport" action="remove"/>
         <!-- Force ESB to send the content length to the AmazonS3 API -->
         <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
         <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
