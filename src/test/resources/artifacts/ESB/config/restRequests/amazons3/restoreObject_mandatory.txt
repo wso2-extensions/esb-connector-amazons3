@@ -13,5 +13,5 @@
     <expect></expect>
     <bucketUrl>%s</bucketUrl>
     <numberOfDays>30</numberOfDays>
-    <versionId></versionId>
+    <versionId>%s</versionId>
 </restoreObject>

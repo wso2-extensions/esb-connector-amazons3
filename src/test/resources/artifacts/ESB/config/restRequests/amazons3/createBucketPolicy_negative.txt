@@ -6,21 +6,21 @@
     "bucketName": "%s",
     "isXAmzDate": "true",
     "bucketUrl": "%s", 
-	"contentMD5":"",
-	"xAmzSecurityToken":"",
-	"host":"",
-	"expect":"",
-	"contentLength":"",  
+    "contentMD5":"",
+    "xAmzSecurityToken":"",
+    "host":"",
+    "expect":"",
+    "contentLength":"",  
     "bucketPolicy": {
-  					"Version":"2015-1-7",
-  					"Statement":[{
-						"Sid":"AddPerm",
-        					"Effect":"Allow",
-	  					"Principal": {
-            					"AWS": "*"
-         					},
-     					 "Action":["s3:GetObject"],
-      					"Resource":["arn:aws:s3:::invalidBucket/*"]
-    					}]
-				}
+        "Version":"2015-1-7",
+        "Statement":[{
+            "Sid":"AddPerm",
+            "Effect":"Allow",
+                "Principal": {
+                    "AWS": "*"
+                },
+            "Action":["s3:GetObject"],
+            "Resource":["arn:aws:s3:::invalidBucket/*"]
+        }]
+    }
 }

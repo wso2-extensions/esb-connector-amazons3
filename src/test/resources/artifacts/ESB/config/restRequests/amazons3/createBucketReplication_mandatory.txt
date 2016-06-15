@@ -1,17 +1,17 @@
 <createBucketReplication>
-	<accessKeyId>%s</accessKeyId>
-	<secretAccessKey>%s</secretAccessKey>
-	<methodType>PUT</methodType>
-	<contentLength>256</contentLength>
-	<contentType>application/xml; charset=UTF-8</contentType>
-	<expect></expect>
-	<host></host>
-	<isXAmzDate>true</isXAmzDate>
-	<xAmzSecurityToken></xAmzSecurityToken>
-	<bucketName>%s</bucketName>
-	<bucketUrl>%s</bucketUrl>
-	<role>arn:aws:iam::35667example:role/CrossRegionReplicationRoleForS3</role>
-	<rules>
+    <accessKeyId>%s</accessKeyId>
+    <secretAccessKey>%s</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength>256</contentLength>
+    <contentType>application/xml; charset=UTF-8</contentType>
+    <expect></expect>
+    <host></host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketName>%s</bucketName>
+    <bucketUrl>%s</bucketUrl>
+    <role>arn:aws:iam::35667example:role/CrossRegionReplicationRoleForS3</role>
+    <rules>
         <Rule>
             <ID>rule1</ID>
             <Prefix>TaxDocs</Prefix>

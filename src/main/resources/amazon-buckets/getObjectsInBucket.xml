@@ -51,31 +51,31 @@
         <filter xpath="string($ctx:uri.var.delimiter) and $ctx:uri.var.delimiter != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'delimiter=',$ctx:uri.var.delimiter,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','delimiter=',$ctx:uri.var.delimiter)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'encoding-type=',$ctx:uri.var.encodingType,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','encoding-type=',$ctx:uri.var.encodingType)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.marker) and $ctx:uri.var.marker != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'marker=',$ctx:uri.var.marker,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','marker=',$ctx:uri.var.marker)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.maxKeys) and $ctx:uri.var.maxKeys != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'max-keys=',$ctx:uri.var.maxKeys,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','max-keys=',$ctx:uri.var.maxKeys)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.prefix) and $ctx:uri.var.prefix != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'prefix=',$ctx:uri.var.prefix,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','prefix=',$ctx:uri.var.prefix)"/>
             </then>
         </filter>
         <call>

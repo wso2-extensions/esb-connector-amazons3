@@ -38,19 +38,19 @@
         <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat('&amp;',$ctx:uri.var.query,'encoding-type=',$ctx:uri.var.encodingType)"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','encoding-type=',$ctx:uri.var.encodingType)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.maxParts) and $ctx:uri.var.maxParts != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat('&amp;',$ctx:uri.var.query,'max-parts=',$ctx:uri.var.maxParts)"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','max-parts=',$ctx:uri.var.maxParts)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.partNumberMarker) and $ctx:uri.var.partNumberMarker != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat('&amp;',$ctx:uri.var.query,'part-number-marker=',$ctx:uri.var.partNumberMarker)"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','part-number-marker=',$ctx:uri.var.partNumberMarker)"/>
             </then>
         </filter>
         <!-- Properties Assigned in AmazonS3AuthConnector -->
@@ -61,14 +61,12 @@
         </filter>
         <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
             <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport"
-                          type="STRING"/>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport"
-                          type="STRING"/>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
         <call>

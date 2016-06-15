@@ -1,10 +1,10 @@
 <getAuthorization>
-	<accessKeyId>%s</accessKeyId>
-	<secretAccessKey>%s</secretAccessKey>
-	<methodType>POST</methodType>
-	<contentType>multipart/form-data;boundary=------WebKitFormBoundaryE19zNvXGzXaLvS5C</contentType>
-	<contentMD5></contentMD5>
-	<bucketName>%s</bucketName>
-	<isXAmzDate>true</isXAmzDate>
-	<uriRemainder>/</uriRemainder>
+    <accessKeyId>%s</accessKeyId>
+    <secretAccessKey>%s</secretAccessKey>
+    <methodType>POST</methodType>
+    <contentType>multipart/form-data;boundary=------WebKitFormBoundaryE19zNvXGzXaLvS5C</contentType>
+    <contentMD5></contentMD5>
+    <bucketName>%s</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <uriRemainder>/</uriRemainder>
 </getAuthorization> 

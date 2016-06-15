@@ -73,8 +73,8 @@ public class AmazonS3ContentMD5Builder extends AbstractConnector {
      *
      * @param deleteConfig gets delete configuration as a string.
      * @return String type base-64 encoded MD5 checksum.
-     * @throws java.io.IOException                    if an I/O error occurs when reading bytes of data from input stream.
-     * @throws java.security.NoSuchAlgorithmException if no implementation for the specified algorithm.
+     * @throws IOException                    if an I/O error occurs when reading bytes of data from input stream.
+     * @throws NoSuchAlgorithmException if no implementation for the specified algorithm.
      */
     private String getContentMD5Header(final String deleteConfig) throws IOException, NoSuchAlgorithmException {
 

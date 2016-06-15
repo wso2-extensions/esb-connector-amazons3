@@ -62,10 +62,10 @@ public class AmazonS3Authentication {
      *
      * @param signingStr - A String based on select request elements
      * @return generated authorization header as String
-     * @throws java.io.UnsupportedEncodingException   This exception is thrown when the Character Encoding is not supported
-     * @throws java.security.NoSuchAlgorithmException This exception is thrown when a particular cryptographic algorithm is requested
+     * @throws UnsupportedEncodingException   This exception is thrown when the Character Encoding is not supported
+     * @throws NoSuchAlgorithmException This exception is thrown when a particular cryptographic algorithm is requested
      *                                                but is not available in the environment.
-     * @throws java.security.InvalidKeyException      This is the exception for invalid Keys (invalid encoding, wrong length,
+     * @throws InvalidKeyException      This is the exception for invalid Keys (invalid encoding, wrong length,
      *                                                uninitialized, etc).
      */
     public final String getAuthorizationHeaderValue(final String signingStr) throws UnsupportedEncodingException,

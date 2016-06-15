@@ -56,37 +56,37 @@
         <filter xpath="string($ctx:uri.var.delimiter) and $ctx:uri.var.delimiter != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'delimiter=',$ctx:uri.var.delimiter,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','delimiter=',$ctx:uri.var.delimiter)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'encoding-type=',$ctx:uri.var.encodingType,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','encoding-type=',$ctx:uri.var.encodingType)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.maxUploads) and $ctx:uri.var.maxUploads != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'max-uploads=',$ctx:uri.var.maxUploads,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','max-uploads=',$ctx:uri.var.maxUploads)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.keyMarker) and $ctx:uri.var.keyMarker != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'key-marker=',$ctx:uri.var.keyMarker,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','key-marker=',$ctx:uri.var.keyMarker)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.prefix) and $ctx:uri.var.prefix != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'prefix=',$ctx:uri.var.prefix,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','prefix=',$ctx:uri.var.prefix)"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.uploadIdMarker) and $ctx:uri.var.uploadIdMarker != ''">
             <then>
                 <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'upload-id-marker=',$ctx:uri.var.uploadIdMarker,'&amp;')"/>
+                          expression="fn:concat($ctx:uri.var.query,'&amp;','upload-id-marker=',$ctx:uri.var.uploadIdMarker)"/>
             </then>
         </filter>
         <call>

@@ -1,5 +1,5 @@
 <createObjectCopy>
-	<accessKeyId>%s</accessKeyId>
+    <accessKeyId>%s</accessKeyId>
     <secretAccessKey>%s</secretAccessKey>
     <methodType>PUT</methodType>
     <contentLength></contentLength>
@@ -10,7 +10,7 @@
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>
     <bucketName>%s</bucketName>    
-	<bucketUrl>%s</bucketUrl>
+    <bucketUrl>%s</bucketUrl>
     <destinationObject>%s</destinationObject>
     <xAmzAcl></xAmzAcl>
     <xAmzGrantRead></xAmzGrantRead>
@@ -18,7 +18,7 @@
     <xAmzGrantReadAcp></xAmzGrantReadAcp>
     <xAmzGrantWriteAcp></xAmzGrantWriteAcp>
     <xAmzGrantFullControl></xAmzGrantFullControl>   
-	<xAmzCopySource>%s</xAmzCopySource>
+    <xAmzCopySource>%s</xAmzCopySource>
     <xAmzMetadataDirective></xAmzMetadataDirective>
     <xAmzCopySourceIfMatch></xAmzCopySourceIfMatch>
     <xAmzCopySourceIfNoneMatch></xAmzCopySourceIfNoneMatch>

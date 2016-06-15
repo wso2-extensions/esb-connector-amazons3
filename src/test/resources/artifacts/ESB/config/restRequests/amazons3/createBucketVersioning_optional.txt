@@ -1,15 +1,15 @@
 <createBucketVersioning>
-	<accessKeyId>%s</accessKeyId>
-	<secretAccessKey>%s</secretAccessKey>
-	<methodType>PUT</methodType>
-	<contentLength>256</contentLength>
-	<contentType>application/xml; charset=UTF-8</contentType>
-	<expect></expect>
-	<host></host>
-	<isXAmzDate>true</isXAmzDate>
-	<xAmzSecurityToken></xAmzSecurityToken>
-	<bucketName>%s</bucketName>
-	<bucketUrl>%s</bucketUrl>
+    <accessKeyId>%s</accessKeyId>
+    <secretAccessKey>%s</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength>256</contentLength>
+    <contentType>application/xml; charset=UTF-8</contentType>
+    <expect></expect>
+    <host></host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketName>%s</bucketName>
+    <bucketUrl>%s</bucketUrl>
     <status>%s</status>
     <mfaDelete>Disabled</mfaDelete>
 </createBucketVersioning>

@@ -79,12 +79,6 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
 
     private String pathToResourcesDirectory = null;
 
-    private String uploadIdMandatory = null;
-
-    private String uploadIdOptional = null;
-
-    private String uploadPartETag = null;
-
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
 
@@ -155,7 +149,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for createBucket method for web site configurations.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {createBucket} integration test with mandatory parameters.")
+    @Test(groups = {"wso2.esb"},
+            description = "AmazonS3 {createBucket} integration test with mandatory parameters.")
     public void testCreateBucketForWebSiteConfig() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:createBucket");
@@ -203,7 +198,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for createBucket method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {createBucket} integration test with mandatory parameters.")
+    @Test(groups = {"wso2.esb"},
+            description = "AmazonS3 {createBucket} integration test with mandatory parameters.")
     public void testCreateBucketWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:createBucket");
@@ -227,7 +223,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for createBucket method with optional parameters.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {createBucket} integration test with optional parameters.")
+    @Test(groups = {"wso2.esb"},
+            description = "AmazonS3 {createBucket} integration test with optional parameters.")
     public void testCreateBucketWithOptionalParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:createBucket");
@@ -406,7 +403,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for setBucketACL method with mandatory parameters.
      */
-    @Test(dependsOnMethods = {"testCreateBucketWithOptionalParameters"}, groups = {"wso2.esb"},
+    @Test(dependsOnMethods = {"testCreateBucketWithOptionalParameters",
+            "testGetBucketACLWithMandatoryParameters"}, groups = {"wso2.esb"},
             description = "AmazonS3 {setBucketACL} integration test with mandatory parameters.")
     public void testSetBucketACLWithMandatoryParameters() throws Exception {
 
@@ -421,9 +419,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("ownerId"),
-                        amazons3ConnectorProperties.getProperty("displayName"),
+                        amazons3ConnectorProperties.getProperty("ownerdisplayName"),
                         amazons3ConnectorProperties.getProperty("ownerId"),
-                        amazons3ConnectorProperties.getProperty("displayName"));
+                        amazons3ConnectorProperties.getProperty("ownerdisplayName"));
 
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
 
@@ -607,6 +605,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         Assert.assertTrue(statusCode == 403);
     }
 
+
     /**
      * Positive test case for getBucketACL method with mandatory parameters.
      */
@@ -624,10 +623,17 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
-        int statusCode =
-                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+        String response =
+                ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
                         modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        Assert.assertTrue(statusCode == 200);
+        String ownerID = response.substring(response.lastIndexOf("<ID>") + "<ID>".length(),
+                response.lastIndexOf("</ID>"));
+        String ownerDisplayName = response.substring(response.lastIndexOf("<DisplayName>") + "<DisplayName>".length(),
+                response.lastIndexOf("</DisplayName>"));
+        amazons3ConnectorProperties.setProperty("ownerId", ownerID);
+        amazons3ConnectorProperties.setProperty("ownerdisplayName", ownerDisplayName);
+        Assert.assertNotNull(ownerID);
+        Assert.assertNotNull(ownerDisplayName);
     }
 
     /**
@@ -1002,8 +1008,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Negative test case for getBucketReplication method.
      */
-    @Test(dependsOnMethods = {"testCreateBucketReplicationWithMandatoryParameters"}, groups = {"wso2.esb"},
-            description = "AmazonS3 {getBucketReplication} integration test with negative case.")
+    @Test(dependsOnMethods = {"testCreateBucketReplicationWithMandatoryParameters"},
+            groups = {"wso2.esb"}, description = "AmazonS3 {getBucketReplication} integration test with negative case.")
     public void testGetBucketReplicationWithNegativeCase() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getBucketReplication");
@@ -1093,8 +1099,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
      * Positive test case for getWebSiteConfiguration method with mandatory parameters.
      */
     @Test(dependsOnMethods = {"testCreateBucketWebsiteConfigurationWithMandatoryParameters"},
-            groups = {"wso2.esb"},
-            description = "AmazonS3 {getWebSiteConfiguration} integration test with mandatory parameters.")
+            groups = {"wso2.esb"}, description = "AmazonS3 {getWebSiteConfiguration} integration test with mandatory parameters.")
     public void testGetWebSiteConfigurationWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getWebSiteConfiguration");
@@ -1226,7 +1231,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for createObject method with mandatory parameters.
      */
-    @Test(enabled = false, groups = {"wso2.esb"}, dependsOnMethods = {"testGetAuthorizationForCreateObjectWithMandatoryParameters"},
+    @Test(enabled = false, groups = {"wso2.esb"},
+            dependsOnMethods = {"testGetAuthorizationForCreateObjectWithMandatoryParameters"},
             description = "AmazonS3 {createObject} integration test with mandatory parameters.")
     public void testCreateObjectWithMandatoryParameters() throws Exception {
 
@@ -1307,7 +1313,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for createObjectACL method with mandatory parameters.
      */
-    @Test(dependsOnMethods = {"testCreateObjectCopyMandatoryParameters"}, groups = {"wso2.esb"},
+    @Test(dependsOnMethods = {"testCreateObjectCopyMandatoryParameters",
+            "testGetBucketACLWithMandatoryParameters"}, groups = {"wso2.esb"},
             description = "AmazonS3 {createObjectACL} integration test with mandatory parameters.")
     public void testCreateObjectACLWithMandatoryParameters() throws Exception {
 
@@ -1333,7 +1340,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Negative test case for createObjectACL method.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {createObjectACL} integration test with negative case.")
+    @Test(groups = {"wso2.esb"},
+            description = "AmazonS3 {createObjectACL} integration test with negative case.")
     public void testCreateObjectACLWithNegativeCase() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:createObjectACL");
@@ -1355,7 +1363,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for createObjectCopy method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {createObjectCopy} integration test with mandatory parameters.")
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+            description = "AmazonS3 {createObjectCopy} integration test with mandatory parameters.")
     public void testCreateObjectCopyMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:createObjectCopy");
@@ -1366,7 +1375,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("bucketUrl_4"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("destinationObjectName"),
                         amazons3ConnectorProperties.getProperty("copySource"));
 
@@ -1379,7 +1388,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Negative test case for createObjectCopy method.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {createObjectCopy} integration test with negative case.")
+    @Test(groups = {"wso2.esb"},
+            description = "AmazonS3 {createObjectCopy} integration test with negative case.")
     public void testCreateObjectCopyWithNegativeCase() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:createObjectCopy");
@@ -1401,7 +1411,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for getObjectsInBucket method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
             description = "AmazonS3 {getObjectsInBucket} integration test with mandatory parameters.")
     public void testGetObjectsInBucketWithMandatoryParameters() throws Exception {
 
@@ -1424,7 +1434,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Negative test case for getObjectsInBucket method.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {getObjectsInBucket} integration test with negative case.")
+    @Test(groups = {"wso2.esb"},
+            description = "AmazonS3 {getObjectsInBucket} integration test with negative case.")
     public void testGetObjectsInBucketWithNegativeCase() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getObjectsInBucket");
@@ -1445,7 +1456,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for getBucketObjectVersions method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters",
+            "testCreateBucketReplicationWithMandatoryParameters", "testCreateObjectCopyMandatoryParameters"},
             description = "AmazonS3 {getBucketObjectVersions} integration test with mandatory parameters.")
     public void testGetBucketObjectVersionsWithMandatoryParameters() throws Exception {
 
@@ -1453,22 +1465,29 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         String xmlRequestFilePath = pathToRequestsDirectory + "getBucketObjectVersions_mandatory.txt";
 
         final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
-        final String modifiedxmlString =
+        final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("bucketUrl_4"));
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"));
 
-        int statusCode =
-                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
-                        modifiedxmlString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        Assert.assertTrue(statusCode == 200);
+        String response =
+                ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        String versionId = response.substring(response.lastIndexOf("<VersionId>") + "<VersionId>".length(),
+                response.lastIndexOf("</VersionId>"));
+        amazons3ConnectorProperties.setProperty("versionId", versionId);
+        String objectForRestore = response.substring(response.lastIndexOf("<Key>") + "</Key>".length() - 1,
+                response.lastIndexOf("</Key>"));
+        amazons3ConnectorProperties.setProperty("versionId", versionId);
+        amazons3ConnectorProperties.setProperty("objectForRestore", objectForRestore);
+        Assert.assertNotNull(versionId);
     }
 
     /**
      * Positive test case for getBucketObjectVersions method with optional parameters.
      */
-    @Test(groups = {"wso2.esb"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
             description = "AmazonS3 {getBucketObjectVersions} integration test with optional parameters.")
     public void testGetBucketObjectVersionsWithOptionalParameters() throws Exception {
 
@@ -1491,7 +1510,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Negative test case for getBucketObjectVersions method.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {getBucketObjectVersions} integration test with negative case.")
+    @Test(groups = {"wso2.esb"},
+            description = "AmazonS3 {getBucketObjectVersions} integration test with negative case.")
     public void testGetBucketObjectVersionsWithNegativeCase() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getBucketObjectVersions");
@@ -1586,7 +1606,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for getObjectMetaData method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {getObjectMetadata} integration test with mandatory parameters.")
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+            description = "AmazonS3 {getObjectMetadata} integration test with mandatory parameters.")
     public void testGetObjectMetaDataWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getObjectMetaData");
@@ -1608,7 +1629,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Negative test case for getObjectMetaData method.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {getObjectMetaData} integration test with negative case.")
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+            description = "AmazonS3 {getObjectMetaData} integration test with negative case.")
     public void testGetObjectMetaDataWithNegativeCase() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getObjectMetaData");
@@ -1675,8 +1697,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Mandatory parameter test case for deleteObject method.
      */
-    @Test(dependsOnMethods = {"testCreateObjectCopyMandatoryParameters", "testGetObjectWithMandatoryParameters",
-            "testGetObjectWithOptionalParameters"}, groups = {"wso2.esb"},
+    @Test(dependsOnMethods = {"testCreateObjectCopyMandatoryParameters",
+            "testGetObjectWithMandatoryParameters", "testGetObjectWithOptionalParameters"}, groups = {"wso2.esb"},
             description = "AmazonS3 {deleteObject} integration test with mandatory parameter.")
     public void testDeleteObjectWithMandatoryParameters() throws Exception {
 
@@ -1920,13 +1942,11 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("objectName_6"));
-        final String uploadIDPreFix = "<UploadId>";
-        final String uploadIDPostFix = "</UploadId>";
         String response =
                 ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
                         modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        String uploadIdForCopyPart = response.substring(response.lastIndexOf(uploadIDPreFix) + uploadIDPreFix.length(),
-                response.lastIndexOf(uploadIDPostFix));
+        String uploadIdForCopyPart = response.substring(response.lastIndexOf("<UploadId>") + "<UploadId>".length(),
+                response.lastIndexOf("</UploadId>"));
         amazons3ConnectorProperties.setProperty("uploadIdForCopyPart", uploadIdForCopyPart);
         Assert.assertNotNull(uploadIdForCopyPart);
     }
@@ -1994,7 +2014,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
-                        amazons3ConnectorProperties.getProperty("objectName_6"), uploadIdOptional);
+                        amazons3ConnectorProperties.getProperty("objectName_6"),
+                        amazons3ConnectorProperties.getProperty("uploadIdOptional"));
 
         final int statusCode =
                 ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
@@ -2019,7 +2040,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
-                        amazons3ConnectorProperties.getProperty("objectName_6"), uploadIdOptional);
+                        amazons3ConnectorProperties.getProperty("objectName_6"),
+                        amazons3ConnectorProperties.getProperty("uploadIdOptional"));
 
         int statusCode =
                 ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
@@ -2063,7 +2085,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("objectName_6"), uploadIdMandatory);
+                        amazons3ConnectorProperties.getProperty("objectName_6"),
+                        amazons3ConnectorProperties.getProperty("uploadIdMandatory"));
 
         Thread.sleep(2000);
 
@@ -2103,7 +2126,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         esbRequestHeadersMap.put("x-amz-date", dateValue);
         esbRequestHeadersMap.put("Content-Type", "text/plain; charset=UTF-8");
 
-        final String uploadId = uploadIdMandatory;
+        final String uploadId = amazons3ConnectorProperties.getProperty("uploadIdMandatory");
         final String objectName = amazons3ConnectorProperties.getProperty("objectName_6");
         final String bucketUrl = amazons3ConnectorProperties.getProperty("bucketUrl_5");
 
@@ -2123,7 +2146,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         Assert.assertTrue(esbRestResponse.getHttpStatusCode() == 200);
         Assert.assertNotNull(esbRestResponse.getHeadersMap().get("ETag"));
 
-        uploadPartETag = esbRestResponse.getHeadersMap().get("ETag").get(0);
+        String uploadPartETag = esbRestResponse.getHeadersMap().get("ETag").get(0);
+        amazons3ConnectorProperties.setProperty("uploadPartETag", uploadPartETag);
     }
 
     /**
@@ -2145,10 +2169,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         String response =
                 ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
                         modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        final String uploadIDPreFix = "<UploadId>";
-        final String uploadIDPostFix = "</UploadId>";
-        uploadIdMandatory = response.substring(response.lastIndexOf(uploadIDPreFix) + uploadIDPreFix.length(),
-                response.lastIndexOf(uploadIDPostFix));
+        String uploadIdMandatory = response.substring(response.lastIndexOf("<UploadId>") + "<UploadId>".length(),
+                response.lastIndexOf("</UploadId>"));
+        amazons3ConnectorProperties.setProperty("uploadIdMandatory", uploadIdMandatory);
         Assert.assertTrue(response.contains("ListMultipartUploadsResult"));
         Assert.assertTrue(response.contains("<Upload>"));
     }
@@ -2176,10 +2199,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                 ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
                         modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
 
-        final String uploadIDPreFix = "<UploadId>";
-        final String uploadIDPostFix = "</UploadId>";
-        uploadIdOptional = response.substring(response.indexOf(uploadIDPreFix) + uploadIDPreFix.length(),
-                response.indexOf(uploadIDPostFix));
+        String uploadIdOptional = response.substring(response.indexOf("<UploadId>") + "<UploadId>".length(),
+                response.indexOf("</UploadId>"));
+        amazons3ConnectorProperties.setProperty("uploadIdOptional", uploadIdOptional);
         Assert.assertTrue(response.contains("ListMultipartUploadsResult"));
         Assert.assertTrue(response.contains("<MaxUploads>1000</MaxUploads>"));
     }
@@ -2223,7 +2245,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
-                        amazons3ConnectorProperties.getProperty("bucketUrl_5"), uploadIdMandatory, uploadPartETag);
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"),
+                        amazons3ConnectorProperties.getProperty("uploadIdMandatory"),
+                        amazons3ConnectorProperties.getProperty("uploadPartETag"));
 
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
 
@@ -2252,7 +2276,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
-                        amazons3ConnectorProperties.getProperty("bucketUrl_5"), uploadIdMandatory, uploadPartETag);
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"),
+                        amazons3ConnectorProperties.getProperty("uploadIdMandatory"),
+                        amazons3ConnectorProperties.getProperty("uploadPartETag"));
 
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
 
@@ -2297,7 +2323,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
-                        amazons3ConnectorProperties.getProperty("bucketName_2"), uploadIdMandatory,
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("uploadIdMandatory"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"));
 
@@ -2326,7 +2353,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("encodingType"), uploadIdMandatory,
+                        amazons3ConnectorProperties.getProperty("encodingType"),
+                        amazons3ConnectorProperties.getProperty("uploadIdMandatory"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
                         amazons3ConnectorProperties.getProperty("maxParts"),
                         amazons3ConnectorProperties.getProperty("partNumberMarker"),
@@ -2445,20 +2473,19 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
 
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
 
-        String eTagPreFix = "<ETag>";
-        String eTagPostFix = "</ETag>";
         String response =
                 ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
                         modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        String eTag = response.substring(response.lastIndexOf(eTagPreFix) + eTagPreFix.length(),
-                response.lastIndexOf(eTagPostFix));
+        String eTag = response.substring(response.lastIndexOf("<ETag>") + "<ETag>".length(),
+                response.lastIndexOf("</ETag>"));
         Assert.assertNotNull(eTag);
     }
 
     /**
      * Mandatory parameter test case for restoreObject method.
      */
-    @Test(enabled = false, groups = {"wso2.esb"}, dependsOnMethods = {"testCompleteMultipartUplaodWithMandatoryParameters"},
+    @Test(enabled = false, groups = {"wso2.esb"}, dependsOnMethods = {"testCompleteMultipartUplaodWithMandatoryParameters",
+            "testGetBucketObjectVersionsWithMandatoryParameters"},
             description = "AmazonS3 {restoreObject} integration test with mandatory parameter.")
     public void testRestoreObjectWithMandatoryParameters() throws Exception {
 
@@ -2470,8 +2497,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("objectName_6"),
-                        amazons3ConnectorProperties.getProperty("bucketUrl_5"));
+                        amazons3ConnectorProperties.getProperty("objectForRestore"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_5"),
+                        amazons3ConnectorProperties.getProperty("versionId"));
 
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
 
@@ -2536,7 +2564,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Mandatory parameter test case for createBucketACL method.
      */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters",
+            "testGetBucketACLWithMandatoryParameters"},
             description = "AmazonS3 {createBucketACL} integration test with mandatory parameter.")
     public void testCreateBucketACLWithMandatoryParameters() throws Exception {
 
@@ -2550,9 +2579,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"),
                         amazons3ConnectorProperties.getProperty("ownerId"),
-                        amazons3ConnectorProperties.getProperty("displayName"),
+                        amazons3ConnectorProperties.getProperty("ownerdisplayName"),
                         amazons3ConnectorProperties.getProperty("ownerId"),
-                        amazons3ConnectorProperties.getProperty("displayName"));
+                        amazons3ConnectorProperties.getProperty("ownerdisplayName"));
 
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
 
@@ -2612,6 +2641,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
         Assert.assertTrue(statusCode == 204);
     }
+
     /**
      * Mandatory parameter test case for deleteBucketLifecycle method.
      */

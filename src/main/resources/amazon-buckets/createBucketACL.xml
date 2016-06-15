@@ -25,7 +25,7 @@
         <property name="uri.var.ownerId" expression="$func:ownerId"/>
         <property name="uri.var.ownerDisplayName" expression="$func:ownerDisplayName"/>
         <property name="uri.var.accessControlList" expression="$func:accessControlList"/>
-        <property name="uri.var.uriRemainder" value="/?policy"/>
+        <property name="uri.var.uriRemainder" value="/?acl"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <filter xpath="string($ctx:date) and $ctx:date != ''">
@@ -50,13 +50,12 @@
                         <ID>$1</ID>
                         <DisplayName>$2</DisplayName>
                     </Owner>
-                    <AccessControlList>$3</AccessControlList>
+                    <AccessControlList>$ctx:uri.var.accessControlList</AccessControlList>
                 </AccessControlPolicy>
             </format>
             <args>
                 <arg expression="$ctx:uri.var.ownerId"/>
                 <arg expression="$ctx:uri.var.ownerDisplayName"/>
-                <arg expression="$ctx:uri.var.accessControlList"/>
             </args>
         </payloadFactory>
         <call>
