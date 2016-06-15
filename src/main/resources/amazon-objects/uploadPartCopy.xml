@@ -26,7 +26,6 @@
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.partNumber" expression="$func:partNumber"/>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <!-- Force ESB to send the content length to the AmazonS3 API -->
         <!-- Authentication Header Setup -->
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
