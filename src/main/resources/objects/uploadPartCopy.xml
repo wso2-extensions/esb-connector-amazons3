@@ -55,7 +55,8 @@
             </format>
             <args/>
         </payloadFactory>
-        <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
+        <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN" />
+        <property name="NO_ENTITY_BODY" value="true" type="BOOLEAN" scope="axis2"/>
         <call>
             <endpoint>
                 <http method="put"
