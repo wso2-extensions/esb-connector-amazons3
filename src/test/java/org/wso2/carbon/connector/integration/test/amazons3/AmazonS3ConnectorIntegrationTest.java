@@ -2451,7 +2451,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Mandatory parameter test case for uploadPartCopy method.
      */
-    @Test(enabled = false, groups = {"wso2.esb"}, dependsOnMethods = {"testInitMultipartUploadWithMandatoryParameters"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testInitMultipartUploadWithMandatoryParameters"},
             description = "AmazonS3 {uploadPartCopy} integration test with mandatory parameter.")
     public void testUploadPartCopyWithMandatoryParameters() throws Exception {
 
