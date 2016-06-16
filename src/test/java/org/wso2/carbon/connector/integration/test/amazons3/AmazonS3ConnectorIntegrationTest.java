@@ -2743,4 +2743,30 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
         Assert.assertTrue(statusCode == 200);
     }
+
+    /**
+     * Mandatory parameter test case for getObjectTorrent method.
+     */
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCompleteMultipartUplaodWithMandatoryParameters"},
+            description = "AmazonS3 {getObjectTorrent} integration test with mandatory parameter.")
+    public void testGetObjectTorrentWithMandatoryParameters() throws Exception {
+
+        esbRequestHeadersMap.put("Action", "urn:getObjectTorrent");
+        String xmlRequestFilePath = pathToRequestsDirectory + "getObjectTorrent_mandatory.txt";
+
+        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
+        final String modifiedXMLString =
+                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("bucketName_2"),
+                        amazons3ConnectorProperties.getProperty("bucketUrl_4"),
+                        amazons3ConnectorProperties.getProperty("objectName_6"));
+
+        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
+
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
+        Assert.assertTrue(statusCode == 200);
+    }
 }

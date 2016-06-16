@@ -16,7 +16,7 @@
  ~  specific language governing permissions and limitations
  ~  under the License.
 -->
-<component name="amazon-objects" type="synapse/template">
+<component name="objects" type="synapse/template">
     <subComponents>
         <component name="deleteObject">
             <file>deleteObject.xml</file>

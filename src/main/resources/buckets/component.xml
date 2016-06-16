@@ -16,7 +16,7 @@
  ~  specific language governing permissions and limitations
  ~  under the License.
 -->
-<component name="amazon-buckets" type="synapse/template">
+<component name="buckets" type="synapse/template">
     <subComponents>
         <component name="getBuckets">
             <file>getBuckets.xml</file>
