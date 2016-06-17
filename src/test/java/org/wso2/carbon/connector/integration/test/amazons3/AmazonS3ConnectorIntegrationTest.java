@@ -1230,6 +1230,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
 
     /**
      * Positive test case for createObject method with mandatory parameters.
+     * This method is disabled, since this is not working directly.
      */
     @Test(enabled = false, groups = {"wso2.esb"},
             dependsOnMethods = {"testGetAuthorizationForCreateObjectWithMandatoryParameters"},
