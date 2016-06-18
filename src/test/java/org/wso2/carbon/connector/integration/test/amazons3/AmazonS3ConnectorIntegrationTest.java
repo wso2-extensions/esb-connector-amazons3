@@ -2123,7 +2123,6 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         esbRequestHeadersMap.put("Action", "urn:uploadPart");
 
         esbRequestHeadersMap.put("Authorization", authorizationCode);
-        esbRequestHeadersMap.put("isXAmzDate", "true");
         esbRequestHeadersMap.put("x-amz-date", dateValue);
         esbRequestHeadersMap.put("Content-Type", "text/plain; charset=UTF-8");
 
