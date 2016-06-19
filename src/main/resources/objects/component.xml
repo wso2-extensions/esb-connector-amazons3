@@ -85,10 +85,6 @@
             <file>listParts.xml</file>
             <description>Retrieve list of uploaded parts</description>
         </component>
-        <component name="getAuthorization">
-            <file>getAuthorization.xml</file>
-            <description>Get Authorization details for the requests</description>
-        </component>
         <component name="headObject">
             <file>headObject.xml</file>
             <description>Retrieves metadata from an object without returning the object itself</description>

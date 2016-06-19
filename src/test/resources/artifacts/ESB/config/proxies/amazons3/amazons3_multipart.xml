@@ -24,6 +24,7 @@
     <description/>
     <target>
         <inSequence>
+            <property name="contentType" expression="$trp:Content-Type"/>
             <switch source="get-property('transport', 'Action')">
                 <case regex="urn:createObject">
                     <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
@@ -36,10 +37,16 @@
                     <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
                     <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
                     <amazons3.uploadPart>
+                        <accessKeyId>{$url:accessKeyId}</accessKeyId>
+                        <secretAccessKey>{$url:secretAccessKey}</secretAccessKey>
+                        <bucketName>{$url:bucketName}</bucketName>
+                        <isXAmzDate>{$url:isXAmzDate}</isXAmzDate>
+                        <contentType>{$ctx:contentType}</contentType>
                         <bucketUrl>{$url:bucketUrl}</bucketUrl>
                         <objectName>{$url:objectName}</objectName>
                         <uploadId>{$url:uploadId}</uploadId>
                         <partNumber>{$url:partNumber}</partNumber>
+                        <body>{$body//text}</body>
                     </amazons3.uploadPart>
                 </case>
             </switch>

@@ -223,8 +223,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for createBucket method with optional parameters.
      */
-    @Test(groups = {"wso2.esb"},
-            description = "AmazonS3 {createBucket} integration test with optional parameters.")
+    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {createBucket} integration test with optional parameters.")
     public void testCreateBucketWithOptionalParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:createBucket");
@@ -1189,81 +1188,6 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     }
 
     /**
-     * Positive test case for getAuthorization method for upload part with mandatory parameters.
-     */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
-            description = "AmazonS3 {completeMultipartUpload} integration test with optional parameters.")
-    public void testGetAuthorizationForCreateObjectWithMandatoryParameters() throws Exception {
-
-        esbRequestHeadersMap.put("Action", "urn:getAuthorization");
-
-        String xmlRequestFilePath = pathToRequestsDirectory + "getAuthorization_createObject_mandatory.txt";
-
-        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
-        final String modifiedXMLString =
-                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
-                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
-                        amazons3ConnectorProperties.getProperty("bucketName_2"));
-
-        Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
-
-        final String response =
-                ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
-                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-
-        if (response != null) {
-            OMElement element = AXIOMUtil.stringToOM(response);
-            Iterator<OMElement> iterator = element.getChildren();
-            while (iterator.hasNext()) {
-                OMElement childElement = (OMElement) iterator.next();
-                String localName = childElement.getLocalName();
-                if ("authentication".equals(localName)) {
-                    authorizationCodeNew = childElement.getText();
-                } else if ("date".equals(localName)) {
-                    dateValueNew = childElement.getText();
-                }
-            }
-        }
-        Assert.assertNotNull(authorizationCodeNew);
-        Assert.assertNotNull(dateValueNew);
-    }
-
-    /**
-     * Positive test case for createObject method with mandatory parameters.
-     * This method is disabled, since this is not working directly.
-     */
-    @Test(enabled = false, groups = {"wso2.esb"},
-            dependsOnMethods = {"testGetAuthorizationForCreateObjectWithMandatoryParameters"},
-            description = "AmazonS3 {createObject} integration test with mandatory parameters.")
-    public void testCreateObjectWithMandatoryParameters() throws Exception {
-
-        String objectName = amazons3ConnectorProperties.getProperty("objectName");
-        esbRequestHeadersMap.put("Action", "urn:createObject");
-        esbRequestHeadersMap.put("Authorization", authorizationCodeNew);
-        esbRequestHeadersMap.put("x-amz-date", dateValueNew);
-
-        final String bucketUrl = amazons3ConnectorProperties.getProperty("bucketUrl_5");
-
-        // Call through the ESB.
-        final String requestString = getProxyServiceURL("multipart") + "?bucketUrl=" + bucketUrl + "/";
-        final MultipartFormdataProcessor multipartProcessor = new MultipartFormdataProcessor();
-
-
-        final File file = new File(pathToResourcesDirectory + objectName);
-
-        // Form Fields
-        final Map<String, String> formFields = new HashMap<String, String>();
-        formFields.put("key", objectName);
-        formFields.put("acl", "public-read-write");
-        formFields.put("success_action_status", "200");
-
-        final int responseCode =
-                multipartProcessor.sendRequestWithSingleFile(requestString, formFields, esbRequestHeadersMap, file);
-
-        Assert.assertTrue(responseCode == 200);
-    }
-
-    /**
      * To test the method deleteMultipleObjects.
      */
     @Test(dependsOnMethods = {"testCreateBucketWithOptionalParameters"}, groups = {"wso2.esb"},
@@ -2001,7 +1925,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for abortMultipartUpload method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testListMultipartUploadsWithOptionalParameters"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testListMultipartUploadsWithOptionalParameters",
+            "testUploadPartCopyWithMandatoryParameters"},
             description = "AmazonS3 {abortMultipartUpload} integration test with mandatory parameters.")
     public void testAbortMultipartUplaodWithMandatoryParameters() throws Exception {
 
@@ -2027,7 +1952,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Positive test case for abortMultipartUpload method with optional parameters.
      */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testListMultipartUploadsWithOptionalParameters"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testListMultipartUploadsWithOptionalParameters",
+            "testUploadPartCopyWithMandatoryParameters"},
             description = "AmazonS3 {abortMultipartUpload} integration test with optional parameters.")
     public void testAbortMultipartUplaodWithOptionalParameters() throws Exception {
 
@@ -2071,59 +1997,13 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     }
 
     /**
-     * Positive test case for getAuthorization method for upload part with mandatory parameters.
-     */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testListMultipartUploadsWithMandatoryParameters"},
-            description = "AmazonS3 {completeMultipartUpload} integration test with optional parameters.")
-    public void testGetAuthorizationForUploadPartWithMandatoryParameters() throws Exception {
-
-        esbRequestHeadersMap.put("Action", "urn:getAuthorization");
-
-        String xmlRequestFilePath = pathToRequestsDirectory + "getAuthorization_uploadPart_mandatory.txt";
-
-        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
-        final String modifiedXMLString =
-                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
-                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
-                        amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("objectName_6"),
-                        amazons3ConnectorProperties.getProperty("uploadIdMandatory"));
-
-        Thread.sleep(2000);
-
-        final String response =
-                ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
-                        modifiedXMLString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-
-        if (response != null) {
-            OMElement element = AXIOMUtil.stringToOM(response);
-            Iterator<OMElement> iterator = element.getChildren();
-            while (iterator.hasNext()) {
-                OMElement childElement = (OMElement) iterator.next();
-                String localName = childElement.getLocalName();
-                if ("authentication".equals(localName)) {
-                    authorizationCode = childElement.getText();
-                } else if ("date".equals(localName)) {
-                    dateValue = childElement.getText();
-                }
-            }
-        }
-
-        Assert.assertNotNull(authorizationCode);
-        Assert.assertNotNull(dateValue);
-    }
-
-    /**
      * Positive test case for uploadPart method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testGetAuthorizationForUploadPartWithMandatoryParameters"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testListMultipartUploadsWithMandatoryParameters"},
             description = "AmazonS3 {uploadPart} integration test with mandatory parameters.")
     public void testUploadPartWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:uploadPart");
-
-        esbRequestHeadersMap.put("Authorization", authorizationCode);
-        esbRequestHeadersMap.put("x-amz-date", dateValue);
         esbRequestHeadersMap.put("Content-Type", "text/plain; charset=UTF-8");
 
         final String uploadId = amazons3ConnectorProperties.getProperty("uploadIdMandatory");
@@ -2133,7 +2013,10 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         // Call through the ESB.
         final String requestString =
                 getProxyServiceURL("multipart") + "?objectName=" + objectName + "&uploadId=" + uploadId
-                        + "&partNumber=1&bucketUrl=" + bucketUrl;
+                        + "&partNumber=1&bucketUrl=" + bucketUrl + "&accessKeyId="
+                        + amazons3ConnectorProperties.getProperty("accessKeyId") + "&secretAccessKey="
+                        + amazons3ConnectorProperties.getProperty("secretAccessKey") + "&bucketName="
+                        + amazons3ConnectorProperties.getProperty("bucketName_2") + "&isXAmzDate=true";
 
         final MultipartFormdataProcessor multipartProcessor =
                 new MultipartFormdataProcessor(requestString, esbRequestHeadersMap, "PUT");

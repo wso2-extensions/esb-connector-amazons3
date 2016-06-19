@@ -16,18 +16,62 @@
  ~  under the License.
 -->
 <template name="uploadPart" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="accessKeyId" description="AWS access key ID."/>
+    <parameter name="secretAccessKey" description="AWS secret access key."/>
+    <parameter name="bucketName" description="Name of the bucket require."/>
+    <parameter name="contentType"
+               description="The content type of the resource in case the request content in the body."/>
+    <parameter name="isXAmzDate" description="The current date and time according to the requester."/>
     <parameter name="bucketUrl" description="The URL of the bucket without the http prefix."/>
     <parameter name="objectName" description="The name to give for the newly created object."/>
     <parameter name="uploadId" description="This specifiy the ID of the initiated multipart upload."/>
     <parameter name="partNumber" description="This specifiy the number or the index of the uploaded part."/>
+    <parameter name="body" description="Content of the file."/>
     <sequence>
+        <property name="uri.var.accessKeyId" expression="$func:accessKeyId"/>
+        <property name="uri.var.secretAccessKey" expression="$func:secretAccessKey"/>
+        <property name="uri.var.methodType" value="PUT"/>
+        <property name="uri.var.bucketName" expression="$func:bucketName"/>
+        <property name="uri.var.contentType" expression="$func:contentType"/>
+        <property name="uri.var.isXAmzDate" expression="$func:isXAmzDate"/>
+        <property name="uri.var.uriRemainder" value=""/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.partNumber" expression="$func:partNumber"/>
+        <property name="uri.var.body" expression="$func:body"/>
+        <script language="js">
+            <![CDATA[
+           var objectName=mc.getProperty('uri.var.objectName');
+           var uploadId=mc.getProperty('uri.var.uploadId');
+           mc.setProperty('uri.var.uriRemainder', '/'+objectName+'?partNumber=1&uploadId='+uploadId);
+        ]]>
+        </script>
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
+        <filter xpath="string($ctx:date) and $ctx:date != '' ">
+            <then>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
+            <then>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
+            <then>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
+        </filter>
         <!-- Force ESB to send the content length to the AmazonS3 API -->
         <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
         <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
+        <payloadFactory media-type="text/plain">
+            <format>
+                $ctx:uri.var.body
+            </format>
+            <args/>
+        </payloadFactory>
         <call>
             <endpoint>
                 <http method="put"

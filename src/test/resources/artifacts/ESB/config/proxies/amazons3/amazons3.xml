@@ -422,11 +422,6 @@
                         <uploadId>{$ctx:uploadId}</uploadId>
                     </amazons3.completeMultipartUpload>
                 </case>
-                <case regex="urn:getAuthorization">
-                    <amazons3.getAuthorization>
-                        <uriRemainder>{$ctx:uriRemainder}</uriRemainder>
-                    </amazons3.getAuthorization>
-                </case>
                 <case regex="urn:listMultipartUploads">
                     <amazons3.listMultipartUploads>
                         <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
