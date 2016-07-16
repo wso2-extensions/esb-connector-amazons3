@@ -30,54 +30,54 @@ import org.wso2.carbon.connector.amazons3.util.AmazonS3Constants;
 
 /**
  * Class AmazonS3Authentication to generate authorization header for Amazon S3 WSO2 ESB Connector.
- * 
+ *
  * @see http ://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#ConstructingTheAuthenticationHeader
  */
 public class AmazonS3Authentication {
-    
+
     /**
      * AWS access key ID.
      */
     private String accessKeyId;
-    
+
     /**
      * AWS secret access key.
      */
     private String secretAccessKey;
-    
+
     /**
      * Constructor for AmazonS3Authentication class.
-     * 
-     * @param awsAccessKeyId - accessKeyId passed in the as request parameter.
+     *
+     * @param awsAccessKeyId     - accessKeyId passed in the as request parameter.
      * @param awsSecretAccessKey - secretAccessKey passed in the as request parameter.
      */
     public AmazonS3Authentication(final String awsAccessKeyId, final String awsSecretAccessKey) {
-    
+
         this.accessKeyId = awsAccessKeyId;
         this.secretAccessKey = awsSecretAccessKey;
     }
-    
+
     /**
      * getAuthorizationHeaderValue method returns the AmazonS3 Authorization header for a given signing String.
-     * 
+     *
      * @param signingStr - A String based on select request elements
      * @return generated authorization header as String
-     * @throws java.io.UnsupportedEncodingException This exception is thrown when the Character Encoding is not supported
-     * @throws java.security.NoSuchAlgorithmException This exception is thrown when a particular cryptographic algorithm is requested
-     *         but is not available in the environment.
-     * @throws java.security.InvalidKeyException This is the exception for invalid Keys (invalid encoding, wrong length,
-     *         uninitialized, etc).
+     * @throws UnsupportedEncodingException   This exception is thrown when the Character Encoding is not supported
+     * @throws NoSuchAlgorithmException This exception is thrown when a particular cryptographic algorithm is requested
+     *                                                but is not available in the environment.
+     * @throws InvalidKeyException      This is the exception for invalid Keys (invalid encoding, wrong length,
+     *                                                uninitialized, etc).
      */
     public final String getAuthorizationHeaderValue(final String signingStr) throws UnsupportedEncodingException,
             NoSuchAlgorithmException, InvalidKeyException {
-    
+
         final Charset defaultCharset = Charset.defaultCharset();
-        
+
         // converts AWSSecretKey into crypto instance.
         final byte[] keyBytes = secretAccessKey.getBytes(defaultCharset);
         final Mac mac = Mac.getInstance(AmazonS3Constants.HMAC_SHA1);
         mac.init(new SecretKeySpec(keyBytes, AmazonS3Constants.HMAC_SHA1));
-        
+
         // Signed String must be BASE64 encoded.
         final byte[] signBytes = mac.doFinal(signingStr.getBytes(defaultCharset));
         final String signatureStr = new String(Base64.encodeBase64(signBytes), defaultCharset);

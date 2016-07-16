@@ -1,0 +1,101 @@
+<!--
+ ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 Inc. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+<template name="getBucketObjectVersions" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="bucketUrl" description="End point URL of the request."/>
+    <parameter name="delimiter" description="Character that specify to group keys"/>
+    <parameter name="encodingType"
+               description="Requests Amazon S3 to encode the response and specifies the encoding method to use"/>
+    <parameter name="keyMarker" description="Specifies the key in the bucket that you want to start listing from"/>
+    <parameter name="maxKeys" description="Sets the maximum number of keys returned in the response body"/>
+    <parameter name="prefix" description="Parameter to select only those keys that begin with the specified prefix"/>
+    <parameter name="versionIdMarker" description="Specifies the object version you want to start listing from"/>
+    <sequence>
+        <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
+        <property name="uri.var.delimiter" expression="$func:delimiter"/>
+        <property name="uri.var.encodingType" expression="$func:encodingType"/>
+        <property name="uri.var.keyMarker" expression="$func:keyMarker"/>
+        <property name="uri.var.maxKeys" expression="$func:maxKeys"/>
+        <property name="uri.var.prefix" expression="$func:prefix"/>
+        <property name="uri.var.versionIdMarker" expression="$func:versionIdMarker"/>
+        <property name="uri.var.query" value=""/>
+        <property name="uri.var.uriRemainder" value="/?versions"/>
+        <!-- Authentication Header Setup -->
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
+        <!-- Properties assigned in AmazonS3AuthConnector -->
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
+            <then>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
+            <then>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
+            <then>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.delimiter) and $ctx:uri.var.delimiter != ''">
+            <then>
+                <property name="uri.var.query"
+                          expression="fn:concat($ctx:uri.var.query,'&amp;delimiter=', $ctx:uri.var.delimiter)"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
+            <then>
+                <property name="uri.var.query"
+                          expression="fn:concat($ctx:uri.var.query,'&amp;encoding-type=', $ctx:uri.var.encodingType)"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.keyMarker) and $ctx:uri.var.keyMarker != ''">
+            <then>
+                <property name="uri.var.query"
+                          expression="fn:concat($ctx:uri.var.query,'&amp;key-marker=', $ctx:uri.var.keyMarker)"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.maxKeys) and $ctx:uri.var.maxKeys != ''">
+            <then>
+                <property name="uri.var.query"
+                          expression="fn:concat($ctx:uri.var.query,'&amp;max-keys=', $ctx:uri.var.maxKeys)"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.prefix) and $ctx:uri.var.prefix != ''">
+            <then>
+                <property name="uri.var.query"
+                          expression="fn:concat($ctx:uri.var.query,'&amp;prefix=', $ctx:uri.var.prefix)"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.versionIdMarker) and $ctx:uri.var.versionIdMarker != ''">
+            <then>
+                <property name="uri.var.query"
+                          expression="fn:concat($ctx:uri.var.query,'&amp;version-id-marker=', $ctx:uri.var.versionIdMarker)"/>
+            </then>
+        </filter>
+        <call>
+            <endpoint>
+                <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}{+uri.var.query}"/>
+            </endpoint>
+        </call>
+        <!-- Remove response custom header information -->
+        <header name="x-amz-id-2" scope="transport" action="remove"/>
+        <header name="x-amz-request-id" scope="transport" action="remove"/>
+        <header name="Via" scope="transport" action="remove"/>
+    </sequence>
+</template>

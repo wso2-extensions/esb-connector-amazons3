@@ -1,10 +1,10 @@
 <createBucket>
-	<accessKeyId>%s</accessKeyId>
-  	<secretAccessKey>%s</secretAccessKey>
-	<methodType>PUT</methodType>
-	<contentType>application/xml; charset=UTF-8</contentType>
-	<isXAmzDate>true</isXAmzDate>
-	<bucketUrl>%s</bucketUrl>
-	<bucketName>%s</bucketName>
-	<bucketRegion>us-west-2</bucketRegion>
+    <accessKeyId>%s</accessKeyId>
+    <secretAccessKey>%s</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentType>application/xml; charset=UTF-8</contentType>
+    <isXAmzDate>true</isXAmzDate>
+    <bucketUrl>%s</bucketUrl>
+    <bucketName>%s</bucketName>
+    <bucketRegion>us-west-2</bucketRegion>
 </createBucket>

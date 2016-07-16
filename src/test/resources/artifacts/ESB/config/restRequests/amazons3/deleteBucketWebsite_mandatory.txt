@@ -3,12 +3,12 @@
     <secretAccessKey>%s</secretAccessKey>
     <methodType>DELETE</methodType>
     <contentType>application/xml; charset=UTF-8</contentType>
-	<contentLength></contentLength>
-	<contentMD5></contentMD5>           			
+    <contentLength></contentLength>
+    <contentMD5></contentMD5> 
     <isXAmzDate>true</isXAmzDate>
-	<xAmzSecurityToken></xAmzSecurityToken>		
-	<host></host>
-	<expect></expect>       			
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <host></host>
+    <expect></expect>
     <bucketName>%s</bucketName>
-    <bucketUrl>%s</bucketUrl>	
+    <bucketUrl>%s</bucketUrl>
 </deleteBucketWebsiteConfiguration>

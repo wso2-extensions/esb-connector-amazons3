@@ -1,9 +1,9 @@
 <checkBucketPermission>
-	<accessKeyId>%s</accessKeyId>
-	<secretAccessKey>%s</secretAccessKey>
-	<methodType>HEAD</methodType>
-	<contentType>application/xml; charset=UTF-8</contentType>
-	<bucketName>%s</bucketName>
-	<isXAmzDate>true</isXAmzDate>
-	<bucketUrl>%s</bucketUrl>
+    <accessKeyId>%s</accessKeyId>
+    <secretAccessKey>%s</secretAccessKey>
+    <methodType>HEAD</methodType>
+    <contentType>application/xml; charset=UTF-8</contentType>
+    <bucketName>%s</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <bucketUrl>%s</bucketUrl>
 </checkBucketPermission>

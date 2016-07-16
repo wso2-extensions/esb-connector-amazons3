@@ -1,5 +1,5 @@
 <createObjectCopy>
-	<accessKeyId>%s</accessKeyId>
+    <accessKeyId>%s</accessKeyId>
     <secretAccessKey>%s</secretAccessKey>
     <methodType>PUT</methodType>
     <contentLength></contentLength>
@@ -10,7 +10,7 @@
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>
     <bucketName>%s</bucketName>    
-	<bucketUrl>http://s3-us-west-2.amazonaws.com/invalidBucket</bucketUrl>
+    <bucketUrl>http://s3-us-west-2.amazonaws.com/invalidBucket</bucketUrl>
     <destinationObject>%s</destinationObject>
     <xAmzAcl></xAmzAcl>
     <xAmzGrantRead></xAmzGrantRead>
@@ -18,7 +18,7 @@
     <xAmzGrantReadAcp></xAmzGrantReadAcp>
     <xAmzGrantWriteAcp></xAmzGrantWriteAcp>
     <xAmzGrantFullControl></xAmzGrantFullControl>   
-	<xAmzCopySource>/invalidBucket/images1.jpg</xAmzCopySource>
+    <xAmzCopySource>/invalidBucket/images1.jpg</xAmzCopySource>
     <xAmzMetadataDirective></xAmzMetadataDirective>
     <xAmzCopySourceIfMatch></xAmzCopySourceIfMatch>
     <xAmzCopySourceIfNoneMatch></xAmzCopySourceIfNoneMatch>

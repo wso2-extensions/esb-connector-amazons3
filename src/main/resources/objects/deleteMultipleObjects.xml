@@ -1,0 +1,84 @@
+<!--
+ ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 Inc. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+<template name="deleteMultipleObjects" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="bucketUrl" description="End point URL of the request."/>
+    <parameter name="deleteConfig" description="Contains the objects that are suppose to be deleted."/>
+    <parameter name="quiet" description="Element to enable quiet mode for the request."/>
+    <sequence>
+        <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
+        <property name="uri.var.deleteConfig" expression="$func:deleteConfig"/>
+        <property name="uri.var.quiet" expression="$func:quiet"/>
+        <property name="uri.var.uriRemainder" value="/?delete"/>
+        <!-- Append Quiet Element to the original request if quiet is sent. -->
+        <payloadFactory media-type="xml">
+            <format>
+                <Delete>
+                    <Quiet>$1</Quiet>
+                    $ctx:uri.var.deleteConfig
+                </Delete>
+            </format>
+            <args>
+                <arg expression="$ctx:uri.var.quiet"/>
+            </args>
+        </payloadFactory>
+        <script language="js">
+            <![CDATA[
+			    var quiet = mc.getProperty('uri.var.quiet');
+				payload = mc.getPayloadXML();
+                if(quiet == null || quiet == "") {
+				    delete payload.Quiet;
+				}
+                mc.setPayloadXML(payload);
+			]]>
+        </script>
+        <!-- Generate MD5 Content -->
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3ContentMD5Builder"/>
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
+        <!-- Properties assigned in AmazonS3AuthConnector -->
+        <filter xpath="string($ctx:date) or $ctx:date != ''">
+            <then>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:isXAmzDateValue) or $ctx:isXAmzDateValue != ''">
+            <then>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:authenticationCode) or $ctx:authenticationCode != ''">
+            <then>
+                <property name="Authorization" expression="get-property('authenticationCode')" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.contentMD5) or $ctx:uri.var.contentMD5 != ''">
+            <then>
+                <property name="Content-MD5" expression="$ctx:uri.var.contentMD5" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <call>
+            <endpoint>
+                <http method="post" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+            </endpoint>
+        </call>
+        <!-- Remove response custom header information -->
+        <header name="x-amz-id-2" scope="transport" action="remove"/>
+        <header name="x-amz-request-id" scope="transport" action="remove"/>
+        <header name="Via" scope="transport" action="remove"/>
+    </sequence>
+</template>

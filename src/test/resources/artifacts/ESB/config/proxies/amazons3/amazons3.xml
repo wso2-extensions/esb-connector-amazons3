@@ -16,404 +16,548 @@
  ~  specific language governing permissions and limitations
  ~  under the License.
 -->
-<proxy xmlns="http://ws.apache.org/ns/synapse" name="amazons3" transports="https,http" statistics="disable" trace="disable" startOnLoad="true">
-	<target>
-		<inSequence>
-			<property name="accessKeyId" expression="//accessKeyId/text()" />
-			<property name="secretAccessKey" expression="//secretAccessKey/text()" />
-			<property name="methodType" expression="//methodType/text()" />
-			<property name="contentType" expression="//contentType/text()" />
-			<property name="bucketName" expression="//bucketName/text()" />
-			<property name="isXAmzDate" expression="//isXAmzDate/text()" />
-			<property name="xAmzSecurityToken" expression="//xAmzSecurityToken/text()" />
-			<property name="contentMD5" expression="//contentMD5/text()" />
-			<property name="host" expression="//host/text()" />
-			<property name="expect" expression="//expect/text()" />
-			<property name="contentLength" expression="//contentLength/text()" />
-			<property name="bucketUrl" expression="//bucketUrl/text()" />
-			<property name="bucketRegion" expression="//bucketRegion/text()" />
-			<property name="xAmzAcl" expression="//xAmzAcl/text()" />
-			<property name="xAmzGrantRead" expression="//xAmzGrantRead/text()" />
-			<property name="xAmzGrantWrite" expression="//xAmzGrantWrite/text()" />
-			<property name="xAmzGrantReadAcp" expression="//xAmzGrantReadAcp/text()" />
-			<property name="xAmzGrantWriteAcp" expression="//xAmzGrantWriteAcp/text()" />
-			<property name="xAmzGrantFullControl" expression="//xAmzGrantFullControl/text()" />
-			<property name="xAmzCopySource" expression="//xAmzCopySource/text()" />
-			<property name="websiteConfig" expression="//websiteConfig/*" />
-			<property name="apiUrl" expression="//apiUrl/text()" />
-			<property name="cacheControl" expression="//cacheControl/text()" />
-			<property name="contentDisposition" expression="//contentDisposition/text()" />
-			<property name="contentEncoding" expression="//contentEncoding/text()" />
-			<property name="objectName" expression="//objectName/text()" />
-			<property name="expires" expression="//expires/text()" />
-			<property name="ownerId" expression="//ownerId/text()" />
-			<property name="bucketPolicy" expression="json-eval($.bucketPolicy)" />
-			<property name="ownerDisplayName" expression="//ownerDisplayName/text()" />
-			<property name="accessControlList" expression="//accessControlList/Grant" />
-			<property name="accessControlPolicy" expression="//accessControlPolicy/*" />
-			<property name="destinationObject" expression="//destinationObject/text()" />
-			<property name="delimiter" expression="//delimiter/text()" />
-			<property name="encodingType" expression="//encodingType/text()" />
-			<property name="delimiter" expression="//delimiter/text()" />
-			<property name="marker" expression="//marker/text()" />
-			<property name="maxKeys" expression="//maxKeys/text()" />
-			<property name="prefix" expression="//prefix/text()" />
-			<property name="keyMarker" expression="//keyMarker/text()" />
-			<property name="versionIdMarker" expression="//versionIdMarker/text()" />
-			<property name="responseContentType" expression="//responseContentType/text()" />
-			<property name="responseContentLanguage" expression="//responseContentLanguage/text()" />
-			<property name="responseExpires" expression="//responseExpires/text()" />
-			<property name="responseCacheControl" expression="//responseCacheControl/text()" />
-			<property name="responseContentDisposition" expression="//responseContentDisposition/text()" />
-			<property name="responseContentEncoding" expression="//responseContentEncoding/text()" />
-			<property name="range" expression="//range/text()" />
-			<property name="ifModifiedSince" expression="//ifModifiedSince/text()" />
-			<property name="ifUnmodifiedSince" expression="//ifUnmodifiedSince/text()" />
-			<property name="ifMatch" expression="//ifMatch/text()" />
-			<property name="ifNoneMatch" expression="//ifNoneMatch/text()" />
-			<property name="quiet" expression="//deleteConfig/Delete/Quiet/text()" />
-			<property name="deleteConfig" expression="//deleteConfig/Delete/Object" />
-			<property name="uploadId" expression="//uploadId/text()" />
-			<property name="partDetails" expression="//partDetails/node()" />
-			<property name="uriRemainder" expression="//uriRemainder/text()" />
-			<amazons3.init>
-				<accessKeyId>{$ctx:accessKeyId}</accessKeyId>
-				<secretAccessKey>{$ctx:secretAccessKey}</secretAccessKey>
-				<methodType>{$ctx:methodType}</methodType>
-				<contentType>{$ctx:contentType}</contentType>
-				<bucketName>{$ctx:bucketName}</bucketName>
-				<isXAmzDate>{$ctx:isXAmzDate}</isXAmzDate>
-				<expect>{$ctx:expect}</expect>
-				<contentMD5>{$ctx:contentMD5}</contentMD5>
-				<xAmzSecurityToken>{$ctx:xAmzSecurityToken}</xAmzSecurityToken>
-				<contentLength>{$ctx:contentLength}</contentLength>
-				<host>{$ctx:host}</host>
-				<xAmzAcl>{$ctx:xAmzAcl}</xAmzAcl>
-				<xAmzGrantRead>{$ctx:xAmzGrantRead}</xAmzGrantRead>
-				<xAmzGrantWrite>{$ctx:xAmzGrantWrite}</xAmzGrantWrite>
-				<xAmzGrantReadAcp>{$ctx:xAmzGrantReadAcp}</xAmzGrantReadAcp>
-				<xAmzGrantWriteAcp>{$ctx:xAmzGrantWriteAcp}</xAmzGrantWriteAcp>
-				<xAmzGrantFullControl>{$ctx:xAmzGrantFullControl}</xAmzGrantFullControl>
-				<xAmzCopySource>{$ctx:xAmzCopySource}</xAmzCopySource>
-			</amazons3.init>
-			<switch source="get-property('transport', 'Action')">
-				<case regex="urn:createBucket">
-					<amazons3.createBucket>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<bucketRegion>{$ctx:bucketRegion}</bucketRegion>
-					</amazons3.createBucket>
-				</case>
-				<case regex="urn:createBucketPolicy">
-					<amazons3.createBucketPolicy>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<bucketPolicy>{$ctx:bucketPolicy}</bucketPolicy>
-					</amazons3.createBucketPolicy>
-				</case>
-				<case regex="urn:createBucketWebsiteConfiguration">
-					<amazons3.createBucketWebsiteConfiguration>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<websiteConfig>{$ctx:websiteConfig}</websiteConfig>
-					</amazons3.createBucketWebsiteConfiguration>
-				</case>
-				<case regex="urn:deleteBucketPolicy">
-					<amazons3.deleteBucketPolicy>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.deleteBucketPolicy>
-				</case>
-				<case regex="urn:setBucketACL">
-					<amazons3.setBucketACL>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<accessControlPolicy>{$ctx:accessControlPolicy}</accessControlPolicy>
-					</amazons3.setBucketACL>
-				</case>
-				<case regex="urn:getBuckets">
-					<amazons3.getBuckets>
-						<apiUrl>{$ctx:apiUrl}</apiUrl>
-					</amazons3.getBuckets>
-				</case>
-				<case regex="urn:getBucketVersioning">
-					<amazons3.getBucketVersioning>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketVersioning>
-				</case>
-				<case regex="urn:getBucketReplication">
-					<amazons3.getBucketReplication>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketReplication>
-				</case>
-				<case regex="urn:getBucketRequestPayment">
-					<amazons3.getBucketRequestPayment>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketRequestPayment>
-				</case>
-				<case regex="urn:getBucketACL">
-					<amazons3.getBucketACL>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketACL>
-				</case>
-				<case regex="urn:getBucketTagging">
-					<amazons3.getBucketTagging>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketTagging>
-				</case>
-				<case regex="urn:getBucketLifeCycle">
-					<amazons3.getBucketLifeCycle>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketLifeCycle>
-				</case>
-				<case regex="urn:getWebSiteConfiguration">
-					<amazons3.getWebSiteConfiguration>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getWebSiteConfiguration>
-				</case>
-				<case regex="urn:getBucketPolicy">
-					<amazons3.getBucketPolicy>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketPolicy>
-				</case>
-				<case regex="urn:getBucketVersioning">
-					<amazons3.getBucketVersioning>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketVersioning>
-				</case>
-				<case regex="urn:getBucketRequestPayment">
-					<amazons3.getBucketRequestPayment>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketRequestPayment>
-				</case>
-				<case regex="urn:getBucketACL">
-					<amazons3.getBucketACL>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketACL>
-				</case>
+<proxy xmlns="http://ws.apache.org/ns/synapse" name="amazons3" transports="https,http" statistics="disable"
+       trace="disable" startOnLoad="true">
+    <target>
+        <inSequence>
+            <property name="accessKeyId" expression="//accessKeyId/text()"/>
+            <property name="secretAccessKey" expression="//secretAccessKey/text()"/>
+            <property name="methodType" expression="//methodType/text()"/>
+            <property name="contentType" expression="//contentType/text()"/>
+            <property name="bucketName" expression="//bucketName/text()"/>
+            <property name="isXAmzDate" expression="//isXAmzDate/text()"/>
+            <property name="xAmzSecurityToken" expression="//xAmzSecurityToken/text()"/>
+            <property name="contentMD5" expression="//contentMD5/text()"/>
+            <property name="host" expression="//host/text()"/>
+            <property name="expect" expression="//expect/text()"/>
+            <property name="contentLength" expression="//contentLength/text()"/>
+            <property name="bucketUrl" expression="//bucketUrl/text()"/>
+            <property name="bucketRegion" expression="//bucketRegion/text()"/>
+            <property name="xAmzAcl" expression="//xAmzAcl/text()"/>
+            <property name="xAmzGrantRead" expression="//xAmzGrantRead/text()"/>
+            <property name="xAmzGrantWrite" expression="//xAmzGrantWrite/text()"/>
+            <property name="xAmzGrantReadAcp" expression="//xAmzGrantReadAcp/text()"/>
+            <property name="xAmzGrantWriteAcp" expression="//xAmzGrantWriteAcp/text()"/>
+            <property name="xAmzGrantFullControl" expression="//xAmzGrantFullControl/text()"/>
+            <property name="xAmzCopySource" expression="//xAmzCopySource/text()"/>
+            <property name="xAmzCopySourceRange" expression="//xAmzCopySourceRange/text()"/>
+            <property name="xAmzCopySourceIfMatch" expression="//xAmzCopySourceIfMatch/text()"/>
+            <property name="xAmzCopySourceIfNoneMatch" expression="//xAmzCopySourceIfNoneMatch/text()"/>
+            <property name="xAmzCopySourceIfUnmodifiedSince" expression="//xAmzCopySourceIfUnmodifiedSince/text()"/>
+            <property name="xAmzCopySourceIfModifiedSince" expression="//xAmzCopySourceIfModifiedSince/text()"/>
+            <property name="xAmzMetadataDirective" expression="//xAmzMetadataDirective/text()"/>
+            <property name="xAmzWebsiteLocation" expression="//xAmzWebsiteLocation/text()"/>
+            <property name="xAmzStorageClass" expression="//xAmzStorageClass/text()"/>
+            <property name="xAmzServeEncryption" expression="//xAmzServeEncryption/text()"/>
+            <property name="xAmzMeta" expression="//xAmzMeta/text()"/>
+            <property name="expires" expression="//expires/text()"/>
+            <property name="contentEncoding" expression="//contentEncoding/text()"/>
+            <property name="xAmzMeta" expression="//xAmzMeta/text()"/>
+            <property name="websiteConfig" expression="//websiteConfig/*"/>
+            <property name="apiUrl" expression="//apiUrl/text()"/>
+            <property name="cacheControl" expression="//cacheControl/text()"/>
+            <property name="contentDisposition" expression="//contentDisposition/text()"/>
+            <property name="objectName" expression="//objectName/text()"/>
+            <property name="expires" expression="//expires/text()"/>
+            <property name="ownerId" expression="//ownerId/text()"/>
+            <property name="bucketPolicy" expression="json-eval($.bucketPolicy)"/>
+            <property name="ownerDisplayName" expression="//ownerDisplayName/text()"/>
+            <property name="accessControlList" expression="//accessControlList/Grants/*"/>
+            <property name="accessControlPolicy" expression="//accessControlPolicy/*"/>
+            <property name="destinationObject" expression="//destinationObject/text()"/>
+            <property name="delimiter" expression="//delimiter/text()"/>
+            <property name="encodingType" expression="//encodingType/text()"/>
+            <property name="delimiter" expression="//delimiter/text()"/>
+            <property name="marker" expression="//marker/text()"/>
+            <property name="maxKeys" expression="//maxKeys/text()"/>
+            <property name="prefix" expression="//prefix/text()"/>
+            <property name="keyMarker" expression="//keyMarker/text()"/>
+            <property name="versionIdMarker" expression="//versionIdMarker/text()"/>
+            <property name="responseContentType" expression="//responseContentType/text()"/>
+            <property name="responseContentLanguage" expression="//responseContentLanguage/text()"/>
+            <property name="responseExpires" expression="//responseExpires/text()"/>
+            <property name="responseCacheControl" expression="//responseCacheControl/text()"/>
+            <property name="responseContentDisposition" expression="//responseContentDisposition/text()"/>
+            <property name="responseContentEncoding" expression="//responseContentEncoding/text()"/>
+            <property name="range" expression="//range/text()"/>
+            <property name="ifModifiedSince" expression="//ifModifiedSince/text()"/>
+            <property name="ifUnmodifiedSince" expression="//ifUnmodifiedSince/text()"/>
+            <property name="ifMatch" expression="//ifMatch/text()"/>
+            <property name="ifNoneMatch" expression="//ifNoneMatch/text()"/>
+            <property name="quiet" expression="//deleteConfig/Quiet/text()"/>
+            <property name="deleteConfig" expression="//deleteConfig/Objects/*"/>
+            <property name="uploadId" expression="//uploadId/text()"/>
+            <property name="partDetails" expression="//partDetails/node()"/>
+            <property name="uriRemainder" expression="//uriRemainder/text()"/>
+            <property name="rules" expression="//rules/*"/>
+            <property name="role" expression="//role/text()"/>
+            <property name="corsConfiguration" expression="//corsConfiguration/*"/>
+            <property name="status" expression="//status/text()"/>
+            <property name="mfaDelete" expression="//mfaDelete/text()"/>
+            <property name="tagSet" expression="//tagSet/*"/>
+            <property name="versionId" expression="//versionId/text()"/>
+            <property name="numberOfDays" expression="//numberOfDays/text()"/>
+            <property name="lifecycleConfiguration" expression="//lifecycleConfiguration/*"/>
+            <property name="partNumber" expression="//partNumber/text()"/>
+            <property name="partNumberMarker" expression="//partNumberMarker/text()"/>
+            <property name="payer" expression="//payer/text()"/>
+            <property name="uriRemainder" expression="//uriRemainder/text()"/>
+            <amazons3.init>
+                <accessKeyId>{$ctx:accessKeyId}</accessKeyId>
+                <secretAccessKey>{$ctx:secretAccessKey}</secretAccessKey>
+                <methodType>{$ctx:methodType}</methodType>
+                <contentType>{$ctx:contentType}</contentType>
+                <bucketName>{$ctx:bucketName}</bucketName>
+                <isXAmzDate>{$ctx:isXAmzDate}</isXAmzDate>
+                <expect>{$ctx:expect}</expect>
+                <contentMD5>{$ctx:contentMD5}</contentMD5>
+                <xAmzSecurityToken>{$ctx:xAmzSecurityToken}</xAmzSecurityToken>
+                <contentLength>{$ctx:contentLength}</contentLength>
+                <host>{$ctx:host}</host>
+                <xAmzAcl>{$ctx:xAmzAcl}</xAmzAcl>
+                <xAmzGrantRead>{$ctx:xAmzGrantRead}</xAmzGrantRead>
+                <xAmzGrantWrite>{$ctx:xAmzGrantWrite}</xAmzGrantWrite>
+                <xAmzGrantReadAcp>{$ctx:xAmzGrantReadAcp}</xAmzGrantReadAcp>
+                <xAmzGrantWriteAcp>{$ctx:xAmzGrantWriteAcp}</xAmzGrantWriteAcp>
+                <xAmzGrantFullControl>{$ctx:xAmzGrantFullControl}</xAmzGrantFullControl>
+                <uriRemainder>{$ctx:uriRemainder}</uriRemainder>
+                <xAmzCopySource>{$ctx:xAmzCopySource}</xAmzCopySource>
+                <xAmzCopySourceRange>{$ctx:xAmzCopySourceRange}</xAmzCopySourceRange>
+                <xAmzCopySourceIfMatch>{$ctx:xAmzCopySourceIfMatch}</xAmzCopySourceIfMatch>
+                <xAmzCopySourceIfNoneMatch>{$ctx:xAmzCopySourceIfNoneMatch}</xAmzCopySourceIfNoneMatch>
+                <xAmzCopySourceIfUnmodifiedSince>{$ctx:xAmzCopySourceIfUnmodifiedSince}</xAmzCopySourceIfUnmodifiedSince>
+                <xAmzCopySourceIfModifiedSince>{$ctx:xAmzCopySourceIfModifiedSince}</xAmzCopySourceIfModifiedSince>
+                <cacheControl>{$ctx:cacheControl}</cacheControl>
+                <contentEncoding>{$ctx:contentEncoding}</contentEncoding>
+                <expires>{$ctx:expires}</expires>
+                <xAmzMeta>{$ctx:xAmzMeta}</xAmzMeta>
+                <xAmzServeEncryption>{$ctx:xAmzServeEncryption}</xAmzServeEncryption>
+                <xAmzStorageClass>{$ctx:xAmzStorageClass}</xAmzStorageClass>
+                <xAmzWebsiteLocation>{$ctx:xAmzWebsiteLocation}</xAmzWebsiteLocation>
+            </amazons3.init>
+            <switch source="get-property('transport', 'Action')">
+                <case regex="urn:createBucket">
+                    <amazons3.createBucket>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <bucketRegion>{$ctx:bucketRegion}</bucketRegion>
+                    </amazons3.createBucket>
+                </case>
+                <case regex="urn:createBucketPolicy">
+                    <amazons3.createBucketPolicy>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <bucketPolicy>{$ctx:bucketPolicy}</bucketPolicy>
+                    </amazons3.createBucketPolicy>
+                </case>
+                <case regex="urn:createBucketWebsiteConfiguration">
+                    <amazons3.createBucketWebsiteConfiguration>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <websiteConfig>{$ctx:websiteConfig}</websiteConfig>
+                    </amazons3.createBucketWebsiteConfiguration>
+                </case>
+                <case regex="urn:deleteBucketPolicy">
+                    <amazons3.deleteBucketPolicy>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.deleteBucketPolicy>
+                </case>
+                <case regex="urn:setBucketACL">
+                    <amazons3.setBucketACL>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <accessControlPolicy>{$ctx:accessControlPolicy}</accessControlPolicy>
+                    </amazons3.setBucketACL>
+                </case>
+                <case regex="urn:getBuckets">
+                    <amazons3.getBuckets>
+                        <apiUrl>{$ctx:apiUrl}</apiUrl>
+                    </amazons3.getBuckets>
+                </case>
+                <case regex="urn:createBucketVersioning">
+                    <amazons3.createBucketVersioning>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <status>{$ctx:status}</status>
+                        <mfaDelete>{$ctx:mfaDelete}</mfaDelete>
+                    </amazons3.createBucketVersioning>
+                </case>
+                <case regex="urn:getBucketVersioning">
+                    <amazons3.getBucketVersioning>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketVersioning>
+                </case>
+                <case regex="urn:createBucketReplication">
+                    <amazons3.createBucketReplication>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <role>{$ctx:role}</role>
+                        <rules>{$ctx:rules}</rules>
+                    </amazons3.createBucketReplication>
+                </case>
+                <case regex="urn:getBucketReplication">
+                    <amazons3.getBucketReplication>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketReplication>
+                </case>
+                <case regex="urn:getBucketRequestPayment">
+                    <amazons3.getBucketRequestPayment>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketRequestPayment>
+                </case>
+                <case regex="urn:getBucketACL">
+                    <amazons3.getBucketACL>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketACL>
+                </case>
+                <case regex="urn:createBucketTagging">
+                    <amazons3.createBucketTagging>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <tagSet>{$ctx:tagSet}</tagSet>
+                    </amazons3.createBucketTagging>
+                </case>
+                <case regex="urn:getBucketTagging">
+                    <amazons3.getBucketTagging>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketTagging>
+                </case>
+                <case regex="urn:getBucketLifeCycle">
+                    <amazons3.getBucketLifeCycle>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketLifeCycle>
+                </case>
+                <case regex="urn:createBucketLifecycle">
+                    <amazons3.createBucketLifecycle>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <lifecycleConfiguration>{$ctx:lifecycleConfiguration}</lifecycleConfiguration>
+                    </amazons3.createBucketLifecycle>
+                </case>
+                <case regex="urn:getWebSiteConfiguration">
+                    <amazons3.getWebSiteConfiguration>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getWebSiteConfiguration>
+                </case>
+                <case regex="urn:getBucketPolicy">
+                    <amazons3.getBucketPolicy>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketPolicy>
+                </case>
+                <case regex="urn:getBucketVersioning">
+                    <amazons3.getBucketVersioning>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketVersioning>
+                </case>
+                <case regex="urn:getBucketRequestPayment">
+                    <amazons3.getBucketRequestPayment>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketRequestPayment>
+                </case>
                 <case regex="urn:getBucketLocation">
-					<amazons3.getBucketLocation>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketLocation>
-				</case>
+                    <amazons3.getBucketLocation>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketLocation>
+                </case>
                 <case regex="urn:getBucketLogging">
-					<amazons3.getBucketLogging>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketLogging>
-				</case>
-				<case regex="urn:getBucketLifeCycle">
-					<amazons3.getBucketLifeCycle>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketLifeCycle>
-				</case>
-				<case regex="urn:getBucketCors">
-					<amazons3.getBucketCors>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketCors>
-				</case>
-				<case regex="urn:getBucketNotification">
-					<amazons3.getBucketNotification>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketNotification>
-				</case>
-				<case regex="urn:getWebSiteConfiguration">
-					<amazons3.getWebSiteConfiguration>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getWebSiteConfiguration>
-				</case>
-				<case regex="urn:getBucketPolicy">
-					<amazons3.getBucketPolicy>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.getBucketPolicy>
-				</case>
-				<case regex="urn:createObjectACL">
-					<amazons3.createObjectACL>
-						<objectName>{$ctx:objectName}</objectName>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<ownerId>{$ctx:ownerId}</ownerId>
-						<ownerDisplayName>{$ctx:ownerDisplayName}</ownerDisplayName>
-						<accessControlList>{$ctx:accessControlList}</accessControlList>
-					</amazons3.createObjectACL>
-				</case>
-				<case regex="urn:createBucketCors">
-					<amazons3.createBucketCors>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<corsConfiguration>{$ctx:corsConfiguration}</corsConfiguration>
-					</amazons3.createBucketCors>
-				</case>
-				<case regex="urn:createObjectCopy">
-					<amazons3.createObjectCopy>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<destinationObject>{$ctx:destinationObject}</destinationObject>
-					</amazons3.createObjectCopy>
-				</case>
-				<case regex="urn:getObjectsInBucket">
-					<amazons3.getObjectsInBucket>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<delimiter>{$ctx:delimiter}</delimiter>
-						<encodingType>{$ctx:encodingType}</encodingType>
-						<marker>{$ctx:marker}</marker>
-						<maxKeys>{$ctx:maxKeys}</maxKeys>
-						<prefix>{$ctx:prefix}</prefix>
-					</amazons3.getObjectsInBucket>
-				</case>
-				<case regex="urn:getBucketObjectVersions">
-					<amazons3.getBucketObjectVersions>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<delimiter>{$ctx:delimiter}</delimiter>
-						<encodingType>{$ctx:encodingType}</encodingType>
-						<keyMarker>{$ctx:keyMarker}</keyMarker>
-						<maxKeys>{$ctx:maxKeys}</maxKeys>
-						<prefix>{$ctx:prefix}</prefix>
-						<versionIdMarker>{$ctx:versionIdMarker}</versionIdMarker>
-					</amazons3.getBucketObjectVersions>
-				</case>
-				<case regex="urn:getObject">
-					<amazons3.getObject>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<objectName>{$ctx:objectName}</objectName>
-						<responseContentType>{$ctx:responseContentType}</responseContentType>
-						<responseContentLanguage>{$ctx:responseContentLanguage}</responseContentLanguage>
-						<responseExpires>{$ctx:responseExpires}</responseExpires>
-						<responseCacheControl>{$ctx:responseCacheControl}</responseCacheControl>
-						<responseContentDisposition>{$ctx:responseContentDisposition}</responseContentDisposition>
-						<responseContentEncoding>{$ctx:responseContentEncoding}</responseContentEncoding>
-						<range>{$ctx:range}</range>
-						<ifModifiedSince>{$ctx:ifModifiedSince}</ifModifiedSince>
-						<ifUnmodifiedSince>{$ctx:ifUnmodifiedSince}</ifUnmodifiedSince>
-						<ifMatch>{$ctx:ifMatch}</ifMatch>
-						<ifNoneMatch>{$ctx:ifNoneMatch}</ifNoneMatch>
-					</amazons3.getObject>
-				</case>
-				<case regex="urn:getObjectMetaData">
-					<amazons3.getObjectMetaData>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<objectName>{$ctx:objectName}</objectName>
-						<range>{$ctx:range}</range>
-						<ifModifiedSince>{$ctx:ifModifiedSince}</ifModifiedSince>
-						<ifUnmodifiedSince>{$ctx:ifUnmodifiedSince}</ifUnmodifiedSince>
-						<ifMatch>{$ctx:ifMatch}</ifMatch>
-						<ifNoneMatch>{$ctx:ifNoneMatch}</ifNoneMatch>
-					</amazons3.getObjectMetaData>
-				</case>
-				<case regex="urn:checkBucketPermission">
-					<amazons3.checkBucketPermission>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.checkBucketPermission>
-				</case>
-				<case regex="urn:deleteObject">
-					<amazons3.deleteObject>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<objectName>{$ctx:objectName}</objectName>
-						<versionId>{$ctx:versionId}</versionId>
-					</amazons3.deleteObject>
-				</case>
-				<case regex="urn:deleteMultipleObjects">
-					<amazons3.deleteMultipleObjects>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<quiet>{$ctx:quiet}</quiet>
-						<deleteConfig>{$ctx:deleteConfig}</deleteConfig>
-					</amazons3.deleteMultipleObjects>
-				</case>
-				<case regex="urn:deleteBucketWebsiteConfiguration">
-					<amazons3.deleteBucketWebsiteConfiguration>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.deleteBucketWebsiteConfiguration>
-				</case>
-				<case regex="urn:deleteBucket">
-					<amazons3.deleteBucket>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.deleteBucket>
-				</case>
-				<case regex="urn:initMultipartUpload">
-					<amazons3.initMultipartUpload>
-						<cacheControl>{$ctx:cacheControl}</cacheControl>
-						<contentDisposition>{$ctx:contentDisposition}</contentDisposition>
-						<contentEncoding>{$ctx:contentEncoding}</contentEncoding>
-						<expires>{$ctx:expires}</expires>
-						<objectName>{$ctx:objectName}</objectName>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-					</amazons3.initMultipartUpload>
-				</case>
-				<case regex="urn:abortMultipartUpload">
-					<amazons3.abortMultipartUpload>
-						<cacheControl>{$ctx:cacheControl}</cacheControl>
-						<contentDisposition>{$ctx:contentDisposition}</contentDisposition>
-						<contentEncoding>{$ctx:contentEncoding}</contentEncoding>
-						<expires>{$ctx:expires}</expires>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<objectName>{$ctx:objectName}</objectName>
-						<uploadId>{$ctx:uploadId}</uploadId>
-					</amazons3.abortMultipartUpload>
-				</case>
-				<case regex="urn:completeMultipartUpload">
-					<amazons3.completeMultipartUpload>
-						<partDetails>{$ctx:partDetails}</partDetails>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<objectName>{$ctx:objectName}</objectName>
-						<uploadId>{$ctx:uploadId}</uploadId>
-					</amazons3.completeMultipartUpload>
-				</case>
-				<case regex="urn:getAuthorization">
-					<amazons3.getAuthorization>
-						<uriRemainder>{$ctx:uriRemainder}</uriRemainder>
-					</amazons3.getAuthorization>
-				</case>
-				<case regex="urn:listMultipartUploads">
-					<amazons3.listMultipartUploads>
-						<bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-						<maxUploads>{$ctx:maxUploads}</maxUploads>
-					</amazons3.listMultipartUploads>
-				</case>
-				<case regex="urn:listParts">
-	               <amazons3.listParts>
-	                  <uploadId>{$ctx:uploadId}</uploadId>
-	                  <contentEncoding>{$ctx:contentEncoding}</contentEncoding>
-	                  <encodingType>{$ctx:encodingType}</encodingType>
-	                  <maxParts>{$ctx:maxParts}</maxParts>
-	                  <partNumberMarker>{$ctx:partNumberMarker}</partNumberMarker>
-	                  <objectName>{$ctx:objectName}</objectName>
-	                  <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
-	               </amazons3.listParts>
-	            </case>
-			</switch>
-			<filter source="$axis2:HTTP_SC" regex="^[^2][0-9][0-9]">
-				<then>
-					<switch source="$axis2:HTTP_SC">
-						<case regex="401">
-							<property name="ERROR_CODE" value="600401" />
-							<property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)" />
-							<property name="error_description" expression="json-eval($.Error.Message)" />
-						</case>
-						<case regex="404">
-							<property name="ERROR_CODE" value="600404" />
-							<property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)" />
-							<property name="error_description" expression="json-eval($.Error.Message)" />
-						</case>
-						<case regex="403">
-							<property name="ERROR_CODE" value="600403" />
-							<property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)" />
-							<property name="error_description" expression="json-eval($.Error.Message)" />
-						</case>
-						<case regex="400">
-							<property name="ERROR_CODE" value="600400" />
-							<property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)" />
-							<property name="error_description" expression="json-eval($.Error.Message)" />
-						</case>
-						<case regex="500">
-							<property name="ERROR_CODE" value="600500" />
-							<property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)" />
-							<property name="error_description" expression="json-eval($.Error.Message)" />
-						</case>
-						<default>
-							<property name="ERROR_CODE" expression="$axis2:HTTP_SC" />
-							<property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)" />
-							<property name="error_description" expression="json-eval($.Error.Message)" />
-						</default>
-					</switch>
-				</then>
-			</filter>
-			<respond />
-		</inSequence>
-		<outSequence>
-			<log />
-			<send />
-		</outSequence>
-	</target>
-	<description />
-</proxy>                             
+                    <amazons3.getBucketLogging>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketLogging>
+                </case>
+                <case regex="urn:getBucketLifeCycle">
+                    <amazons3.getBucketLifeCycle>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketLifeCycle>
+                </case>
+                <case regex="urn:getBucketCors">
+                    <amazons3.getBucketCors>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketCors>
+                </case>
+                <case regex="urn:getBucketNotification">
+                    <amazons3.getBucketNotification>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketNotification>
+                </case>
+                <case regex="urn:getWebSiteConfiguration">
+                    <amazons3.getWebSiteConfiguration>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getWebSiteConfiguration>
+                </case>
+                <case regex="urn:getBucketPolicy">
+                    <amazons3.getBucketPolicy>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getBucketPolicy>
+                </case>
+                <case regex="urn:getObjectACL">
+                    <amazons3.getObjectACL>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getObjectACL>
+                </case>
+                <case regex="urn:createObjectACL">
+                    <amazons3.createObjectACL>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <ownerId>{$ctx:ownerId}</ownerId>
+                        <ownerDisplayName>{$ctx:ownerDisplayName}</ownerDisplayName>
+                        <accessControlList>{$ctx:accessControlList}</accessControlList>
+                        <versionId>{$ctx:versionId}</versionId>
+                    </amazons3.createObjectACL>
+                </case>
+                <case regex="urn:createBucketCors">
+                    <amazons3.createBucketCors>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <corsConfiguration>{$ctx:corsConfiguration}</corsConfiguration>
+                    </amazons3.createBucketCors>
+                </case>
+                <case regex="urn:createObjectCopy">
+                    <amazons3.createObjectCopy>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <destinationObject>{$ctx:destinationObject}</destinationObject>
+                    </amazons3.createObjectCopy>
+                </case>
+                <case regex="urn:getObjectsInBucket">
+                    <amazons3.getObjectsInBucket>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <delimiter>{$ctx:delimiter}</delimiter>
+                        <encodingType>{$ctx:encodingType}</encodingType>
+                        <marker>{$ctx:marker}</marker>
+                        <maxKeys>{$ctx:maxKeys}</maxKeys>
+                        <prefix>{$ctx:prefix}</prefix>
+                    </amazons3.getObjectsInBucket>
+                </case>
+                <case regex="urn:getBucketObjectVersions">
+                    <amazons3.getBucketObjectVersions>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <delimiter>{$ctx:delimiter}</delimiter>
+                        <encodingType>{$ctx:encodingType}</encodingType>
+                        <keyMarker>{$ctx:keyMarker}</keyMarker>
+                        <maxKeys>{$ctx:maxKeys}</maxKeys>
+                        <prefix>{$ctx:prefix}</prefix>
+                        <versionIdMarker>{$ctx:versionIdMarker}</versionIdMarker>
+                    </amazons3.getBucketObjectVersions>
+                </case>
+                <case regex="urn:getObjectTorrent">
+                    <amazons3.getObjectTorrent>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.getObjectTorrent>
+                </case>
+                <case regex="urn:getObject">
+                    <amazons3.getObject>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <responseContentType>{$ctx:responseContentType}</responseContentType>
+                        <responseContentLanguage>{$ctx:responseContentLanguage}</responseContentLanguage>
+                        <responseExpires>{$ctx:responseExpires}</responseExpires>
+                        <responseCacheControl>{$ctx:responseCacheControl}</responseCacheControl>
+                        <responseContentDisposition>{$ctx:responseContentDisposition}</responseContentDisposition>
+                        <responseContentEncoding>{$ctx:responseContentEncoding}</responseContentEncoding>
+                        <range>{$ctx:range}</range>
+                        <ifModifiedSince>{$ctx:ifModifiedSince}</ifModifiedSince>
+                        <ifUnmodifiedSince>{$ctx:ifUnmodifiedSince}</ifUnmodifiedSince>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                        <ifNoneMatch>{$ctx:ifNoneMatch}</ifNoneMatch>
+                    </amazons3.getObject>
+                </case>
+                <case regex="urn:getObjectMetaData">
+                    <amazons3.getObjectMetaData>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <range>{$ctx:range}</range>
+                        <ifModifiedSince>{$ctx:ifModifiedSince}</ifModifiedSince>
+                        <ifUnmodifiedSince>{$ctx:ifUnmodifiedSince}</ifUnmodifiedSince>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                        <ifNoneMatch>{$ctx:ifNoneMatch}</ifNoneMatch>
+                    </amazons3.getObjectMetaData>
+                </case>
+                <case regex="urn:checkBucketPermission">
+                    <amazons3.checkBucketPermission>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.checkBucketPermission>
+                </case>
+                <case regex="urn:deleteObject">
+                    <amazons3.deleteObject>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <versionId>{$ctx:versionId}</versionId>
+                    </amazons3.deleteObject>
+                </case>
+                <case regex="urn:deleteMultipleObjects">
+                    <amazons3.deleteMultipleObjects>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <quiet>{$ctx:quiet}</quiet>
+                        <deleteConfig>{$ctx:deleteConfig}</deleteConfig>
+                    </amazons3.deleteMultipleObjects>
+                </case>
+                <case regex="urn:deleteBucketWebsiteConfiguration">
+                    <amazons3.deleteBucketWebsiteConfiguration>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.deleteBucketWebsiteConfiguration>
+                </case>
+                <case regex="urn:deleteBucket">
+                    <amazons3.deleteBucket>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.deleteBucket>
+                </case>
+                <case regex="urn:initMultipartUpload">
+                    <amazons3.initMultipartUpload>
+                        <cacheControl>{$ctx:cacheControl}</cacheControl>
+                        <contentDisposition>{$ctx:contentDisposition}</contentDisposition>
+                        <contentEncoding>{$ctx:contentEncoding}</contentEncoding>
+                        <expires>{$ctx:expires}</expires>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.initMultipartUpload>
+                </case>
+                <case regex="urn:abortMultipartUpload">
+                    <amazons3.abortMultipartUpload>
+                        <cacheControl>{$ctx:cacheControl}</cacheControl>
+                        <contentDisposition>{$ctx:contentDisposition}</contentDisposition>
+                        <contentEncoding>{$ctx:contentEncoding}</contentEncoding>
+                        <expires>{$ctx:expires}</expires>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <uploadId>{$ctx:uploadId}</uploadId>
+                    </amazons3.abortMultipartUpload>
+                </case>
+                <case regex="urn:completeMultipartUpload">
+                    <amazons3.completeMultipartUpload>
+                        <partDetails>{$ctx:partDetails}</partDetails>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <uploadId>{$ctx:uploadId}</uploadId>
+                    </amazons3.completeMultipartUpload>
+                </case>
+                <case regex="urn:listMultipartUploads">
+                    <amazons3.listMultipartUploads>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <maxUploads>{$ctx:maxUploads}</maxUploads>
+                    </amazons3.listMultipartUploads>
+                </case>
+                <case regex="urn:listParts">
+                    <amazons3.listParts>
+                        <uploadId>{$ctx:uploadId}</uploadId>
+                        <contentEncoding>{$ctx:contentEncoding}</contentEncoding>
+                        <encodingType>{$ctx:encodingType}</encodingType>
+                        <maxParts>{$ctx:maxParts}</maxParts>
+                        <partNumberMarker>{$ctx:partNumberMarker}</partNumberMarker>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.listParts>
+                </case>
+                <case regex="urn:uploadPartCopy">
+                    <amazons3.uploadPartCopy>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <uploadId>{$ctx:uploadId}</uploadId>
+                        <partNumber>{$ctx:partNumber}</partNumber>
+                    </amazons3.uploadPartCopy>
+                </case>
+                <case regex="urn:restoreObject">
+                    <amazons3.restoreObject>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <numberOfDays>{$ctx:numberOfDays}</numberOfDays>
+                        <versionId>{$ctx:versionId}</versionId>
+                    </amazons3.restoreObject>
+                </case>
+                <case regex="urn:headObject">
+                    <amazons3.headObject>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <range>{$ctx:range}</range>
+                        <ifModifiedSince>{$ctx:ifModifiedSince}</ifModifiedSince>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                        <ifNoneMatch>{$ctx:ifNoneMatch}</ifNoneMatch>
+                        <ifUnmodifiedSince>{$ctx:ifUnmodifiedSince}</ifUnmodifiedSince>
+                    </amazons3.headObject>
+                </case>
+                <case regex="urn:createBucketACL">
+                    <amazons3.createBucketACL>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <ownerId>{$ctx:ownerId}</ownerId>
+                        <ownerDisplayName>{$ctx:ownerDisplayName}</ownerDisplayName>
+                        <accessControlList>{$ctx:accessControlList}</accessControlList>
+                    </amazons3.createBucketACL>
+                </case>
+                <case regex="urn:createBucketRequestPayment">
+                    <amazons3.createBucketRequestPayment>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <payer>{$ctx:payer}</payer>
+                    </amazons3.createBucketRequestPayment>
+                </case>
+                <case regex="urn:deleteBucketCors">
+                    <amazons3.deleteBucketCors>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.deleteBucketCors>
+                </case>
+                <case regex="urn:deleteBucketLifecycle">
+                    <amazons3.deleteBucketLifecycle>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.deleteBucketLifecycle>
+                </case>
+                <case regex="urn:deleteBucketReplication">
+                    <amazons3.deleteBucketReplication>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.deleteBucketReplication>
+                </case>
+                <case regex="urn:deleteBucketTagging">
+                    <amazons3.deleteBucketTagging>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.deleteBucketTagging>
+                </case>
+                <case regex="urn:headBucket">
+                    <amazons3.headBucket>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                    </amazons3.headBucket>
+                </case>
+                <case regex="urn:uploadPartCopy">
+                    <!--<property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>-->
+                    <!--<property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>-->
+                    <amazons3.uploadPartCopy>
+                        <objectName>{$ctx:objectName}</objectName>
+                        <bucketUrl>{$ctx:bucketUrl}</bucketUrl>
+                        <uploadId>{$ctx:uploadId}</uploadId>
+                        <partNumber>{$ctx:partNumber}</partNumber>
+                    </amazons3.uploadPartCopy>
+                </case>
+            </switch>
+            <filter source="$axis2:HTTP_SC" regex="^[^2][0-9][0-9]">
+                <then>
+                    <switch source="$axis2:HTTP_SC">
+                        <case regex="401">
+                            <property name="ERROR_CODE" value="600401"/>
+                            <property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)"/>
+                            <property name="error_description" expression="json-eval($.Error.Message)"/>
+                        </case>
+                        <case regex="404">
+                            <property name="ERROR_CODE" value="600404"/>
+                            <property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)"/>
+                            <property name="error_description" expression="json-eval($.Error.Message)"/>
+                        </case>
+                        <case regex="403">
+                            <property name="ERROR_CODE" value="600403"/>
+                            <property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)"/>
+                            <property name="error_description" expression="json-eval($.Error.Message)"/>
+                        </case>
+                        <case regex="400">
+                            <property name="ERROR_CODE" value="600400"/>
+                            <property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)"/>
+                            <property name="error_description" expression="json-eval($.Error.Message)"/>
+                        </case>
+                        <case regex="500">
+                            <property name="ERROR_CODE" value="600500"/>
+                            <property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)"/>
+                            <property name="error_description" expression="json-eval($.Error.Message)"/>
+                        </case>
+                        <default>
+                            <property name="ERROR_CODE" expression="$axis2:HTTP_SC"/>
+                            <property name="ERROR_MESSAGE" expression="json-eval($.Error.Code)"/>
+                            <property name="error_description" expression="json-eval($.Error.Message)"/>
+                        </default>
+                    </switch>
+                </then>
+            </filter>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <send/>
+        </outSequence>
+    </target>
+    <description/>
+</proxy>

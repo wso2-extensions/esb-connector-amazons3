@@ -1,0 +1,33 @@
+<createBucketLifecycle>
+    <accessKeyId>%s</accessKeyId>
+    <secretAccessKey>%s</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentType>application/xml; charset=UTF-8</contentType>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5> 
+    <bucketName>%s</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <host></host>
+    <expect></expect>
+    <bucketUrl>%s</bucketUrl>
+    <lifecycleConfiguration>
+        <Rule>
+            <ID>id1</ID>
+            <Prefix>documents/</Prefix>
+            <Status>Enabled</Status>
+            <Transition>
+                <Days>30</Days>
+                <StorageClass>GLACIER</StorageClass>
+            </Transition>
+        </Rule>
+        <Rule>
+            <ID>id2</ID>
+            <Prefix>logs/</Prefix>
+            <Status>Enabled</Status>
+            <Expiration>
+                <Days>365</Days>
+            </Expiration>
+        </Rule>
+    </lifecycleConfiguration>
+</createBucketLifecycle>

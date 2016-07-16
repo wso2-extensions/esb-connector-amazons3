@@ -21,33 +21,36 @@
        transports="https http"
        startOnLoad="true"
        trace="disable">
-   <description/>
-   <target>
-      <inSequence>
-         <switch source="get-property('transport', 'Action')">
-            <case regex="urn:createObject">
-               <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
-               <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
-               <amazons3.createObject>
-	              <bucketUrl>{$url:bucketUrl}</bucketUrl>
-	             </amazons3.createObject>
-            </case>
-            <case regex="urn:uploadPart">
-               <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
-               <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
-               <amazons3.uploadPart>
-	              <bucketUrl>{$url:bucketUrl}</bucketUrl>
-	              <objectName>{$url:objectName}</objectName>
-	              <uploadId>{$url:uploadId}</uploadId>
-	              <partNumber>{$url:partNumber}</partNumber>
-	             </amazons3.uploadPart>
-            </case>
-         </switch>
-         <respond/>
-      </inSequence>
-      <outSequence>
-         <log/>
-         <send/>
-      </outSequence>
-   </target>
+    <description/>
+    <target>
+        <inSequence>
+            <property name="contentType" expression="$trp:Content-Type"/>
+            <switch source="get-property('transport', 'Action')">
+                <case regex="urn:uploadPart">
+                    <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
+                    <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
+                    <amazons3.init>
+                        <accessKeyId>{$url:accessKeyId}</accessKeyId>
+                        <secretAccessKey>{$url:secretAccessKey}</secretAccessKey>
+                        <bucketName>{$url:bucketName}</bucketName>
+                        <isXAmzDate>{$url:isXAmzDate}</isXAmzDate>
+                        <contentType>{$ctx:contentType}</contentType>
+                        <methodType>{$url:methodType}</methodType>
+                    </amazons3.init>
+                    <amazons3.uploadPart>
+                        <bucketUrl>{$url:bucketUrl}</bucketUrl>
+                        <objectName>{$url:objectName}</objectName>
+                        <uploadId>{$url:uploadId}</uploadId>
+                        <partNumber>{$url:partNumber}</partNumber>
+                        <body>{$body//text}</body>
+                    </amazons3.uploadPart>
+                </case>
+            </switch>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <send/>
+        </outSequence>
+    </target>
 </proxy>

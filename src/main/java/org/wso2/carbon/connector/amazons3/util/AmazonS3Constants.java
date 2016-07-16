@@ -198,6 +198,11 @@ public final class AmazonS3Constants {
      * Constant for xAmzCopySource.
      */
     public static final String XAMZ_COPY_SOURCE = "uri.var.xAmzCopySource";
+
+    /**
+     * Constant for xAmzCopySourceRange.
+     */
+    public static final String XAMZ_COPY_SOURCE_RANGE = "uri.var.xAmzCopySourceRange";
     
     /**
      * Constant for xAmzMetadataDirective.
@@ -333,7 +338,12 @@ public final class AmazonS3Constants {
      * Constant for x-amz-copy-source.
      */
     public static final String HD_XAMZ_COPY_SOURCE = "x-amz-copy-source";
-    
+
+    /**
+     * Constant for x-amz-copy-source-range.
+     */
+    public static final String HD_XAMZ_COPY_SOURCE_RANGE = "x-amz-copy-source-range";
+
     /**
      * Constant for x-amz-metadata-directive.
      */
