@@ -40,10 +40,6 @@
             <file>getObjectTorrent.xml</file>
             <description>Returns torrent files from a bucket</description>
         </component>
-        <component name="createObject">
-            <file>createObject.xml</file>
-            <description>Upload an object to a bucket via an HTML form</description>
-        </component>
         <component name="getObjectMetaData">
             <file>getObjectMetaData.xml</file>
             <description>Retrieves metadata from an object without returning the object itself</description>

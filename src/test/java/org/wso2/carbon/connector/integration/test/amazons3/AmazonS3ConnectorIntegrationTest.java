@@ -1188,54 +1188,6 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     }
 
     /**
-     * To test the method deleteMultipleObjects.
-     */
-    @Test(dependsOnMethods = {"testCreateBucketWithOptionalParameters"}, groups = {"wso2.esb"},
-            description = "AmazonS3 {createObject} integration test with mandatory parameters.")
-    public void toDeleteObject1() throws Exception {
-
-        esbRequestHeadersMap.put("Action", "urn:createObject");
-        String xmlRequestFilePath = pathToRequestsDirectory + "createObject_mandatory.txt";
-
-        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
-        final String modifiedxmlString =
-                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
-                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
-                        amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("bucketUrl_4"),
-                        amazons3ConnectorProperties.getProperty("objectName_1"));
-
-        int statusCode =
-                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
-                        modifiedxmlString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        Assert.assertTrue(statusCode == 200);
-    }
-
-    /**
-     * To test the method deleteMultipleObjects.
-     */
-    @Test(dependsOnMethods = {"testCreateBucketWithOptionalParameters"}, groups = {"wso2.esb"},
-            description = "AmazonS3 {createObject} integration test with mandatory parameters.")
-    public void toDeleteObject2() throws Exception {
-
-        esbRequestHeadersMap.put("Action", "urn:createObject");
-        String xmlRequestFilePath = pathToRequestsDirectory + "createObject_mandatory.txt";
-
-        final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
-        final String modifiedxmlString =
-                String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
-                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
-                        amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("bucketUrl_4"),
-                        amazons3ConnectorProperties.getProperty("objectName_2"));
-
-        int statusCode =
-                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
-                        modifiedxmlString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        Assert.assertTrue(statusCode == 200);
-    }
-
-    /**
      * Positive test case for createObjectACL method with mandatory parameters.
      */
     @Test(dependsOnMethods = {"testCreateObjectCopyMandatoryParameters",
@@ -1670,8 +1622,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Mandatory parameter test case for deleteMultipleObjects method.
      */
-    @Test(dependsOnMethods = {"toDeleteObject1", "toDeleteObject2"}, groups = {"wso2.esb"},
-            description = "AmazonS3 {deleteMultipleObjects} integration test with mandatory parameter.")
+    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {deleteMultipleObjects} integration test with mandatory parameter.")
     public void testDeleteMultipleObjectsWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:deleteMultipleObjects");
@@ -1681,8 +1632,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
-                        amazons3ConnectorProperties.getProperty("bucketName_2"),
-                        amazons3ConnectorProperties.getProperty("bucketUrl_4"),
+                        amazons3ConnectorProperties.getProperty("bucketToDeleteMultipleObjects"),
+                        amazons3ConnectorProperties.getProperty("bucketUrlToDeleteMultipleObjects"),
                         amazons3ConnectorProperties.getProperty("objectName_1"),
                         amazons3ConnectorProperties.getProperty("objectName_2"));
 
@@ -1695,8 +1646,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     /**
      * Negative test case for deleteMultipleObjects method.
      */
-    @Test(dependsOnMethods = {"toDeleteObject1", "toDeleteObject2"}, groups = {"wso2.esb"},
-            description = "AmazonS3 {deleteMultipleObjects} integration test negative case.")
+    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {deleteMultipleObjects} integration test negative case.")
     public void testDeleteMultipleObjectsWithNegativeCase() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:deleteMultipleObjects");
