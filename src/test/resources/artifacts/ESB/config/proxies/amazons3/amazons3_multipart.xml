@@ -29,12 +29,15 @@
                 <case regex="urn:uploadPart">
                     <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
                     <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
-                    <amazons3.uploadPart>
+                    <amazons3.init>
                         <accessKeyId>{$url:accessKeyId}</accessKeyId>
                         <secretAccessKey>{$url:secretAccessKey}</secretAccessKey>
                         <bucketName>{$url:bucketName}</bucketName>
                         <isXAmzDate>{$url:isXAmzDate}</isXAmzDate>
                         <contentType>{$ctx:contentType}</contentType>
+                        <methodType>{$url:methodType}</methodType>
+                    </amazons3.init>
+                    <amazons3.uploadPart>
                         <bucketUrl>{$url:bucketUrl}</bucketUrl>
                         <objectName>{$url:objectName}</objectName>
                         <uploadId>{$url:uploadId}</uploadId>

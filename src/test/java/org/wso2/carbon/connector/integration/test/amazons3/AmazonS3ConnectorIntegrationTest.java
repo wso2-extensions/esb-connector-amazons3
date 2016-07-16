@@ -1954,7 +1954,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
     public void testUploadPartWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:uploadPart");
-        esbRequestHeadersMap.put("Content-Type", "text/plain; charset=UTF-8");
+        esbRequestHeadersMap.put("Content-Type", "text/plain");
 
         final String uploadId = amazons3ConnectorProperties.getProperty("uploadIdMandatory");
         final String objectName = amazons3ConnectorProperties.getProperty("objectName_6");
@@ -1966,7 +1966,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         + "&partNumber=1&bucketUrl=" + bucketUrl + "&accessKeyId="
                         + amazons3ConnectorProperties.getProperty("accessKeyId") + "&secretAccessKey="
                         + amazons3ConnectorProperties.getProperty("secretAccessKey") + "&bucketName="
-                        + amazons3ConnectorProperties.getProperty("bucketName_2") + "&isXAmzDate=true";
+                        + amazons3ConnectorProperties.getProperty("bucketName_2") + "&isXAmzDate=true" + "&methodType=PUT";
 
         final MultipartFormdataProcessor multipartProcessor =
                 new MultipartFormdataProcessor(requestString, esbRequestHeadersMap, "PUT");
