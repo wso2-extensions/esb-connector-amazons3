@@ -66,6 +66,8 @@
     <parameter name="xAmzServerSideEncryption"
                description="Specifies the server-side encryption algorithm to use when Amazon S3 creates the target object."/>
     <parameter name="uriRemainder" description="This specifies remainder of the request URL."/>
+    <parameter name="blocking"
+               description="The blocking parameter is helping connector performs the blocking invocations to Amazon S3"/>
     <sequence>
         <property name="uri.var.accessKeyId" expression="$func:accessKeyId"/>
         <property name="uri.var.secretAccessKey" expression="$func:secretAccessKey"/>
@@ -99,6 +101,7 @@
         <property name="uri.var.uriRemainder" expression="$func:uriRemainder"/>
         <header name="Content-Type" scope="transport" expression="$ctx:uri.var.contentType"/>
         <property name="messageType" expression="$ctx:uri.var.contentType" scope="axis2"/>
+        <property name="AMAZONS3_BLOCKING" expression="$func:blocking"/>
         <!-- InitAclHeaders Setup -->
         <filter xpath="string($ctx:uri.var.xAmzAcl) or $ctx:uri.var.xAmzAcl != ''">
             <then>

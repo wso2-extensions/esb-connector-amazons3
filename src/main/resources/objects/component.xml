@@ -32,6 +32,10 @@
             <file>getObject.xml</file>
             <description>Retrieves objects from Amazon S3</description>
         </component>
+        <component name="createObject">
+            <file>createObject.xml</file>
+            <description>Create objects from Amazon S3 bucket</description>
+        </component>
         <component name="getObjectACL">
             <file>getObjectACL.xml</file>
             <description>Returns the access control list (ACL) of an object</description>
