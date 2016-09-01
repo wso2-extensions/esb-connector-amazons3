@@ -29,7 +29,6 @@
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.partNumber" expression="$func:partNumber"/>
         <property name="uri.var.body" expression="$func:body"/>
-        <!--<property name="uri.var.contentType" expression="$ctx:uri.var.contentType"/>-->
         <script language="js">
             <![CDATA[
            var objectName=mc.getProperty('uri.var.objectName');

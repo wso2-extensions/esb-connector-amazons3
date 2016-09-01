@@ -19,16 +19,12 @@
     <parameter name="bucketUrl" description="The URL of the bucket without the http prefix."/>
     <parameter name="objectName" description="The name to give for the newly created object."/>
     <sequence>
-        <log level="custom">
-            <property name="123451012345012345012340" value="amazon======create------object===== method is called========"/>
-        </log>
         <property name="uri.var.bucketName" expression="$func:bucketName"/>
         <property name="uri.var.uriRemainder" value=""/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.partNumber" expression="$func:partNumber"/>
-        <!--<property name="uri.var.contentType" expression="$ctx:uri.var.contentType"/>-->
         <script language="js">
             <![CDATA[
            var objectName=mc.getProperty('uri.var.objectName');
