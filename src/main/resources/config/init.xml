@@ -18,6 +18,13 @@
 <template name="init" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="accessKeyId" description="AWS access key ID."/>
     <parameter name="secretAccessKey" description="AWS secret access key."/>
+    <parameter name="privateKeyFilePath" description="Path of AWS private Key File."/>
+    <parameter name="keyPairId" description="Key pair Id of AWS cloud Front."/>
+    <parameter name="policyType" description="Policy for the URL signing. It can be custom or canned policy."/>
+    <parameter name="urlSign" description="Specify whether to create Signed URL or not. It can be true or false."/>
+    <parameter name="dateLessThan" description="Can access the object before this specific date only."/>
+    <parameter name="dateGreaterThan" description="Can access the object before this specific date only."/>
+    <parameter name="ipAddress" description="IP address for creating Policy."/>
     <parameter name="methodType" description="Type of the HTTP method."/>
     <parameter name="contentLength" description="Length of the message without the headers according to RFC 2616."/>
     <parameter name="contentType"
@@ -71,6 +78,13 @@
     <sequence>
         <property name="uri.var.accessKeyId" expression="$func:accessKeyId"/>
         <property name="uri.var.secretAccessKey" expression="$func:secretAccessKey"/>
+        <property name="uri.var.privateKeyFilePath" expression="$func:privateKeyFilePath"/>
+        <property name="uri.var.keyPairId" expression="$func:keyPairId"/>
+        <property name="uri.var.dateLessThan" expression="$func:dateLessThan"/>
+        <property name="uri.var.dateGreaterThan" expression="$func:dateGreaterThan"/>
+        <property name="uri.var.ipAddress" expression="$func:ipAddress"/>
+        <property name="uri.var.policyType" expression="$func:policyType"/>
+        <property name="uri.var.urlSign" expression="$func:urlSign"/>
         <property name="uri.var.methodType" expression="$func:methodType"/>
         <property name="uri.var.contentLength" expression="$func:contentLength"/>
         <property name="uri.var.contentType" expression="$func:contentType"/>

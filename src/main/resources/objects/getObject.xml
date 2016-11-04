@@ -59,7 +59,7 @@
                 <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != '' and string($ctx:urlSign)='false'">
             <then>
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
@@ -134,12 +134,29 @@
                           expression="fn:concat($ctx:uri.var.query,'response-content-encoding=',$ctx:uri.var.responseContentEncoding,'&amp;')"/>
             </then>
         </filter>
-        <call>
-            <endpoint>
-                <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}{+uri.var.query}"
-                      format="pox"/>
-            </endpoint>
-        </call>
+        <filter xpath="string($ctx:urlSign)='true'">
+            <then>
+                <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3URLSignatureCreation"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:urlSign)='true'">
+            <then>
+                <call>
+                    <endpoint>
+                        <http method="get" uri-template="{uri.var.bucketUrl}"
+                              format="pox"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}{+uri.var.query}"
+                              format="pox"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
         <!-- Remove response custom header information -->
         <header name="x-amz-id-2" scope="transport" action="remove"/>
         <header name="x-amz-request-id" scope="transport" action="remove"/>
