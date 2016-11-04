@@ -37,6 +37,8 @@
         <carbon.integration.framework>4.0.0</carbon.integration.framework>
         <org.testng.version>6.1.1</org.testng.version>
         <integration.base.version>1.0.1</integration.base.version>
+        <jets3t.version>0.9.4</jets3t.version>
+        <bouncycastle.version>1.55</bouncycastle.version>
     </properties>
     <dependencies>
         <dependency>
@@ -62,12 +64,12 @@
         <dependency>
             <groupId>net.java.dev.jets3t</groupId>
             <artifactId>jets3t</artifactId>
-            <version>0.9.4</version>
+            <version>${jets3t.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.55</version>
+            <version>${bouncycastle.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.mediation</groupId>

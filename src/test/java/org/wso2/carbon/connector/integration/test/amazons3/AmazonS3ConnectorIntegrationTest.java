@@ -55,7 +55,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
 
     private String repoLocation = null;
 
-    private String amazons3ConnectorFileName = CONNECTOR_NAME + "-connector-1.0.2.zip";
+    private String amazons3ConnectorFileName = CONNECTOR_NAME + "-connector-1.0.3.zip";
 
     private Properties amazons3ConnectorProperties = null;
 
