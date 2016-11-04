@@ -519,4 +519,59 @@ public final class AmazonS3Constants {
      * Error code constant for generic exception.
      */
     public static final int ERROR_CODE_EXCEPTION = 900001;
+
+    /**
+     * Constant for privateKeyFilePath.
+     */
+    public static final String PRIVATE_KEY_FILE_PATH = "uri.var.privateKeyFilePath";
+
+    /**
+     * Constant for keyPairId.
+     */
+    public static final String KEY_PAIR_ID = "uri.var.keyPairId";
+
+    /**
+     * Constant for s3ObjectKey.
+     */
+    public static final String OBJECT_NAME = "uri.var.objectName";
+
+    /**
+     * Constant for policyType.
+     */
+    public static final String POLICY_TYPE = "uri.var.policyType";
+
+    /**
+     * Constant for UrlSign.
+     */
+    public static final String BUCKET_URL = "uri.var.bucketUrl";
+
+    /**
+     * Constant for QueryParameters.
+     */
+    public static final String QUERY_PARAMS = "uri.var.query";
+
+    /**
+     * Constant for DateLessThan.
+     */
+    public static final String DATE_LESS_THAN = "uri.var.dateLessThan";
+
+    /**
+     * Constant for DateGreaterThan.
+     */
+    public static final String DATE_GREATER_THAN = "uri.var.dateGreaterThan";
+
+    /**
+     * Constant for IPAddress.
+     */
+    public static final String IP_ADDRESS = "uri.var.ipAddress";
+
+    /**
+     * Constant for CannedPolicy.
+     */
+    public static final String CANNED_POLICY = "canned";
+
+    /**
+     * Constant for CustomPlocy.
+     */
+    public static final String CUSTOM_POLICY = "custom";
 }
