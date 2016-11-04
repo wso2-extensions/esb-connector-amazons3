@@ -16,13 +16,14 @@
  ~  specific language governing permissions and limitations
  ~  under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.carbon.connector</groupId>
     <artifactId>org.wso2.carbon.connector.amazons3</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>WSO2 Carbon - Mediation Library Connector For amazons3</name>
     <url>http://wso2.org</url>
     <properties>
@@ -145,9 +146,11 @@
         </dependency>
     </dependencies>
     <scm>
-        <connection>scm:git:https://github.com/wso2-extensions/esb-connector-amazons3.git</connection>
+        <connection>scm:git:https://github.com/wso2-extensions/esb-connector-amazons3.git
+        </connection>
         <url>https://github.com/wso2-extensions/esb-connector-amazons3.git</url>
-        <developerConnection>scm:git:https://github.com/wso2-extensions/esb-connector-amazons3</developerConnection>
+        <developerConnection>scm:git:https://github.com/wso2-extensions/esb-connector-amazons3
+        </developerConnection>
         <tag>HEAD</tag>
     </scm>
     <build>
