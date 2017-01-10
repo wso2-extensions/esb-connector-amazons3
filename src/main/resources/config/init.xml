@@ -74,6 +74,8 @@
     <parameter name="xAmzServerSideEncryption"
                description="Specifies the server-side encryption algorithm to use when Amazon S3 creates the target object."/>
     <parameter name="uriRemainder" description="This specifies remainder of the request URL."/>
+    <parameter name="blocking"
+               description="The blocking parameter is helping connector performs the blocking invocations to Amazon S3"/>
     <sequence>
         <property name="uri.var.accessKeyId" expression="$func:accessKeyId"/>
         <property name="uri.var.secretAccessKey" expression="$func:secretAccessKey"/>
@@ -113,6 +115,7 @@
         <property name="uri.var.xAmzCopySourceIfUnmodifiedSince" expression="$func:xAmzCopySourceIfUnmodifiedSince"/>
         <property name="uri.var.xAmzCopySourceIfModifiedSince" expression="$func:xAmzCopySourceIfModifiedSince"/>
         <property name="uri.var.uriRemainder" expression="$func:uriRemainder"/>
+        <property name="AMAZONS3_BLOCKING" expression="$func:blocking"/>
         <header name="Content-Type" scope="transport" expression="$ctx:uri.var.contentType"/>
         <property name="messageType" expression="$ctx:uri.var.contentType" scope="axis2"/>
         <filter xpath="string($ctx:uri.var.urlSign) or $ctx:uri.var.urlSign != ''">
