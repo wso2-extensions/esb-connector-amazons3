@@ -34,7 +34,8 @@
                         <secretAccessKey>{$url:secretAccessKey}</secretAccessKey>
                         <bucketName>{$url:bucketName}</bucketName>
                         <isXAmzDate>{$url:isXAmzDate}</isXAmzDate>
-                        <contentType>{$ctx:contentType}</contentType>
+                        <contentType>{$url:contentType}</contentType>
+                        <addCharset>{$url:addCharset}</addCharset>
                         <methodType>{$url:methodType}</methodType>
                     </amazons3.init>
                     <amazons3.uploadPart>

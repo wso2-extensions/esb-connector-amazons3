@@ -33,6 +33,12 @@
                           expression="fn:concat($ctx:uri.var.uriRemainder,'&amp;versionId=',$ctx:uri.var.versionId)"/>
             </then>
         </filter>
+        <filter xpath="string($ctx:uri.var.addCharset)='true'">
+            <then>
+                <property name="uri.var.contentType"
+                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
+            </then>
+        </filter>
         <payloadFactory media-type="xml">
             <format>
                 <RestoreRequest>

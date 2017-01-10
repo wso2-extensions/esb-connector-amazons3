@@ -161,6 +161,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_7"),
                         amazons3ConnectorProperties.getProperty("bucketName_3"));
 
@@ -185,6 +187,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_8"),
                         amazons3ConnectorProperties.getProperty("bucketName_4"), "us-west-1");
 
@@ -210,6 +214,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_1"),
                         amazons3ConnectorProperties.getProperty("bucketName_1"));
 
@@ -233,6 +239,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_2"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"));
         int statusCode =
@@ -256,6 +264,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_2"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"));
         int statusCode =
@@ -278,6 +288,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedjsonString =
                 String.format(jsonString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("jsonContentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"));
@@ -301,6 +313,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedjsonString =
                 String.format(jsonString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("jsonContentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
@@ -324,6 +338,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"));
 
@@ -346,7 +362,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String xmlString = ConnectorIntegrationUtil.getFileContent(xmlRequestFilePath);
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
-                        amazons3ConnectorProperties.getProperty("secretAccessKey"));
+                        amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"));
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
         int statusCode =
                 ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
@@ -368,6 +386,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_3"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_7"));
 
@@ -392,6 +412,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_3"));
         int statusCode =
                 ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
@@ -415,6 +437,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("ownerId"),
@@ -445,6 +469,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"));
         int statusCode =
@@ -896,6 +922,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("versioningStatus"));
@@ -920,6 +948,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("versioningStatus"),
@@ -945,6 +975,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_4"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_8"),
                         amazons3ConnectorProperties.getProperty("versioningStatus"),
@@ -971,6 +1003,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("bucketName_4"));
@@ -1040,6 +1074,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"));
 
@@ -1202,6 +1238,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"),
                         amazons3ConnectorProperties.getProperty("destinationObjectName"),
@@ -1228,6 +1266,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -1251,6 +1291,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("destinationObjectName"),
@@ -1276,6 +1318,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("destinationObjectName"));
 
@@ -1425,11 +1469,10 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("destinationObjectName"));
 
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
-        String response =
-                ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
                         modifiedxmlString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        Assert.assertTrue(response.contains("getObjectResponse"));
-        Assert.assertTrue(response.contains("data"));
+        Assert.assertTrue(statusCode == 200);
     }
 
     /**
@@ -1451,11 +1494,10 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         amazons3ConnectorProperties.getProperty("destinationObjectName"),
                         amazons3ConnectorProperties.getProperty("ifModifiedSince"));
 
-        String response =
-                ConnectorIntegrationUtil.getResponseViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
+        int statusCode =
+                ConnectorIntegrationUtil.sendRequestViaSingleProxy(getProxyServiceURL(CONNECTOR_NAME),
                         modifiedxmlString, CONTENT_TYPE_APPLICATION_XML, esbRequestHeadersMap);
-        Assert.assertTrue(response.contains("getObjectResponse"));
-        Assert.assertTrue(response.contains("data"));
+        Assert.assertTrue(statusCode == 200);
     }
 
     /**
@@ -1540,6 +1582,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_3"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_7"));
 
@@ -1563,6 +1607,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"));
 
         int statusCode =
@@ -1632,6 +1678,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketToDeleteMultipleObjects"),
                         amazons3ConnectorProperties.getProperty("bucketUrlToDeleteMultipleObjects"),
                         amazons3ConnectorProperties.getProperty("objectName_1"),
@@ -1656,6 +1704,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("objectName_1"),
                         amazons3ConnectorProperties.getProperty("objectName_2"));
 
@@ -1679,6 +1729,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_3"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_7"));
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
@@ -1702,6 +1753,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_3"));
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
         int statusCode =
@@ -1724,6 +1776,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -1747,6 +1800,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"));
         Thread.sleep(Long.parseLong(amazons3ConnectorProperties.getProperty("timeOut")));
         int statusCode =
@@ -1769,6 +1823,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_1"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_3"));
 
@@ -1792,6 +1847,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_1"));
 
         int statusCode =
@@ -1814,6 +1870,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("objectName_6"));
@@ -1840,6 +1898,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("objectName_6"));
@@ -1863,6 +1923,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedxmlString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("objectName_2"));
 
@@ -1888,6 +1950,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
@@ -1915,6 +1978,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
@@ -1966,7 +2030,9 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
                         + "&partNumber=1&bucketUrl=" + bucketUrl + "&accessKeyId="
                         + amazons3ConnectorProperties.getProperty("accessKeyId") + "&secretAccessKey="
                         + amazons3ConnectorProperties.getProperty("secretAccessKey") + "&bucketName="
-                        + amazons3ConnectorProperties.getProperty("bucketName_2") + "&isXAmzDate=true" + "&methodType=PUT";
+                        + amazons3ConnectorProperties.getProperty("bucketName_2") +"&contentType="
+                        + amazons3ConnectorProperties.getProperty("textContentType") +"&addCharset="
+                        + amazons3ConnectorProperties.getProperty("addCharset") + "&isXAmzDate=true" + "&methodType=PUT";
 
         final MultipartFormdataProcessor multipartProcessor =
                 new MultipartFormdataProcessor(requestString, esbRequestHeadersMap, "PUT");
@@ -2076,6 +2142,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
@@ -2107,6 +2175,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
@@ -2244,6 +2314,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -2295,6 +2367,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"),
@@ -2356,6 +2430,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"));
@@ -2382,6 +2458,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("objectName_6"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_5"));
@@ -2409,6 +2487,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"),
                         amazons3ConnectorProperties.getProperty("ownerId"),
@@ -2438,6 +2518,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -2464,6 +2546,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -2489,6 +2572,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -2515,6 +2599,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -2541,6 +2626,7 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -2566,6 +2652,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"));
 
@@ -2591,6 +2679,8 @@ public class AmazonS3ConnectorIntegrationTest extends ESBIntegrationTest {
         final String modifiedXMLString =
                 String.format(xmlString, amazons3ConnectorProperties.getProperty("accessKeyId"),
                         amazons3ConnectorProperties.getProperty("secretAccessKey"),
+                        amazons3ConnectorProperties.getProperty("contentType"),
+                        amazons3ConnectorProperties.getProperty("addCharset"),
                         amazons3ConnectorProperties.getProperty("bucketName_2"),
                         amazons3ConnectorProperties.getProperty("bucketUrl_4"),
                         amazons3ConnectorProperties.getProperty("objectName_6"));

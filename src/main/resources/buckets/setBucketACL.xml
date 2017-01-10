@@ -23,6 +23,12 @@
         <property name="uri.var.accessControlPolicy" expression="$func:accessControlPolicy"/>
         <!-- Authentication Header Setup -->
         <property name="uri.var.uriRemainder" value="/?acl"/>
+        <filter xpath="string($ctx:uri.var.addCharset)='true'">
+            <then>
+                <property name="uri.var.contentType"
+                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
+            </then>
+        </filter>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <filter xpath="string($ctx:date) and $ctx:date != ''">
             <then>

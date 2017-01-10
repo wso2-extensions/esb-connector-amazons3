@@ -2,7 +2,8 @@
     <accessKeyId>%s</accessKeyId>
     <secretAccessKey>%s</secretAccessKey>
     <methodType>GET</methodType>
-    <contentType>application/xml; charset=UTF-8</contentType>
+    <contentType>%s</contentType>
+    <addCharset>%s</addCharset>
     <contentLength></contentLength>
     <contentMD5></contentMD5>
     <bucketName>%s</bucketName>

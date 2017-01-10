@@ -25,6 +25,12 @@
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.partNumber" expression="$func:partNumber"/>
+        <filter xpath="string($ctx:uri.var.addCharset)='true'">
+            <then>
+                <property name="uri.var.contentType"
+                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
+            </then>
+        </filter>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Authentication Header Setup -->
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">

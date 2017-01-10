@@ -3,7 +3,7 @@
     <secretAccessKey>%s</secretAccessKey>
     <methodType>DELETE</methodType>
     <contentLength></contentLength>
-    <contentType>application/xml; charset=UTF-8</contentType>
+    <contentType>%s</contentType>
     <contentMD5></contentMD5>
     <expect></expect>
     <host></host>

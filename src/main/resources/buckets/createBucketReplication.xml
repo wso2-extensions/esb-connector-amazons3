@@ -26,6 +26,12 @@
         <property name="uri.var.role" expression="$func:role"/>
         <property name="uri.var.rules" expression="$func:rules"/>
         <property name="uri.var.uriRemainder" value="/?replication"/>
+        <filter xpath="string($ctx:uri.var.addCharset)='true'">
+            <then>
+                <property name="uri.var.contentType"
+                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
+            </then>
+        </filter>
         <payloadFactory media-type="xml">
             <format>
                 <ReplicationConfiguration>

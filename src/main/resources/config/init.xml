@@ -29,6 +29,7 @@
     <parameter name="contentLength" description="Length of the message without the headers according to RFC 2616."/>
     <parameter name="contentType"
                description="The content type of the resource in case the request content in the body."/>
+    <parameter name="addCharset" description="To add the char set to ContentType header."/>
     <parameter name="contentMD5"
                description="Base64 encoded 128-bit MD5 digest of the message without the headers according to RFC 1864."/>
     <parameter name="expect"
@@ -73,8 +74,6 @@
     <parameter name="xAmzServerSideEncryption"
                description="Specifies the server-side encryption algorithm to use when Amazon S3 creates the target object."/>
     <parameter name="uriRemainder" description="This specifies remainder of the request URL."/>
-    <parameter name="blocking"
-               description="The blocking parameter is helping connector performs the blocking invocations to Amazon S3"/>
     <sequence>
         <property name="uri.var.accessKeyId" expression="$func:accessKeyId"/>
         <property name="uri.var.secretAccessKey" expression="$func:secretAccessKey"/>
@@ -88,6 +87,7 @@
         <property name="uri.var.methodType" expression="$func:methodType"/>
         <property name="uri.var.contentLength" expression="$func:contentLength"/>
         <property name="uri.var.contentType" expression="$func:contentType"/>
+        <property name="uri.var.addCharset" expression="$func:addCharset"/>
         <property name="uri.var.contentMD5" expression="$func:contentMD5"/>
         <property name="uri.var.expect" expression="$func:expect"/>
         <property name="uri.var.host" expression="$func:host"/>
@@ -115,7 +115,22 @@
         <property name="uri.var.uriRemainder" expression="$func:uriRemainder"/>
         <header name="Content-Type" scope="transport" expression="$ctx:uri.var.contentType"/>
         <property name="messageType" expression="$ctx:uri.var.contentType" scope="axis2"/>
-        <property name="AMAZONS3_BLOCKING" expression="$func:blocking"/>
+        <filter xpath="string($ctx:uri.var.urlSign) or $ctx:uri.var.urlSign != ''">
+            <then>
+                <property name="uri.var.urlSign" expression="$ctx:uri.var.urlSign"/>
+            </then>
+            <else>
+                <property name="uri.var.urlSign" value="false"/>
+            </else>
+        </filter>
+        <filter xpath="string($ctx:uri.var.addCharset) or $ctx:uri.var.addCharset != ''">
+            <then>
+                <property name="uri.var.addCharset" expression="$ctx:uri.var.addCharset"/>
+            </then>
+            <else>
+                <property name="uri.var.addCharset" value="false"/>
+            </else>
+        </filter>
         <!-- InitAclHeaders Setup -->
         <filter xpath="string($ctx:uri.var.xAmzAcl) or $ctx:uri.var.xAmzAcl != ''">
             <then>

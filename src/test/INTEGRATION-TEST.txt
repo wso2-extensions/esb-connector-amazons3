@@ -8,18 +8,14 @@ Product: Integration tests for WSO2 ESB AmazonS3 connector
 
     Tested Platforms: 
 
-    - Microsoft WINDOWS V-7
+    - Mac OSx
     - Ubuntu 14.04
-    - WSO2 ESB 4.9.0
+    - WSO2 ESB 5.0.0
 
-Note:
-	This test suite can execute based on two scenarios.
-		1. Use the given test account and parameters. - in this scenario you only need to replace accessKeyId , secretAccessKey in property file
-		2. Setup new amazonS3 account and follow all the instruction given below
 	
 Steps to follow in setting integration test.
 
- 1. Make sure the ESB 4.8.1 zip available at "{AmazonS3_Connector_Home}/repository/"
+ 1. Make sure the ESB 5.0.0 zip available at "{AmazonS3_Connector_Home}/repository/"
 
  2. This ESB should be configured as below;
 	Please make sure that the below mentioned Axis configurations are enabled (repository/conf/axis2/axis2.xml).
@@ -116,8 +112,9 @@ Steps to follow in setting integration test.
 		23)   encodingType is the encoding method to be uses in encoding the response in listing of the uploaded parts.
 		
 		24)   timeOut is the amount of time to wait for manipulate the responses.
-        
- Note: bucketName_1, bucketName_2 & bucketName_3 are unique names and should be in lowercase. We can leave as it is.
-       
+
+		25)   addCharset is the parameter used to set the char set with the content type. If you are using ESB 4.9.0 set this parameter as true. Otherwise set it as false.
+
+
  4.Navigate to "<ESB_CONNECTORS_HOME>" and run the following command.
         $ mvn clean install

@@ -24,6 +24,7 @@
             <property name="secretAccessKey" expression="//secretAccessKey/text()"/>
             <property name="methodType" expression="//methodType/text()"/>
             <property name="contentType" expression="//contentType/text()"/>
+            <property name="addCharset" expression="//addCharset/text()"/>
             <property name="bucketName" expression="//bucketName/text()"/>
             <property name="isXAmzDate" expression="//isXAmzDate/text()"/>
             <property name="xAmzSecurityToken" expression="//xAmzSecurityToken/text()"/>
@@ -107,6 +108,7 @@
                 <secretAccessKey>{$ctx:secretAccessKey}</secretAccessKey>
                 <methodType>{$ctx:methodType}</methodType>
                 <contentType>{$ctx:contentType}</contentType>
+                <addCharset>{$ctx:addCharset}</addCharset>
                 <bucketName>{$ctx:bucketName}</bucketName>
                 <isXAmzDate>{$ctx:isXAmzDate}</isXAmzDate>
                 <expect>{$ctx:expect}</expect>

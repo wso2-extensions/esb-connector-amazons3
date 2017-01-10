@@ -59,7 +59,7 @@
                 <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != '' and string($ctx:urlSign)='false'">
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != '' and string($ctx:uri.var.urlSign) = 'false'">
             <then>
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
@@ -134,13 +134,9 @@
                           expression="fn:concat($ctx:uri.var.query,'response-content-encoding=',$ctx:uri.var.responseContentEncoding,'&amp;')"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:urlSign)='true'">
+        <filter xpath="string($ctx:uri.var.urlSign)='true'">
             <then>
                 <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3URLSignatureCreation"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:urlSign)='true'">
-            <then>
                 <call>
                     <endpoint>
                         <http method="get" uri-template="{uri.var.bucketUrl}"
@@ -168,23 +164,5 @@
         <header name="x-amz-server-side-encryption" scope="transport" action="remove"/>
         <header name="x-amz-version-id" scope="transport" action="remove"/>
         <header name="x-amz-delete-marker" scope="transport" action="remove"/>
-        <!-- Add contentType to message response when the status code is 200 -->
-        <filter source="$axis2:HTTP_SC" regex="[2][0][0]">
-            <then>
-                <payloadFactory>
-                    <format>
-                        <getObjectResponse>
-                            <dataType>$1</dataType>
-                            <data>$2</data>
-                        </getObjectResponse>
-                    </format>
-                    <args>
-                        <arg expression="get-property('transport', 'Content-Type')"/>
-                        <arg expression="$body/child::node()"/>
-                    </args>
-                </payloadFactory>
-            </then>
-        </filter>
-        <property name="messageType" value="application/xml" scope="axis2"/>
     </sequence>
 </template>

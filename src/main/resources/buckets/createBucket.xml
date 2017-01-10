@@ -22,6 +22,12 @@
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.bucketRegion" expression="$func:bucketRegion"/>
         <property name="uri.var.uriRemainder" value="/"/>
+        <filter xpath="string($ctx:uri.var.addCharset)='true'">
+            <then>
+                <property name="uri.var.contentType"
+                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
+            </then>
+        </filter>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <filter

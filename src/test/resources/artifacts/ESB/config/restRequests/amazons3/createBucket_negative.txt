@@ -2,7 +2,8 @@
     <accessKeyId>%s</accessKeyId>
     <secretAccessKey>%s</secretAccessKey>
     <methodType>PUT</methodType>
-    <contentType>application/xml; charset=UTF-8</contentType>
+    <contentType>%s</contentType>
+    <addCharset>%s</addCharset>
     <isXAmzDate>true1</isXAmzDate>
     <bucketUrl>%s</bucketUrl>
     <contentLength>0</contentLength>

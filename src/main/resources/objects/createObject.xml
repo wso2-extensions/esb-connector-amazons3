@@ -23,6 +23,12 @@
         <property name="uri.var.uriRemainder" value=""/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
+        <filter xpath="string($ctx:uri.var.addCharset)='true'">
+            <then>
+                <property name="uri.var.contentType"
+                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
+            </then>
+        </filter>
         <script language="js">
             <![CDATA[
            var objectName=mc.getProperty('uri.var.objectName');

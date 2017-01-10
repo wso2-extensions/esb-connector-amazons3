@@ -29,6 +29,12 @@
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.partNumber" expression="$func:partNumber"/>
         <property name="uri.var.body" expression="$func:body"/>
+        <filter xpath="string($ctx:uri.var.addCharset)='true'">
+            <then>
+                <property name="uri.var.contentType"
+                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
+            </then>
+        </filter>
         <script language="js">
             <![CDATA[
            var objectName=mc.getProperty('uri.var.objectName');
