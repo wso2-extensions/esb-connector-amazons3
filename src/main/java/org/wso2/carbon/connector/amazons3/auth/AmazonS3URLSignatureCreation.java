@@ -37,6 +37,7 @@ import java.text.ParseException;
 /**
  * Class AmazonS3URLSignatreCreation which helps to generate signature for the url for
  * Amazon S3 WSO2 ESB Connector.
+ * @since 1.0.4
  */
 public class AmazonS3URLSignatureCreation extends AbstractConnector {
 
@@ -117,9 +118,7 @@ public class AmazonS3URLSignatureCreation extends AbstractConnector {
      * @param throwable Throwable that needs to be parsed and added
      * @param errorCode errorCode mapped to the exception
      */
-    public static void storeErrorResponseStatus(final MessageContext ctxt, final Throwable throwable,
-                                                final int errorCode) {
-
+    public static void storeErrorResponseStatus(final MessageContext ctxt, final Throwable throwable, final int errorCode) {
         ctxt.setProperty(SynapseConstants.ERROR_CODE, errorCode);
         ctxt.setProperty(SynapseConstants.ERROR_MESSAGE, throwable.getMessage());
         ctxt.setFaultResponse(true);
