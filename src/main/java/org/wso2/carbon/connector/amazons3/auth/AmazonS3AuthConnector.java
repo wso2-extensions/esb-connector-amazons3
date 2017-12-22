@@ -152,9 +152,6 @@ public class AmazonS3AuthConnector extends AbstractConnector {
             canonicalRequest.append(signedHeaders).append(AmazonS3Constants.NEW_LINE);
             canonicalRequest.append(AmazonS3Constants.UNSIGNED_PAYLOAD);
 
-            System.out.println("#######################\n\n\n");
-            System.out.println(canonicalRequest);
-            System.out.println("#######################");
             // Create stringToSign
             stringToSign.append(AmazonS3Constants.AWS4_HMAC_SHA_256);
             stringToSign.append(AmazonS3Constants.NEW_LINE);
