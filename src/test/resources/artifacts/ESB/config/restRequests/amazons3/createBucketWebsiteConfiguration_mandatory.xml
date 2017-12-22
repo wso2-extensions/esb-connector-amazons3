@@ -1,0 +1,21 @@
+<createBucketWebsiteConfiguration>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength>256</contentLength>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentMD5></contentMD5>
+    <expect></expect>
+    <host>%s(host7)</host>
+    <region>us-west-2</region>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketName>%s(bucketName3)</bucketName>
+    <bucketUrl>%s(bucketUrl7)</bucketUrl>
+    <websiteConfig>
+        <IndexDocument>
+            <Suffix>index2.html</Suffix>
+        </IndexDocument>
+    </websiteConfig>
+</createBucketWebsiteConfiguration>

@@ -19,9 +19,10 @@
     <parameter name="bucketUrl" description="End point URL of the request."/>
     <parameter name="corsConfiguration" description="Container for up to 100 CORSRules elements.."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.corsConfiguration" expression="$func:corsConfiguration"/>
-        <property name="uri.var.uriRemainder" value="/?cors"/>
+        <property name="uri.var.queryString" value="cors"/>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>
                 <property name="uri.var.contentType"
@@ -60,9 +61,15 @@
                 <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
             </then>
         </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
-                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?cors"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

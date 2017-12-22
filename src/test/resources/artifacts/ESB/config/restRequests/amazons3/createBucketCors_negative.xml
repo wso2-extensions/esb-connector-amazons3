@@ -1,0 +1,22 @@
+<createBucketCors>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>POST</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <isXAmzDate>true</isXAmzDate>
+    <contentMD5></contentMD5>
+    <bucketName>invalidBucket</bucketName>
+    <objectName>myimage.png</objectName>
+    <bucketUrl>http://invalidBucket.s3.amazonaws.com</bucketUrl>
+    <region>us-east-1</region>
+    <host>%s(host5)</host>
+    <corsConfiguration>
+        <CORSRule>
+           <AllowedOrigin>*</AllowedOrigin>
+           <AllowedMethod>GET</AllowedMethod>
+           <AllowedHeader>*</AllowedHeader>
+           <MaxAgeSeconds>3000</MaxAgeSeconds>
+        </CORSRule>
+    </corsConfiguration>
+</createBucketCors>

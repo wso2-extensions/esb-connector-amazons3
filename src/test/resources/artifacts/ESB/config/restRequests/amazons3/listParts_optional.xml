@@ -1,0 +1,20 @@
+<listParts>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>GET</methodType>
+    <contentLength></contentLength>
+    <contentEncoding></contentEncoding>
+    <encodingType>%s(encodingType)</encodingType>
+    <contentType>application/xml</contentType>
+    <contentMD5></contentMD5>
+    <uploadId>%s(uploadIdMandatory)</uploadId>
+    <expect></expect>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <objectName>%s(objectName6)</objectName>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <maxParts>%s(maxParts)</maxParts>
+    <partNumberMarker>%s(partNumberMarker)</partNumberMarker>
+    <xAmzSecurityToken></xAmzSecurityToken>
+</listParts>

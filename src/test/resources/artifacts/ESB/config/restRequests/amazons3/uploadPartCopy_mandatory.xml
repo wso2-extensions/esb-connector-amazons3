@@ -1,0 +1,25 @@
+<uploadPartCopy>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentLength>256</contentLength>
+    <contentMD5></contentMD5>
+    <objectName>%s(objectName6)</objectName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <expect></expect>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <uploadId>%s(uploadIdForCopyPart)</uploadId>
+    <partNumber>2</partNumber>
+    <uriRemainder>/%s(objectName6)?partNumber=2&amp;uploadId=%s(uploadIdForCopyPart)</uriRemainder>
+    <xAmzCopySource>%s(copySource)</xAmzCopySource>
+    <xAmzCopySourceRange>bytes=%s(xAmzCopySourceRange)</xAmzCopySourceRange>
+    <xAmzCopySourceIfMatch></xAmzCopySourceIfMatch>
+    <xAmzCopySourceIfNoneMatch></xAmzCopySourceIfNoneMatch>
+    <xAmzCopySourceIfUnmodifiedSince></xAmzCopySourceIfUnmodifiedSince>
+    <xAmzCopySourceIfModifiedSince></xAmzCopySourceIfModifiedSince>
+</uploadPartCopy>

@@ -19,35 +19,10 @@
     <parameter name="bucketUrl" description="Url of the bucket"/>
     <parameter name="bucketRegion" description="The region for created bucket"/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.bucketRegion" expression="$func:bucketRegion"/>
         <property name="uri.var.uriRemainder" value="/"/>
-        <filter xpath="string($ctx:uri.var.addCharset)='true'">
-            <then>
-                <property name="uri.var.contentType"
-                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
-            </then>
-        </filter>
-        <!-- Authentication Header Setup -->
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter
-                xpath="string($ctx:date) and $ctx:date != ''">
-            <then>
-                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter
-                xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
-            <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter
-                xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
-            </then>
-        </filter>
         <filter
                 xpath="string($ctx:uri.var.bucketRegion) and $ctx:uri.var.bucketRegion != ''">
             <then>
@@ -76,6 +51,35 @@
                 </payloadFactory>
                 <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
             </else>
+        </filter>
+        <filter xpath="string($ctx:uri.var.addCharset)='true'">
+            <then>
+                <property name="uri.var.contentType"
+                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
+            </then>
+        </filter>
+        <!-- Authentication Header Setup -->
+        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
+        <filter xpath="string($ctx:date) and $ctx:date != ''">
+            <then>
+                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
+            <then>
+                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
+            <then>
+                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
         </filter>
         <call>
             <endpoint>

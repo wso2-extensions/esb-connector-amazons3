@@ -1,0 +1,31 @@
+<createObjectCopy>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength></contentLength>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentMD5></contentMD5>
+    <expect></expect>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <destinationObject>%s(destinationObjectName)</destinationObject>
+    <xAmzAcl></xAmzAcl>
+    <xAmzGrantRead></xAmzGrantRead>
+    <xAmzGrantWrite></xAmzGrantWrite>
+    <xAmzGrantReadAcp></xAmzGrantReadAcp>
+    <xAmzGrantWriteAcp></xAmzGrantWriteAcp>
+    <xAmzGrantFullControl></xAmzGrantFullControl>   
+    <xAmzCopySource>%s(copySource)</xAmzCopySource>
+    <xAmzMetadataDirective></xAmzMetadataDirective>
+    <xAmzCopySourceIfMatch></xAmzCopySourceIfMatch>
+    <xAmzCopySourceIfNoneMatch></xAmzCopySourceIfNoneMatch>
+    <xAmzCopySourceIfUnmodifiedSince></xAmzCopySourceIfUnmodifiedSince>
+    <xAmzCopySourceIfModifiedSince></xAmzCopySourceIfModifiedSince>
+    <xAmzServeEncryption></xAmzServeEncryption>
+    <xAmzStorageClass></xAmzStorageClass>
+    <xAmzWebsiteLocation></xAmzWebsiteLocation>
+</createObjectCopy>

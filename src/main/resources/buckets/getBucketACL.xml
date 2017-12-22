@@ -18,8 +18,9 @@
 <template name="getBucketACL" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="bucketUrl" description="End point URL of the request."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
-        <property name="uri.var.uriRemainder" value="?acl"/>
+        <property name="uri.var.queryString" value="acl"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Properties assigned in AmazonS3AuthConnector -->
@@ -38,9 +39,15 @@
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
-                <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?acl"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

@@ -1,0 +1,16 @@
+<headObject>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>HEAD</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <objectName>%s(objectName6)</objectName>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <expect></expect>
+</headObject>

@@ -1,0 +1,21 @@
+<getBucketObjectVersions>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>GET</methodType>
+    <contentType>application/xml</contentType>
+    <contentLength>256</contentLength>
+    <contentMD5></contentMD5>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketName>%s(bucketName2)</bucketName>
+    <region>us-west-2</region>
+    <host>%s(host2)</host>
+    <expect></expect>
+    <bucketUrl>%s(bucketUrl4)</bucketUrl>
+    <delimiter>/</delimiter>
+    <encodingType></encodingType>
+    <keyMarker></keyMarker>
+    <maxKeys>3</maxKeys>
+    <prefix>images</prefix>
+    <versionIdMarker></versionIdMarker>		
+</getBucketObjectVersions> 

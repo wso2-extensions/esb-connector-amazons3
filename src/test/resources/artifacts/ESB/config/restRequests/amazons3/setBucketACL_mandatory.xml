@@ -1,0 +1,42 @@
+<setBucketACL>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength></contentLength>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentMD5></contentMD5>
+    <expect></expect>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <accessControlPolicy>
+        <Owner>
+            <ID>%s(ownerId)</ID>
+            <DisplayName>%s(ownerdisplayName)</DisplayName>
+        </Owner>
+        <AccessControlList>
+            <Grant>
+                <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser">
+                    <ID>%s(ownerId)</ID>
+                    <DisplayName>%s(ownerdisplayName)</DisplayName>
+                </Grantee>
+                <Permission>FULL_CONTROL</Permission>
+            </Grant>
+            <Grant>
+                <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group">
+                    <URI xmlns="">http://acs.amazonaws.com/groups/global/AllUsers</URI>
+                </Grantee>
+                <Permission xmlns="">READ</Permission>
+            </Grant>
+            <Grant>
+                <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group">
+                    <URI xmlns="">http://acs.amazonaws.com/groups/s3/LogDelivery</URI>
+                </Grantee>
+                <Permission xmlns="">WRITE</Permission>
+            </Grant>
+        </AccessControlList>
+    </accessControlPolicy>
+</setBucketACL>

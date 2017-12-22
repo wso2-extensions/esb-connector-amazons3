@@ -1,0 +1,12 @@
+<checkBucketPermission>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>HEAD</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <bucketName>%s(bucketName2)</bucketName>
+    <region>us-west-2</region>
+    <host>%s(host1)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <bucketUrl>http://s3.amazonaws.com/invalidBucket</bucketUrl>
+</checkBucketPermission>

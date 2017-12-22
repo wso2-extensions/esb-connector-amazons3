@@ -1,0 +1,13 @@
+<createBucket>
+	<accessKeyId>%s(accessKeyId)</accessKeyId>
+  	<secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+	<methodType>PUT</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+	<isXAmzDate>true</isXAmzDate>
+	<bucketUrl>%s(bucketUrl8)</bucketUrl>
+	<bucketName>%s(bucketName4)</bucketName>
+	<bucketRegion>%s(bucketRegion)</bucketRegion>
+	<region>us-west-1</region>
+	<host>%s(host8)</host>
+</createBucket>

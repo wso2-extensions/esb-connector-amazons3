@@ -1,0 +1,17 @@
+<getObjectTorrent>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>GET</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <expect></expect>
+    <bucketName>%s(bucketName2)</bucketName>
+    <bucketUrl>%s(bucketUrl4)</bucketUrl>
+    <objectName>%s(objectName6)</objectName>
+    <region>us-west-2</region>
+    <host>%s(host2)</host>
+</getObjectTorrent>

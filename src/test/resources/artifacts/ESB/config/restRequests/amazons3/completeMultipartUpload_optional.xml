@@ -1,0 +1,24 @@
+<completeMultipartUpload>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>POST</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <isXAmzDate>true</isXAmzDate>
+    <contentMD5></contentMD5>
+    <objectName>%s(objectName6)</objectName>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <uploadId>%s(uploadIdMandatory)</uploadId>
+    <partDetails>
+        <Part>
+            <PartNumber>1</PartNumber>
+            <ETag>%s(uploadPartETag)</ETag>
+        </Part>
+    </partDetails>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <expect>100-continue</expect>
+    <contentLength></contentLength>
+    <expires></expires>
+</completeMultipartUpload>

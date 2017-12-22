@@ -1,0 +1,27 @@
+{
+    "accessKeyId": "%s(accessKeyId)",
+    "secretAccessKey": "%s(secretAccessKey)",
+    "methodType": "PUT",
+    "contentType": "%s(jsonContentType)",
+    "addCharset": "%s(addCharset)",
+    "region":"us-west-2",
+    "isXAmzDate": "true",
+    "bucketUrl": "%s(bucketUrl5)",
+    "contentMD5":"",
+    "xAmzSecurityToken":"",
+    "host":"%s(host5)",
+    "expect":"",
+    "contentLength":"",  
+    "bucketPolicy": {
+        "Version":"2012-10-17",
+        "Statement":[{
+            "Sid":"AddPerm",
+            "Effect":"Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action":"s3:*",
+            "Resource":["arn:aws:s3:::%s(bucketName2)/*"]
+        }]
+    }
+}

@@ -1,0 +1,19 @@
+<deleteMultipleObjects>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>POST</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <bucketName>%s(bucketToDeleteMultipleObjects)</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <expect></expect>
+    <xAmzMfa></xAmzMfa>
+    <bucketUrl>%s(bucketUrlToDeleteMultipleObjects)</bucketUrl>
+    <region>us-east-1</region>
+    <host>%s(host1)</host>
+    <deleteConfig>
+        <Quiet>true</Quiet>
+        <Objects><Object><Key>%s(objectName1)</Key></Object><Object><Key>%s(objectName2)</Key></Object></Objects>
+    </deleteConfig>
+</deleteMultipleObjects>

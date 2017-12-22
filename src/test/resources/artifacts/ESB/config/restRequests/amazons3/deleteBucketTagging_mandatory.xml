@@ -1,0 +1,15 @@
+<deleteBucketTagging>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>DELETE</methodType>
+    <contentType>%s(contentType)</contentType>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5> 
+    <bucketName>%s(bucketName2)</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <region>us-west-2</region>
+    <host>%s(host2)</host>
+    <expect></expect>
+    <bucketUrl>%s(bucketUrl4)</bucketUrl>
+</deleteBucketTagging>

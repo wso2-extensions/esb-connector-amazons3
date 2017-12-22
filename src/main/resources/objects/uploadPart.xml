@@ -22,6 +22,7 @@
     <parameter name="partNumber" description="This specifiy the number or the index of the uploaded part."/>
     <parameter name="body" description="Content of the file."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketName" expression="$func:bucketName"/>
         <property name="uri.var.uriRemainder" value=""/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
@@ -37,10 +38,8 @@
         </filter>
         <script language="js">
             <![CDATA[
-           var objectName=mc.getProperty('uri.var.objectName');
-           var uploadId=mc.getProperty('uri.var.uploadId');
-           var partNumber=mc.getProperty('uri.var.partNumber');
-           mc.setProperty('uri.var.uriRemainder', '/'+objectName+'?partNumber=' + partNumber +'&uploadId='+uploadId);
+            var objectName=mc.getProperty('uri.var.objectName');
+            mc.setProperty('uri.var.uriRemainder', '/'+objectName);
         ]]>
         </script>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
@@ -57,6 +56,12 @@
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <!-- Force ESB to send the content length to the AmazonS3 API -->
@@ -81,7 +86,6 @@
                 </call>
             </else>
         </filter>
-
         <!-- Remove response custom header information -->
         <header name="x-amz-id-2" scope="transport" action="remove"/>
         <header name="x-amz-request-id" scope="transport" action="remove"/>

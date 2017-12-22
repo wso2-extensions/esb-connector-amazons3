@@ -1,0 +1,15 @@
+<getBucketRequestPayment>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <bucketName>%s(bucketName2)</bucketName>
+    <methodType>GET</methodType>
+    <contentLength></contentLength>
+    <contentType>application/xml</contentType>
+    <contentMD5></contentMD5>
+    <expect></expect>
+    <region>us-east-1</region>
+    <host>%s(host1)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketUrl>http://s3.amazonaws.com/invalidBucket</bucketUrl> 
+</getBucketRequestPayment>

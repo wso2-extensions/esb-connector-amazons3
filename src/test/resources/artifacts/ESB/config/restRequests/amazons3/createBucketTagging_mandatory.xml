@@ -1,0 +1,20 @@
+<createBucketTagging>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength>256</contentLength>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <expect></expect>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <tagSet>
+        <Tag>
+            <Key>Project</Key>
+            <Value>Project One</Value>
+        </Tag>
+    </tagSet>
+</createBucketTagging>

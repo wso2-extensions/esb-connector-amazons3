@@ -1,0 +1,29 @@
+<initMultipartUpload>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>POST</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <contentMD5></contentMD5>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <objectName>%s(objectName6)</objectName>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <expect></expect>
+    <xAmzAcl></xAmzAcl>
+    <xAmzGrantRead></xAmzGrantRead>
+    <xAmzGrantWrite></xAmzGrantWrite>
+    <xAmzGrantReadAcp></xAmzGrantReadAcp>
+    <xAmzGrantWriteAcp></xAmzGrantWriteAcp>
+    <xAmzGrantFullControl></xAmzGrantFullControl>
+    <contentDisposition></contentDisposition>
+    <contentEncoding></contentEncoding>
+    <contentLength></contentLength>
+    <expires></expires>
+    <xAmzMeta>Content-Language:enus</xAmzMeta>
+    <xAmzServeEncryption>AES256</xAmzServeEncryption>
+    <xAmzStorageClass>STANDARD</xAmzStorageClass>
+    <xAmzWebsiteLocation></xAmzWebsiteLocation>
+</initMultipartUpload>

@@ -1,0 +1,18 @@
+<deleteMultipleObjects>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>POST</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <bucketName>invalid</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <expect></expect>
+    <xAmzMfa></xAmzMfa>
+    <bucketUrl>http://s3.amazonaws.com/invalid</bucketUrl>
+    <region>us-east-1</region>
+    <host>%s(host1)</host>
+    <deleteConfig>
+        <Delete><Quiet>true</Quiet><Object><Key>%s(objectName1)</Key></Object><Object><Key>%s(objectName2)</Key></Object></Delete>
+    </deleteConfig>
+</deleteMultipleObjects>

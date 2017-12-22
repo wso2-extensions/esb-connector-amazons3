@@ -25,7 +25,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jets3t.service.CloudFrontService;
 import org.jets3t.service.CloudFrontServiceException;
 import org.jets3t.service.utils.ServiceUtils;
-import org.wso2.carbon.connector.amazons3.util.AmazonS3Constants;
+import org.wso2.carbon.connector.amazons3.constants.AmazonS3Constants;
 import org.wso2.carbon.connector.core.AbstractConnector;
 import org.wso2.carbon.mediation.registry.WSO2Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;

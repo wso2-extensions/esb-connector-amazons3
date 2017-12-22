@@ -1,0 +1,43 @@
+<createObjectACL>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength>256</contentLength>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentMD5></contentMD5>
+    <expect></expect>
+    <region>us-west-2</region>
+    <host>%s(host2)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketName>%s(bucketName2)</bucketName>
+    <bucketUrl>%s(bucketUrl4)</bucketUrl>
+    <objectName>%s(destinationObjectName)</objectName>
+    <xAmzAcl></xAmzAcl>
+    <xAmzGrantRead></xAmzGrantRead>
+    <xAmzGrantWrite></xAmzGrantWrite>
+    <xAmzGrantReadAcp></xAmzGrantReadAcp>
+    <xAmzGrantWriteAcp></xAmzGrantWriteAcp>
+    <xAmzGrantFullControl></xAmzGrantFullControl>
+    <ownerId>%s(ownerId)</ownerId>
+    <ownerdisplayName>%s(ownerdisplayName)</ownerdisplayName>
+    <accessControlList>
+        <Grants>
+            <Grant>
+                <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser">
+                    <ID>c6567b8c9274b78d6af4a3080c5e43e700f560f3517b7d9acc87251412044c35</ID>
+                    <DisplayName>pe.chanaka.ck@gmail.com</DisplayName>
+                </Grantee>
+                <Permission>WRITE_ACP</Permission>
+            </Grant>
+            <Grant>
+                <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser">
+                    <ID>c6567b8c9274b78d6af4a3080c5e43e700f560f3517b7d9acc87251412044c35</ID>
+                    <DisplayName>pe.chanaka.ck@gmail.com</DisplayName>
+                </Grantee>
+                <Permission>READ</Permission>
+            </Grant>
+        </Grants>
+    </accessControlList>
+</createObjectACL>

@@ -21,11 +21,27 @@
     <parameter name="ownerDisplayName" description="Screen name of the bucket owner."/>
     <parameter name="accessControlList" description="Container for ACL information."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.ownerId" expression="$func:ownerId"/>
         <property name="uri.var.ownerDisplayName" expression="$func:ownerDisplayName"/>
         <property name="uri.var.accessControlList" expression="$func:accessControlList"/>
-        <property name="uri.var.uriRemainder" value="/?acl"/>
+        <property name="uri.var.queryString" value="acl"/>
+        <payloadFactory media-type="xml">
+            <format>
+                <AccessControlPolicy>
+                    <Owner>
+                        <ID>$1</ID>
+                        <DisplayName>$2</DisplayName>
+                    </Owner>
+                    <AccessControlList>$ctx:uri.var.accessControlList</AccessControlList>
+                </AccessControlPolicy>
+            </format>
+            <args>
+                <arg expression="$ctx:uri.var.ownerId"/>
+                <arg expression="$ctx:uri.var.ownerDisplayName"/>
+            </args>
+        </payloadFactory>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>
                 <property name="uri.var.contentType"
@@ -49,24 +65,15 @@
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <payloadFactory media-type="xml">
-            <format>
-                <AccessControlPolicy>
-                    <Owner>
-                        <ID>$1</ID>
-                        <DisplayName>$2</DisplayName>
-                    </Owner>
-                    <AccessControlList>$ctx:uri.var.accessControlList</AccessControlList>
-                </AccessControlPolicy>
-            </format>
-            <args>
-                <arg expression="$ctx:uri.var.ownerId"/>
-                <arg expression="$ctx:uri.var.ownerDisplayName"/>
-            </args>
-        </payloadFactory>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
-                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?acl"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

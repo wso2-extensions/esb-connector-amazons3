@@ -25,6 +25,7 @@
     <parameter name="prefix" description="Parameter to select only those keys that begin with the specified prefix"/>
     <parameter name="versionIdMarker" description="Specifies the object version you want to start listing from"/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.delimiter" expression="$func:delimiter"/>
         <property name="uri.var.encodingType" expression="$func:encodingType"/>
@@ -32,8 +33,8 @@
         <property name="uri.var.maxKeys" expression="$func:maxKeys"/>
         <property name="uri.var.prefix" expression="$func:prefix"/>
         <property name="uri.var.versionIdMarker" expression="$func:versionIdMarker"/>
+        <property name="uri.var.queryString" value="versions"/>
         <property name="uri.var.query" value=""/>
-        <property name="uri.var.uriRemainder" value="/?versions"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Properties assigned in AmazonS3AuthConnector -->
@@ -52,42 +53,49 @@
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:uri.var.delimiter) and $ctx:uri.var.delimiter != ''">
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
             <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;delimiter=', $ctx:uri.var.delimiter)"/>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;encoding-type=', $ctx:uri.var.encodingType)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.keyMarker) and $ctx:uri.var.keyMarker != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;key-marker=', $ctx:uri.var.keyMarker)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.maxKeys) and $ctx:uri.var.maxKeys != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;max-keys=', $ctx:uri.var.maxKeys)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.prefix) and $ctx:uri.var.prefix != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;prefix=', $ctx:uri.var.prefix)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.versionIdMarker) and $ctx:uri.var.versionIdMarker != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;version-id-marker=', $ctx:uri.var.versionIdMarker)"/>
-            </then>
-        </filter>
+            <script language="js">
+                <![CDATA[
+                var queryString=mc.getProperty('uri.var.queryString');
+                var query=mc.getProperty('uri.var.query');
+                var delimiter=mc.getProperty('uri.var.delimiter');
+                var encodingType=mc.getProperty('uri.var.encodingType');
+                var keyMarker=mc.getProperty('uri.var.keyMarker');
+                var maxKeys=mc.getProperty('uri.var.maxKeys');
+                var prefix=mc.getProperty('uri.var.prefix');
+                var versionIdMarker=mc.getProperty('uri.var.versionIdMarker');
+                if (delimiter != null && delimiter != "") {
+                   query += 'delimiter=' + delimiter + '&';
+                }
+                if (encodingType != null && encodingType != "") {
+                   query += 'encoding-type=' + encodingType + '&';
+                }
+                if (maxKeys != null && maxKeys != "") {
+                   query += 'max-keys=' + maxKeys + '&';
+                }
+                if (keyMarker != null && keyMarker != "") {
+                   query += 'key-marker=' + keyMarker + '&';
+                }
+                if (prefix != null && prefix != "") {
+                    query += 'prefix=' + prefix + '&';
+                }
+                if (versionIdMarker != null && versionIdMarker != "") {
+                    query += 'version-id-marker=' + versionIdMarker + '&';
+                }
+                if (query != "") {
+                    query = '?' + queryString + '&' + query;
+                    mc.setProperty('uri.var.query' , query.toString().substring(0, query.toString().lastIndexOf("&")));
+                } else {
+                    query = '?' + queryString;
+                    mc.setProperty('uri.var.query' , query.toString());
+                }
+            ]]>
+            </script>
         <call>
             <endpoint>
                 <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}{+uri.var.query}"/>

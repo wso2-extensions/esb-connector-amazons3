@@ -1,0 +1,32 @@
+<getObject>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>GET</methodType>
+    <contentType>application/xml</contentType>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken/>
+    <contentMD5/>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <objectName>%s(destinationObjectName)</objectName>
+    <range/>
+    <ifModifiedSince/>
+    <ifUnmodifiedSince/>
+    <ifMatch/>
+    <ifNoneMatch/> 
+    <responseContentType/>
+    <responseContentLanguage/>
+    <responseExpires/>
+    <responseCacheControl/>
+    <responseContentDisposition/>
+    <responseContentEncoding/> 
+</getObject>
+
+
+
+	
+    
+
+
+

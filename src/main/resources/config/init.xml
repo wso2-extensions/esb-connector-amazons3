@@ -18,6 +18,18 @@
 <template name="init" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="accessKeyId" description="AWS access key ID."/>
     <parameter name="secretAccessKey" description="AWS secret access key."/>
+    <parameter name="region" description="Region which is used select a regional endpoint to make requests"/>
+    <parameter name="methodType" description="Type of the HTTP method."/>
+    <parameter name="contentLength" description="Length of the message without the headers according to RFC 2616."/>
+    <parameter name="contentType"
+               description="The content type of the resource in case the request content in the body."/>
+    <parameter name="addCharset" description="To add the char set to ContentType header."/>
+    <parameter name="host"
+               description="For path-style requests, the value is s3.amazonaws.com. For virtual-style requests, the value is BucketName.s3.amazonaws.com."/>
+    <parameter name="isXAmzDate" description="The current date and time according to the requester."/>
+    <parameter name="bucketName" description="Name of the bucket require."/>
+    <parameter name="blocking"
+               description="The blocking parameter is helping connector performs the blocking invocations to Amazon S3"/>
     <parameter name="privateKeyFilePath" description="Path of AWS private Key File."/>
     <parameter name="keyPairId" description="Key pair Id of AWS cloud Front."/>
     <parameter name="policyType" description="Policy for the URL signing. It can be custom or canned policy."/>
@@ -25,21 +37,13 @@
     <parameter name="dateLessThan" description="Can access the object before this specific date only."/>
     <parameter name="dateGreaterThan" description="Can access the object before this specific date only."/>
     <parameter name="ipAddress" description="IP address for creating Policy."/>
-    <parameter name="methodType" description="Type of the HTTP method."/>
-    <parameter name="contentLength" description="Length of the message without the headers according to RFC 2616."/>
-    <parameter name="contentType"
-               description="The content type of the resource in case the request content in the body."/>
-    <parameter name="addCharset" description="To add the char set to ContentType header."/>
     <parameter name="contentMD5"
                description="Base64 encoded 128-bit MD5 digest of the message without the headers according to RFC 1864."/>
     <parameter name="expect"
                description="This header can be used only if a body is sent to not to send the request body until it recieves an acknowledgment."/>
-    <parameter name="host"
-               description="For path-style requests, the value is s3.amazonaws.com. For virtual-style requests, the value is BucketName.s3.amazonaws.com."/>
     <parameter name="isXAmzDate" description="The current date and time according to the requester."/>
     <parameter name="xAmzSecurityToken"
                description="The security token based on whether using Amazon DevPay operations or temporary security credentials."/>
-    <parameter name="bucketName" description="Name of the bucket require."/>
     <parameter name="xAmzAcl" description="Sets the ACL of the bucket using the specified canned ACL."/>
     <parameter name="xAmzGrantRead"
                description="Allows the specified grantee or grantees to list the objects in the bucket."/>
@@ -86,12 +90,16 @@
         <property name="uri.var.ipAddress" expression="$func:ipAddress"/>
         <property name="uri.var.policyType" expression="$func:policyType"/>
         <property name="uri.var.urlSign" expression="$func:urlSign"/>
+        <property name="uri.var.region" expression="$func:region"/>
+        <property name="uri.var.service" value="s3"/>
+        <property name="uri.var.signatureMethod" value="HmacSHA256"/>
+        <property name="uri.var.signatureVersion" value="4"/>
+        <property name="uri.var.terminationString" value="aws4_request"/>
         <property name="uri.var.methodType" expression="$func:methodType"/>
         <property name="uri.var.contentLength" expression="$func:contentLength"/>
         <property name="uri.var.contentType" expression="$func:contentType"/>
         <property name="uri.var.addCharset" expression="$func:addCharset"/>
         <property name="uri.var.contentMD5" expression="$func:contentMD5"/>
-        <property name="uri.var.expect" expression="$func:expect"/>
         <property name="uri.var.host" expression="$func:host"/>
         <property name="uri.var.isXAmzDate" expression="$func:isXAmzDate"/>
         <property name="uri.var.xAmzSecurityToken" expression="$func:xAmzSecurityToken"/>
@@ -114,7 +122,9 @@
         <property name="uri.var.xAmzCopySourceIfNoneMatch" expression="$func:xAmzCopySourceIfNoneMatch"/>
         <property name="uri.var.xAmzCopySourceIfUnmodifiedSince" expression="$func:xAmzCopySourceIfUnmodifiedSince"/>
         <property name="uri.var.xAmzCopySourceIfModifiedSince" expression="$func:xAmzCopySourceIfModifiedSince"/>
-        <property name="uri.var.uriRemainder" expression="$func:uriRemainder"/>
+        <property name="uri.var.uriRemainder" value="/"/>
+        <property name="uri.var.queryString" value=""/>
+        <property name="uri.var.xAmzContentSha256" value="UNSIGNED-PAYLOAD"/>
         <property name="AMAZONS3_BLOCKING" expression="$func:blocking"/>
         <header name="Content-Type" scope="transport" expression="$ctx:uri.var.contentType"/>
         <property name="messageType" expression="$ctx:uri.var.contentType" scope="axis2"/>

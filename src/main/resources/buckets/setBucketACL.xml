@@ -19,10 +19,17 @@
     <parameter name="bucketUrl" description="End point URL of the request."/>
     <parameter name="accessControlPolicy" description="Container for the complete access permissions."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.accessControlPolicy" expression="$func:accessControlPolicy"/>
         <!-- Authentication Header Setup -->
-        <property name="uri.var.uriRemainder" value="/?acl"/>
+        <property name="uri.var.queryString" value="acl"/>
+        <payloadFactory media-type="xml">
+            <format>
+                <AccessControlPolicy xmlns="">$ctx:uri.var.accessControlPolicy</AccessControlPolicy>
+            </format>
+            <args/>
+        </payloadFactory>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>
                 <property name="uri.var.contentType"
@@ -45,15 +52,15 @@
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <payloadFactory media-type="xml">
-            <format>
-                <AccessControlPolicy xmlns="">$ctx:uri.var.accessControlPolicy</AccessControlPolicy>
-            </format>
-            <args/>
-        </payloadFactory>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
-                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?acl"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->
