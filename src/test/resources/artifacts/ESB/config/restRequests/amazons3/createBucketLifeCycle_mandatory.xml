@@ -1,0 +1,35 @@
+<createBucketLifecycle>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5> 
+    <bucketName>%s(bucketName2)</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <region>us-west-2</region>
+    <host>%s(host2)</host>
+    <expect></expect>
+    <bucketUrl>%s(bucketUrl4)</bucketUrl>
+    <lifecycleConfiguration>
+        <Rule>
+            <ID>id1</ID>
+            <Prefix>documents/</Prefix>
+            <Status>Enabled</Status>
+            <Transition>
+                <Days>30</Days>
+                <StorageClass>GLACIER</StorageClass>
+            </Transition>
+        </Rule>
+        <Rule>
+            <ID>id2</ID>
+            <Prefix>logs/</Prefix>
+            <Status>Enabled</Status>
+            <Expiration>
+                <Days>365</Days>
+            </Expiration>
+        </Rule>
+    </lifecycleConfiguration>
+</createBucketLifecycle>

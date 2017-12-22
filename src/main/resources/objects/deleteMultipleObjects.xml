@@ -20,10 +20,11 @@
     <parameter name="deleteConfig" description="Contains the objects that are suppose to be deleted."/>
     <parameter name="quiet" description="Element to enable quiet mode for the request."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.deleteConfig" expression="$func:deleteConfig"/>
         <property name="uri.var.quiet" expression="$func:quiet"/>
-        <property name="uri.var.uriRemainder" value="/?delete"/>
+        <property name="uri.var.queryString" value="delete"/>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>
                 <property name="uri.var.contentType"
@@ -77,9 +78,15 @@
                 <property name="Content-MD5" expression="$ctx:uri.var.contentMD5" scope="transport" type="STRING"/>
             </then>
         </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
-                <http method="post" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="post" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?delete"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

@@ -1,0 +1,19 @@
+<getObjectMetaData>
+    <!-- Header Parameters -->
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>HEAD</methodType> 
+    <contentType>application/xml</contentType>
+    <host>%s(host2)</host>
+    <region>us-west-2</region>
+    <isXAmzDate>true</isXAmzDate>
+    <bucketName>invalidBucket</bucketName>
+    <bucketUrl>%s(bucketUrl4)</bucketUrl>
+    <objectName>%s(objectName)</objectName>
+    <!-- Optional Header Parameters -->
+    <range></range>
+    <ifModifiedSince></ifModifiedSince>
+    <ifUnmodifiedSince></ifUnmodifiedSince>
+    <ifMatch></ifMatch>
+    <ifNoneMatch></ifNoneMatch>
+</getObjectMetaData>

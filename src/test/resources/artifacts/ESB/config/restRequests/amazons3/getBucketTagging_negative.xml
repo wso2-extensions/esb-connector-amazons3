@@ -1,0 +1,15 @@
+<getBucketTagging>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>GET</methodType>
+    <contentType>application/xml</contentType>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5>
+    <bucketName>%s(bucketName2)</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <region>us-east-1</region>
+    <host>%s(host1)</host>
+    <expect></expect>
+    <bucketUrl>http://s3.amazonaws.com/invalidBucket</bucketUrl>
+</getBucketTagging>

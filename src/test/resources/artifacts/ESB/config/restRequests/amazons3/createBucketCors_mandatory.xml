@@ -1,0 +1,22 @@
+<createBucketCors>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength>256</contentLength>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <expect></expect>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <corsConfiguration>
+        <CORSRule>
+            <AllowedOrigin>*</AllowedOrigin>
+            <AllowedMethod>GET</AllowedMethod>
+            <AllowedHeader>*</AllowedHeader>
+            <MaxAgeSeconds>3000</MaxAgeSeconds>
+        </CORSRule>
+    </corsConfiguration>
+</createBucketCors>

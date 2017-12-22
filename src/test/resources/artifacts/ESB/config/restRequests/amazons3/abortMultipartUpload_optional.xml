@@ -1,0 +1,28 @@
+<abortMultipartUpload>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>DELETE</methodType>
+    <contentType>%s(contentType)</contentType>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <contentMD5></contentMD5>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <objectName>%s(objectName6)</objectName>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <uploadId>%s(uploadIdOptional)</uploadId>
+    <expect></expect>
+    <xAmzAcl>bucket-owner-full-control</xAmzAcl>
+    <xAmzGrantRead></xAmzGrantRead>
+    <xAmzGrantWrite></xAmzGrantWrite>
+    <xAmzGrantReadAcp></xAmzGrantReadAcp>
+    <xAmzGrantWriteAcp></xAmzGrantWriteAcp>
+    <xAmzGrantFullControl></xAmzGrantFullControl>
+    <contentDisposition></contentDisposition>
+    <contentEncoding></contentEncoding>
+    <contentLength></contentLength>
+    <expires></expires>
+    <xAmzMeta>Content-Language:enus</xAmzMeta>
+    <xAmzStorageClass>STANDARD</xAmzStorageClass>
+    <xAmzWebsiteLocation></xAmzWebsiteLocation>
+</abortMultipartUpload>

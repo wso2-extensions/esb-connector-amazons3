@@ -31,6 +31,7 @@
     <parameter name="ifMatch" description="Return the object only if its ETag is the same."/>
     <parameter name="ifNoneMatch" description="Return the object only if its ETag is not same."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.responseContentType" expression="$func:responseContentType"/>
         <property name="uri.var.responseContentLanguage" expression="$func:responseContentLanguage"/>
@@ -45,7 +46,7 @@
         <property name="uri.var.ifNoneMatch" expression="$func:ifNoneMatch"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName)"/>
-        <property name="uri.var.query" value="?"/>
+        <property name="uri.var.query" value=""/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Properties Assigned in AmazonS3AuthConnector -->
@@ -94,44 +95,43 @@
                           type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:uri.var.responseContentType) and $ctx:uri.var.responseContentType != ''">
+        <script language="js">
+            <![CDATA[
+            var query = mc.getProperty('uri.var.query');
+            var responseContentType = mc.getProperty('uri.var.responseContentType');
+            var responseContentLanguage = mc.getProperty('uri.var.responseContentLanguage');
+            var responseExpires = mc.getProperty('uri.var.responseExpires');
+            var responseCacheControl = mc.getProperty('uri.var.responseCacheControl');
+            var responseContentDisposition = mc.getProperty('uri.var.responseContentDisposition');
+            var responseContentEncoding = mc.getProperty('uri.var.responseContentEncoding');
+            if (responseContentType != null && responseContentType != "") {
+                query += 'response-content-type=' + responseContentType + '&';
+            }
+            if (responseContentLanguage != null && responseContentLanguage != "") {
+                query += 'response-content-language=' + responseContentLanguage + '&';
+            }
+            if (responseExpires != null && responseExpires != "") {
+                query += 'response-expires=' + responseExpires + '&';
+            }
+            if (responseCacheControl != null && responseCacheControl != "") {
+                query += 'response-cache-control=' + responseCacheControl + '&';
+            }
+            if (responseContentDisposition != null && responseContentDisposition != "") {
+                query += 'response-content-disposition=' + responseContentDisposition + '&';
+            }
+            if (responseContentEncoding != null && responseContentEncoding != "") {
+                query += 'response-content-encoding=' + responseContentEncoding + '&';
+            }
+            if (query != "") {
+                query = '?' + query;
+                mc.setProperty('uri.var.query' , query.toString().substring(0, query.toString().lastIndexOf("&")));
+            }
+        ]]>
+        </script>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
             <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'response-content-type=',$ctx:uri.var.responseContentType,'&amp;')"/>
-            </then>
-        </filter>
-        <filter
-                xpath="string($ctx:uri.var.responseContentLanguage) and $ctx:uri.var.responseContentLanguage != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'response-content-language=',$ctx:uri.var.responseContentLanguage,'&amp;')"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.responseExpires) and $ctx:uri.var.responseExpires != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'response-expires=',$ctx:uri.var.responseExpires,'&amp;')"/>
-            </then>
-        </filter>
-        <filter
-                xpath="string($ctx:uri.var.responseCacheControl) and $ctx:uri.var.responseCacheControl != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'response-cache-control=',$ctx:uri.var.responseCacheControl,'&amp;')"/>
-            </then>
-        </filter>
-        <filter
-                xpath="string($ctx:uri.var.responseContentDisposition) and $ctx:uri.var.responseContentDisposition != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'response-content-disposition=',$ctx:uri.var.responseContentDisposition,'&amp;')"/>
-            </then>
-        </filter>
-        <filter
-                xpath="string($ctx:uri.var.responseContentEncoding) and $ctx:uri.var.responseContentEncoding != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'response-content-encoding=',$ctx:uri.var.responseContentEncoding,'&amp;')"/>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.urlSign)='true'">

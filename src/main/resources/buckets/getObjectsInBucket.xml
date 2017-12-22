@@ -24,13 +24,14 @@
     <parameter name="maxKeys" description="This sets the maximum number of keys returned in the response body."/>
     <parameter name="prefix" description="This limits the response to keys that begin with the specified prefix."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.delimiter" expression="$func:delimiter"/>
         <property name="uri.var.encodingType" expression="$func:encodingType"/>
         <property name="uri.var.marker" expression="$func:marker"/>
         <property name="uri.var.maxKeys" expression="$func:maxKeys"/>
         <property name="uri.var.prefix" expression="$func:prefix"/>
-        <property name="uri.var.query" value="?"/>
+        <property name="uri.var.query" value=""/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <filter xpath="string($ctx:date) and $ctx:date != ''">
@@ -48,39 +49,44 @@
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:uri.var.delimiter) and $ctx:uri.var.delimiter != ''">
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
             <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','delimiter=',$ctx:uri.var.delimiter)"/>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
-        <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','encoding-type=',$ctx:uri.var.encodingType)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.marker) and $ctx:uri.var.marker != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','marker=',$ctx:uri.var.marker)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.maxKeys) and $ctx:uri.var.maxKeys != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','max-keys=',$ctx:uri.var.maxKeys)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.prefix) and $ctx:uri.var.prefix != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','prefix=',$ctx:uri.var.prefix)"/>
-            </then>
-        </filter>
+        <script language="js">
+        <![CDATA[
+            var query = mc.getProperty('uri.var.query');
+            var delimiter = mc.getProperty('uri.var.delimiter');
+            var encodingType = mc.getProperty('uri.var.encodingType');
+            var marker = mc.getProperty('uri.var.marker');
+            var maxKeys = mc.getProperty('uri.var.maxKeys');
+            var prefix = mc.getProperty('uri.var.prefix');
+            if (delimiter != null && delimiter != "") {
+                query += 'delimiter=' + delimiter + '&';
+            }
+            if (encodingType != null && encodingType != "") {
+                query += 'encoding-type=' + encodingType + '&';
+            }
+            if (marker != null && marker != "") {
+                query += 'marker=' + marker + '&';
+            }
+            if (maxKeys != null && maxKeys != "") {
+                query += 'max-keys=' + maxKeys + '&';
+            }
+            if (prefix != null && prefix != "") {
+                query += 'prefix=' + prefix + '&';
+            }
+            if (query != "") {
+                query = '?' + query;
+                mc.setProperty('uri.var.query' , query.toString().substring(0, query.toString().lastIndexOf("&")));
+            }
+        ]]>
+        </script>
         <call>
             <endpoint>
-                <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.query}"/>
+                <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}{+uri.var.query}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

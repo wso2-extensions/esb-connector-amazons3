@@ -1,0 +1,18 @@
+<restoreObject>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>POST</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <objectName>%s(objectForRestore)</objectName>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <expect></expect>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <numberOfDays>30</numberOfDays>
+    <versionId>%s(versionId)</versionId>
+</restoreObject>

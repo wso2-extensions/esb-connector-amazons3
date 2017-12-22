@@ -19,6 +19,7 @@
     <parameter name="bucketUrl" description="The URL of the bucket without the http prefix."/>
     <parameter name="objectName" description="The name to give for the newly created object."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketName" expression="$func:bucketName"/>
         <property name="uri.var.uriRemainder" value=""/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
@@ -31,8 +32,8 @@
         </filter>
         <script language="js">
             <![CDATA[
-           var objectName=mc.getProperty('uri.var.objectName');
-           mc.setProperty('uri.var.uriRemainder', '/'+objectName);
+            var objectName=mc.getProperty('uri.var.objectName');
+            mc.setProperty('uri.var.uriRemainder', '/'+objectName);
         ]]>
         </script>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
@@ -49,6 +50,12 @@
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <!-- Force ESB to send the content length to the AmazonS3 API -->

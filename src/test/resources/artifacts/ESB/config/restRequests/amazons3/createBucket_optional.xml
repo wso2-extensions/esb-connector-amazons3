@@ -1,0 +1,20 @@
+<createBucket>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <isXAmzDate>true</isXAmzDate>
+    <bucketUrl>%s(bucketUrl2)</bucketUrl>
+    <bucketName>%s(bucketName2)</bucketName>
+    <contentLength></contentLength>
+    <region>us-east-1</region>
+    <host>%s(host1)</host>
+    <bucketRegion>us-west-2</bucketRegion>
+    <xAmzAcl>bucket-owner-full-control</xAmzAcl>
+    <xAmzGrantRead></xAmzGrantRead>
+    <xAmzGrantWrite></xAmzGrantWrite>
+    <xAmzGrantReadAcp></xAmzGrantReadAcp>
+    <xAmzGrantWriteAcp></xAmzGrantWriteAcp>
+    <xAmzGrantFullControl></xAmzGrantFullControl>
+</createBucket> 

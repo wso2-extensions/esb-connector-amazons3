@@ -1,0 +1,16 @@
+<getBucketNotification>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>GET</methodType>
+    <contentType>application/xml</contentType>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5>
+    <bucketName>%s(bucketName2)</bucketName>
+    <region>us-west-2</region>
+    <host>%s(host2)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <host></host>
+    <expect></expect>
+    <bucketUrl>%s(bucketUrl4)</bucketUrl>
+</getBucketNotification>

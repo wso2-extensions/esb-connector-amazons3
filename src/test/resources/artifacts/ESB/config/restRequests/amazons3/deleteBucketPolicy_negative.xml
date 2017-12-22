@@ -1,0 +1,16 @@
+<deleteBucketPolicy>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>DELETE</methodType>
+    <contentType>%s(contentType)</contentType>
+    <contentLength>256</contentLength>
+    <contentMD5></contentMD5>
+    <bucketName>%s(bucketName2)</bucketName>
+    <region>us-east-1</region>
+    <host>%s(host1)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <host></host>
+    <expect></expect>
+    <bucketUrl>http://s3.amazonaws.com/invalidBucket</bucketUrl>
+</deleteBucketPolicy>

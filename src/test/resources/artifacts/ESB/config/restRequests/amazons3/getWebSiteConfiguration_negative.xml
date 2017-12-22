@@ -1,0 +1,12 @@
+<getWebSiteConfiguration>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>GET</methodType>
+    <xAmzSecurityToken/>
+    <bucketName>%s(bucketName3)</bucketName>
+    <isXAmzDate>true</isXAmzDate>
+    <contentType>application/xml</contentType>
+    <bucketUrl>http://invalidBucket.s3.amazonaws.com</bucketUrl>
+    <region>us-east-1</region>
+    <host>%s(host1)</host>
+</getWebSiteConfiguration>

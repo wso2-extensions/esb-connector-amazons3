@@ -18,6 +18,7 @@
 <template name="deleteBucket" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="bucketUrl" description="End point URL of the request."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.uriRemainder" value="/"/>
         <!-- Authentication Header Setup -->
@@ -35,6 +36,12 @@
         <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
             <then>
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <call>

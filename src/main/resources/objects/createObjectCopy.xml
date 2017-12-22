@@ -19,6 +19,7 @@
     <parameter name="bucketUrl" description="End point URL of the request."/>
     <parameter name="destinationObject" description="The name for the destination object to create after copying."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.destinationObject" expression="$func:destinationObject"/>
         <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.destinationObject)"/>
@@ -28,6 +29,18 @@
                           expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
             </then>
         </filter>
+        <!-- Send Empty Message Body -->
+        <payloadFactory media-type="xml">
+            <format>
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                    <soapenv:Header/>
+                    <soapenv:Body/>
+                </soapenv:Envelope>
+            </format>
+            <args/>
+        </payloadFactory>
+        <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
+        <property name="NO_ENTITY_BODY" value="true" type="BOOLEAN" scope="axis2"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <filter xpath="string($ctx:date) and $ctx:date != ''">
@@ -63,18 +76,12 @@
                           expression="$ctx:uri.var.xAmzWebsiteLocationValue" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <!-- Send Empty Message Body -->
-        <payloadFactory media-type="xml">
-            <format>
-                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-                    <soapenv:Header/>
-                    <soapenv:Body/>
-                </soapenv:Envelope>
-            </format>
-            <args/>
-        </payloadFactory>
-        <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
-        <property name="NO_ENTITY_BODY" value="true" type="BOOLEAN" scope="axis2"/>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
                 <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>

@@ -28,6 +28,7 @@
     <parameter name="ifNoneMatch"
                description="Return the object only if its entity tag ETag is different from the one specified; otherwise, return a 304."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.range" expression="$func:range"/>
@@ -85,6 +86,12 @@
         <filter xpath="string($ctx:uri.var.ifNoneMatch) and $ctx:uri.var.ifNoneMatch != ''">
             <then>
                 <property name="If-None-Match" expression="$ctx:uri.var.ifNoneMatch" scope="transport" type="STRING"/>
+            </then>
+        </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
             </then>
         </filter>
         <!-- Send Empty Message Body -->

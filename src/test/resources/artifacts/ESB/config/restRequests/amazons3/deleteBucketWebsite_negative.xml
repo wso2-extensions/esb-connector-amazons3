@@ -1,0 +1,15 @@
+<deleteBucketWebsiteConfiguration>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>DELETE</methodType>
+    <contentType>%s(contentType)</contentType>
+    <contentLength></contentLength>
+    <contentMD5></contentMD5> 
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <region>us-east-1</region>
+    <host>%s(host1)</host>
+    <expect></expect> 
+    <bucketName>%s(bucketName3)</bucketName>
+    <bucketUrl>http://s3.amazonaws.com/invalidBucket</bucketUrl> 
+</deleteBucketWebsiteConfiguration>

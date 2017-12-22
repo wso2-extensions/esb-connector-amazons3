@@ -22,10 +22,11 @@
     <parameter name="rules"
                description="Set of replication rules. Replication configuration must have at least one rule and can contain up to 1,000 rules."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.role" expression="$func:role"/>
         <property name="uri.var.rules" expression="$func:rules"/>
-        <property name="uri.var.uriRemainder" value="/?replication"/>
+        <property name="uri.var.queryString" value="replication"/>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>
                 <property name="uri.var.contentType"
@@ -68,9 +69,15 @@
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
-                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?replication"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

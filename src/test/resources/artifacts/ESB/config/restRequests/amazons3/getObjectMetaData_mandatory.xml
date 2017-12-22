@@ -1,0 +1,12 @@
+<getObjectMetaData>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>HEAD</methodType> 
+    <contentType>application/xml</contentType>
+    <isXAmzDate>true</isXAmzDate>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <objectName>%s(destinationObjectName)</objectName>
+</getObjectMetaData>
+

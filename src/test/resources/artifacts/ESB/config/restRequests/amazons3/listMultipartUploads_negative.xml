@@ -1,0 +1,10 @@
+<listMultipartUploads>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>GET</methodType>
+    <contentType>application/xml</contentType>
+    <isXAmzDate>Invalid</isXAmzDate>
+    <bucketUrl>%s(bucketUrl5)</bucketUrl>
+    <region>us-west-2</region>
+    <host>%s(host5)</host>
+</listMultipartUploads>

@@ -29,7 +29,7 @@ import org.apache.axiom.soap.SOAPBody;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseConstants;
-import org.wso2.carbon.connector.amazons3.util.AmazonS3Constants;
+import org.wso2.carbon.connector.amazons3.constants.AmazonS3Constants;
 import org.wso2.carbon.connector.core.AbstractConnector;
 
 /**
@@ -59,7 +59,7 @@ public class AmazonS3ContentMD5Builder extends AbstractConnector {
             handleException("Error reading MD5 digest: ", ioe, messageContext);
         } catch (NoSuchAlgorithmException iae) {
             log.error("Invalid Algorithm", iae);
-            storeErrorResponseStatus(messageContext, iae, AmazonS3Constants.NOSUCH_ALGORITHM_ERROR_CODE);
+            storeErrorResponseStatus(messageContext, iae, AmazonS3Constants.NO_SUCH_ALGORITHM_ERROR_CODE);
             handleException("Invalid Algorithm", iae, messageContext);
         } catch (Exception exc) {
             log.error("Error occured in connector", exc);

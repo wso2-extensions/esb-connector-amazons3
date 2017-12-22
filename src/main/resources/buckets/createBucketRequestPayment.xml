@@ -19,9 +19,20 @@
     <parameter name="bucketUrl" description="End point URL of the request."/>
     <parameter name="payer" description="Specifies who pays for the download and request fees."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.payer" expression="$func:payer"/>
-        <property name="uri.var.uriRemainder" value="/?requestPayment"/>
+        <property name="uri.var.queryString" value="requestPayment"/>
+        <payloadFactory media-type="xml">
+            <format>
+                <RequestPaymentConfiguration>
+                    <Payer>$1</Payer>
+                </RequestPaymentConfiguration>
+            </format>
+            <args>
+                <arg expression="$ctx:uri.var.payer"/>
+            </args>
+        </payloadFactory>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>
                 <property name="uri.var.contentType"
@@ -45,19 +56,15 @@
                 <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
             </then>
         </filter>
-        <payloadFactory media-type="xml">
-            <format>
-                <RequestPaymentConfiguration>
-                    <Payer>$1</Payer>
-                </RequestPaymentConfiguration>
-            </format>
-            <args>
-                <arg expression="$ctx:uri.var.payer"/>
-            </args>
-        </payloadFactory>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
-                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?requestPayment"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

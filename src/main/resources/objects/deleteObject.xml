@@ -20,15 +20,17 @@
     <parameter name="objectName" description="The name of the object to be deleted."/>
     <parameter name="versionId" description="Version Id of an object to remove a specific object version."/>
     <sequence>
+        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
         <property name="uri.var.versionId" expression="$func:versionId"/>
+        <property name="uri.var.query" value=""/>
         <!-- urlRemainder needs to be sent to generate authentication code -->
-        <property name="uri.var.uriRemainder" expression="fn:concat('/', $ctx:uri.var.objectName)"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/', $ctx:uri.var.objectName, '/')"/>
         <filter xpath="string(uri.var.versionId) and uri.var.versionId != ''">
             <then>
-                <property name="uri.var.uriRemainder"
-                          expression="fn:concat($ctx:uri.var.uriRemainder, '/', '?versionId=', $ctx:uri.var.versionId)"/>
+                <property name="uri.var.query"
+                          expression="fn:concat($ctx:uri.var.query, '?versionId=', $ctx:uri.var.versionId)"/>
             </then>
         </filter>
         <!-- Authentication Header Setup -->
@@ -54,9 +56,15 @@
                 <property name="x-amz-mfa" expression="$ctx:xAmzMfa" scope="transport" type="STRING"/>
             </then>
         </filter>
+        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
+            <then>
+                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
+                          type="STRING"/>
+            </then>
+        </filter>
         <call>
             <endpoint>
-                <http method="delete" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="delete" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}{+uri.var.query}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

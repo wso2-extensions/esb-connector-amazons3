@@ -1,0 +1,17 @@
+<createBucketVersioning>
+    <accessKeyId>%s(accessKeyId)</accessKeyId>
+    <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
+    <methodType>PUT</methodType>
+    <contentLength>256</contentLength>
+    <contentType>%s(contentType)</contentType>
+    <addCharset>%s(addCharset)</addCharset>
+    <expect></expect>
+    <region>us-west-1</region>
+    <host>%s(host8)</host>
+    <isXAmzDate>true</isXAmzDate>
+    <xAmzSecurityToken></xAmzSecurityToken>
+    <bucketName>%s(bucketName4)</bucketName>
+    <bucketUrl>%s(bucketUrl8)</bucketUrl>
+    <status>%s(versioningStatus)</status>
+    <mfaDelete>Disabled</mfaDelete>
+</createBucketVersioning>
