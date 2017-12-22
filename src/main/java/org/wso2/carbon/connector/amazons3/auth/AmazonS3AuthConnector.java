@@ -130,8 +130,7 @@ public class AmazonS3AuthConnector extends AbstractConnector {
                 String key = entry.getKey();
                 String tempParam = parametersMap.get(key);
                 if (!tempParam.isEmpty()) {
-                    amzHeadersMap.put(amzHeaderKeysMap.get(key),
-                            tempParam.replaceAll(AmazonS3Constants.REGEX, AmazonS3Constants.EMPTY_STR));
+                    amzHeadersMap.put(amzHeaderKeysMap.get(key), tempParam);
                 }
             }
     
