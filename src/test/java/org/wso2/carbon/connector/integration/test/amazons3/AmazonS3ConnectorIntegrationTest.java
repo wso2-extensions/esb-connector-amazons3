@@ -97,8 +97,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketForBucketReplication_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -113,8 +112,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucket_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -128,8 +126,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucket_optional.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -144,13 +141,11 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucket_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
     }
-
 
     /**
      * Positive test case for createBucketPolicy method with mandatory parameters.
@@ -161,8 +156,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketPolicy");
         esbRequestHeadersMap.put("Content-Type", "application/json");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketPolicy_mandatory.json");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -177,8 +171,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketPolicy");
         esbRequestHeadersMap.put("Content-Type", "application/json");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketPolicy_negative.json");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
@@ -193,8 +186,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketCors");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketCors_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -209,8 +201,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketCors");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketCors_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -225,8 +216,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketWebsiteConfiguration");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketWebsiteConfiguration_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -241,8 +231,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketWebsiteConfiguration");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketWebsiteConfiguration_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -259,8 +248,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
         Thread.sleep(Long.parseLong(connectorProperties.getProperty("timeOut")));
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "setBucketACL_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -275,8 +263,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:setBucketACL");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "setBucketACL_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -292,8 +279,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBuckets");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBuckets_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -307,8 +293,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBuckets");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBuckets_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -323,8 +308,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketVersioning");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketVersioning_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -339,8 +323,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketVersioning");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketVersioning_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -355,8 +338,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketRequestPayment");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketRequestPayment_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -372,8 +354,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketRequestPayment");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketRequestPayment_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -388,8 +369,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketACL");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketACL_mandatory.xml");
         String response = esbRestResponse.getBody().toString();
         String ownerID = response.substring(response.lastIndexOf("<ID>") + "<ID>".length(),
@@ -412,8 +392,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketACL");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketACL_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -428,8 +407,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketCors");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketCors_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -444,8 +422,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketCors");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketCors_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -463,8 +440,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Content-Type", "application/xml");
         Thread.sleep(Long.parseLong(connectorProperties.getProperty("timeOut")));
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketLifeCycle_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -480,8 +456,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketLifeCycle");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketLifeCycle_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -497,8 +472,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketLocation");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketLocation_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -514,8 +488,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketLocation");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketLocation_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -531,8 +504,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketLogging");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketLogging_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -548,8 +520,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketLogging");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketLogging_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -565,8 +536,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketNotification");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketNotification_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -582,8 +552,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketNotification");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketNotification_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -599,8 +568,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketVersioning");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketVersioning_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -616,8 +584,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketVersioning");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketVersioning_optional.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -632,8 +599,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketVersioning");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketVersioningForReplication_optional.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -649,8 +615,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketReplication");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketReplication_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -666,8 +631,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketReplication");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketReplication_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -683,8 +647,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketReplication");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketReplication_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -700,8 +663,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketTagging");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketTagging_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -717,8 +679,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketTagging");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketTagging_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -735,8 +696,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
 
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketTagging_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -745,15 +705,14 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
     /**
      * Positive test case for getWebSiteConfiguration method with mandatory parameters.
      */
-    @Test(dependsOnMethods = {"testCreateBucketWebsiteConfigurationWithMandatoryParameters"},
-            groups = {"wso2.esb"}, description = "AmazonS3 {getWebSiteConfiguration} integration test with mandatory parameters.")
+    @Test(dependsOnMethods = {"testCreateBucketWebsiteConfigurationWithMandatoryParameters"}, groups = {"wso2.esb"},
+            description = "AmazonS3 {getWebSiteConfiguration} integration test with mandatory parameters.")
     public void testGetWebSiteConfigurationWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getWebSiteConfiguration");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getWebSiteConfiguration_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -762,15 +721,14 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
     /**
      * Negative test case for getWebSiteConfiguration method.
      */
-    @Test(dependsOnMethods = {"testCreateBucketWebsiteConfigurationWithMandatoryParameters"},
-            groups = {"wso2.esb"}, description = "AmazonS3 {getWebSiteConfiguration} integration test with negative case.")
+    @Test(dependsOnMethods = {"testCreateBucketWebsiteConfigurationWithMandatoryParameters"}, groups = {"wso2.esb"},
+            description = "AmazonS3 {getWebSiteConfiguration} integration test with negative case.")
     public void testGetWebSiteConfigurationWithNegativeCase() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:getWebSiteConfiguration");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getWebSiteConfiguration_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -786,8 +744,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketPolicy");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketPolicy_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -803,8 +760,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketPolicy");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketPolicy_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -821,8 +777,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createObjectACL");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createObjectACL_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -838,8 +793,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createObjectACL");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createObjectACL_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 404);
@@ -855,8 +809,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createObjectCopy");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createObjectCopy_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -872,8 +825,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createObjectCopy");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createObjectCopy_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -889,8 +841,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObjectsInBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObjectsInBucket_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -906,8 +857,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObjectsInBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObjectsInBucket_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -924,8 +874,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketObjectVersions");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketObjectVersions_mandatory.xml");
         String response = esbRestResponse.getBody().toString();
 
@@ -949,8 +898,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketObjectVersions");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketObjectVersions_optional.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -966,8 +914,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getBucketObjectVersions");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getBucketObjectVersions_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -983,8 +930,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObject");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObject_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1000,8 +946,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObject");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObject_optional.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1016,8 +961,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObject");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObject_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 404);
@@ -1034,8 +978,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObjectMetaData");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObjectMetaData_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1051,8 +994,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObjectMetaData");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObjectMetaData_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1068,8 +1010,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:checkBucketPermission");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "checkBucketPermission_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1085,8 +1026,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:checkBucketPermission");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "checkBucketPermission_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
@@ -1102,8 +1042,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketLifecycle");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketLifecycle_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1120,8 +1059,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObjectACL");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObjectACL_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1137,8 +1075,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:initMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "initMultipartUpload_mandatory.xml");
         String response = esbRestResponse.getBody().toString();
         String uploadIdForCopyPart = response.substring(response.lastIndexOf("<UploadId>") + "<UploadId>".length(),
@@ -1157,8 +1094,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:initMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "initMultipartUpload_optional.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1174,8 +1110,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:initMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "initMultipartUpload_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1192,8 +1127,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:abortMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "abortMultipartUpload_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1210,8 +1144,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:abortMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "abortMultipartUpload_optional.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1227,8 +1160,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:abortMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "abortMultipartUpload_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1244,8 +1176,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:uploadPart");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "uploadPart_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1258,15 +1189,15 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
     /**
      * Mandatory parameter test case for restoreObject method.
      */
-    @Test(enabled = false, groups = {"wso2.esb"}, dependsOnMethods = {"testGetBucketObjectVersionsWithMandatoryParameters"},
+    @Test(enabled = false, groups = {"wso2.esb"},
+            dependsOnMethods = {"testGetBucketObjectVersionsWithMandatoryParameters"},
             description = "AmazonS3 {restoreObject} integration test with mandatory parameter.")
     public void testRestoreObjectWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:restoreObject");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "restoreObject_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1283,8 +1214,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:headObject");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "headObject_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1300,8 +1230,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:headObject");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "headObject_optional.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1318,8 +1247,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketACL");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketACL_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1335,8 +1263,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:createBucketRequestPayment");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "createBucketRequestPayment_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1352,8 +1279,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:headBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "headBucket_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1370,8 +1296,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:getObjectTorrent");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "getObjectTorrent_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1389,8 +1314,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteObject");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteObject_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1407,8 +1331,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Content-Type", "application/xml");
         Thread.sleep(Long.parseLong(connectorProperties.getProperty("timeOut")));
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteObject_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1417,14 +1340,14 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
     /**
      * Mandatory parameter test case for deleteMultipleObjects method.
      */
-    @Test(groups = {"wso2.esb"}, description = "AmazonS3 {deleteMultipleObjects} integration test with mandatory parameter.")
+    @Test(groups = {"wso2.esb"},
+            description = "AmazonS3 {deleteMultipleObjects} integration test with mandatory parameter.")
     public void testDeleteMultipleObjectsWithMandatoryParameters() throws Exception {
 
         esbRequestHeadersMap.put("Action", "urn:deleteMultipleObjects");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteMultipleObjects_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
@@ -1439,8 +1362,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteMultipleObjects");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteMultipleObjects_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1457,8 +1379,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Content-Type", "application/xml");
         Thread.sleep(Long.parseLong(connectorProperties.getProperty("timeOut")));
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucketWebsite_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1475,8 +1396,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Content-Type", "application/xml");
         Thread.sleep(Long.parseLong(connectorProperties.getProperty("timeOut")));
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucketWebsite_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1492,8 +1412,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteBucketPolicy");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucketPolicy_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1509,8 +1428,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteBucketPolicy");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucketPolicy_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1527,8 +1445,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteBucketCors");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucketCors_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1545,8 +1462,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteBucketLifecycle");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucketLifecycle_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1563,8 +1479,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteBucketReplication");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucketReplication_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1581,8 +1496,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteBucketTagging");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucketTagging_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1598,8 +1512,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucket_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
@@ -1615,8 +1528,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:deleteBucket");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "deleteBucket_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1632,8 +1544,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:listMultipartUploads");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "listMultipartUploads_mandatory.xml");
         String response = esbRestResponse.getBody().toString();
         String uploadIdMandatory = response.substring(response.lastIndexOf("<UploadId>") + "<UploadId>".length(),
@@ -1653,8 +1564,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:listMultipartUploads");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "listMultipartUploads_optional.xml");
 
         String response = esbRestResponse.getBody().toString();
@@ -1676,8 +1586,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:listMultipartUploads");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "listMultipartUploads_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1693,8 +1602,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:completeMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "completeMultipartUpload_mandatory.xml");
 
         final String response = esbRestResponse.getBody().toString();
@@ -1713,8 +1621,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:completeMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "completeMultipartUpload_optional.xml");
 
         final String response = esbRestResponse.getBody().toString();
@@ -1733,8 +1640,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:completeMultipartUpload");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "completeMultipartUpload_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
@@ -1751,8 +1657,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:uploadPartCopy");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "uploadPartCopy_mandatory.xml");
         String response =esbRestResponse.getBody().toString();
         String eTag = response.substring(response.lastIndexOf("<ETag>") + "<ETag>".length(),
@@ -1770,12 +1675,9 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:listParts");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "listParts_mandatory.xml");
-
         String response = esbRestResponse.getBody().toString();
-
         Assert.assertTrue(response.contains("ListPartsResult"));
         Assert.assertTrue(response.contains(connectorProperties.getProperty("bucketName2")));
     }
@@ -1790,8 +1692,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:listParts");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "listParts_optional.xml");
 
         String response = esbRestResponse.getBody().toString();
@@ -1811,8 +1712,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Action", "urn:listParts");
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
-        RestResponse<OMElement> esbRestResponse =
-                sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
                         "listParts_negative.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
