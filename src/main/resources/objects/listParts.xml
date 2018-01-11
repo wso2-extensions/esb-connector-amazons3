@@ -27,6 +27,12 @@
         <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
+        <script language="js">
+            <![CDATA[
+            var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
+                mc.setProperty('uri.var.objectName' , encodedObjectName);
+        ]]>
+        </script>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.maxParts" expression="$func:maxParts"/>
         <property name="uri.var.encodingType" expression="$func:encodingType"/>

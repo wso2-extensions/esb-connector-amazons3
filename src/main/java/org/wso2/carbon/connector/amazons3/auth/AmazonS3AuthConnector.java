@@ -18,6 +18,8 @@
 package org.wso2.carbon.connector.amazons3.auth;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseConstants;
 import org.wso2.carbon.connector.amazons3.constants.AmazonS3Constants;
@@ -38,6 +40,7 @@ import java.util.*;
  * Class AmazonS3AuthConnector which helps to generate authentication header for Amazon S3 WSO2 ESB Connector.
  */
 public class AmazonS3AuthConnector extends AbstractConnector {
+    private static Log log = LogFactory.getLog(AmazonS3AuthConnector.class);
 
     /**
      * Connect method which is generating authentication of the connector for each request.
@@ -169,37 +172,48 @@ public class AmazonS3AuthConnector extends AbstractConnector {
             stringToSign.append(AmazonS3Constants.NEW_LINE);
             stringToSign.append(bytesToHex(hash(messageContext, canonicalRequest.toString())).toLowerCase());
 
-            final byte[] signingKey =
-                    getSignatureKey(messageContext,
-                            messageContext.getProperty(AmazonS3Constants.SECRET_ACCESS_KEY).toString(),
-                            shortDate, messageContext.getProperty(AmazonS3Constants.REGION).toString(),
-                            messageContext.getProperty(AmazonS3Constants.SERVICE).toString());
-            
-            // Construction of authorization header value to be included in API request
-            authHeader.append(AmazonS3Constants.AWS4_HMAC_SHA_256);
-            authHeader.append(" ");
-            authHeader.append(AmazonS3Constants.CREDENTIAL);
-            authHeader.append(AmazonS3Constants.EQUAL);
-            authHeader.append(messageContext.getProperty(AmazonS3Constants.ACCESS_KEY_ID));
-            authHeader.append(AmazonS3Constants.FORWARD_SLASH);
-            authHeader.append(shortDate);
-            authHeader.append(AmazonS3Constants.FORWARD_SLASH);
-            authHeader.append(messageContext.getProperty(AmazonS3Constants.REGION));
-            authHeader.append(AmazonS3Constants.FORWARD_SLASH);
-            authHeader.append(messageContext.getProperty(AmazonS3Constants.SERVICE));
-            authHeader.append(AmazonS3Constants.FORWARD_SLASH);
-            authHeader.append(messageContext.getProperty(AmazonS3Constants.TERMINATION_STRING));
-            authHeader.append(AmazonS3Constants.COMMA);
-            authHeader.append(AmazonS3Constants.SIGNED_HEADERS);
-            authHeader.append(AmazonS3Constants.EQUAL);
-            authHeader.append(signedHeaders);
-            authHeader.append(AmazonS3Constants.COMMA);
-            authHeader.append(AmazonS3Constants.API_SIGNATURE);
-            authHeader.append(AmazonS3Constants.EQUAL);
-            authHeader.append(bytesToHex(hmacSHA256(signingKey, stringToSign.toString())).toLowerCase());
+            if (StringUtils.isNotEmpty(messageContext.getProperty(AmazonS3Constants.SECRET_ACCESS_KEY).toString()) &&
+                    StringUtils.isNotEmpty(messageContext.getProperty(AmazonS3Constants.REGION).toString()) &&
+                    StringUtils.isNotEmpty(messageContext.getProperty(AmazonS3Constants.SERVICE).toString()) &&
+                    StringUtils.isNotEmpty(shortDate)) {
+                final byte[] signingKey =
+                        getSignatureKey(messageContext,
+                                messageContext.getProperty(AmazonS3Constants.SECRET_ACCESS_KEY).toString(),
+                                shortDate, messageContext.getProperty(AmazonS3Constants.REGION).toString(),
+                                messageContext.getProperty(AmazonS3Constants.SERVICE).toString());
 
-            // Adds authorization header to message context
-            messageContext.setProperty(AmazonS3Constants.AUTH_CODE, authHeader.toString());
+                // Construction of authorization header value to be included in API request
+                authHeader.append(AmazonS3Constants.AWS4_HMAC_SHA_256);
+                authHeader.append(" ");
+                authHeader.append(AmazonS3Constants.CREDENTIAL);
+                authHeader.append(AmazonS3Constants.EQUAL);
+                authHeader.append(messageContext.getProperty(AmazonS3Constants.ACCESS_KEY_ID));
+                authHeader.append(AmazonS3Constants.FORWARD_SLASH);
+                authHeader.append(shortDate);
+                authHeader.append(AmazonS3Constants.FORWARD_SLASH);
+                authHeader.append(messageContext.getProperty(AmazonS3Constants.REGION));
+                authHeader.append(AmazonS3Constants.FORWARD_SLASH);
+                authHeader.append(messageContext.getProperty(AmazonS3Constants.SERVICE));
+                authHeader.append(AmazonS3Constants.FORWARD_SLASH);
+                authHeader.append(messageContext.getProperty(AmazonS3Constants.TERMINATION_STRING));
+                authHeader.append(AmazonS3Constants.COMMA);
+                authHeader.append(AmazonS3Constants.SIGNED_HEADERS);
+                authHeader.append(AmazonS3Constants.EQUAL);
+                authHeader.append(signedHeaders);
+                authHeader.append(AmazonS3Constants.COMMA);
+                authHeader.append(AmazonS3Constants.API_SIGNATURE);
+                authHeader.append(AmazonS3Constants.EQUAL);
+                authHeader.append(bytesToHex(hmacSHA256(signingKey, stringToSign.toString())).toLowerCase());
+
+                // Adds authorization header to message context
+                messageContext.setProperty(AmazonS3Constants.AUTH_CODE, authHeader.toString());
+            } else{
+                if(log.isDebugEnabled()){
+                    log.debug("uri.var.secretAccessKey or uri.var.region or uri.var.service or shortDate may be null" +
+                            "Hence couldn't generate signingKey");
+                }
+                handleException(AmazonS3Constants.CONNECTOR_ERROR, messageContext);
+            }
         } catch (InvalidKeyException exc) {
             storeErrorResponseStatus(messageContext, exc, AmazonS3Constants.INVALID_KEY_ERROR_CODE);
             handleException(AmazonS3Constants.INVALID_KEY_ERROR, exc, messageContext);

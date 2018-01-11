@@ -25,6 +25,12 @@
     <sequence>
         <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
+        <script language="js">
+            <![CDATA[
+            var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
+                mc.setProperty('uri.var.objectName' , encodedObjectName);
+        ]]>
+        </script>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.ownerId" expression="$func:ownerId"/>
         <property name="uri.var.ownerDisplayName" expression="$func:ownerDisplayName"/>
