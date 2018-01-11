@@ -23,10 +23,16 @@
     <sequence>
         <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
+        <script language="js">
+            <![CDATA[
+            var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
+                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
+        ]]>
+        </script>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
         <property name="uri.var.numberOfDays" expression="$func:numberOfDays"/>
         <property name="uri.var.versionId" expression="$func:versionId"/>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName,'')"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.encodedObjectName,'')"/>
         <property name="uri.var.queryString" value="restore"/>
         <property name="uri.var.query" value=""/>
         <!-- Setting the ACL of a specified object version -->
@@ -84,7 +90,8 @@
         </filter>
         <call>
             <endpoint>
-                <http method="post" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?{+uri.var.queryString}{+uri.var.query}"/>
+                <http method="post"
+                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?{+uri.var.queryString}{+uri.var.query}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

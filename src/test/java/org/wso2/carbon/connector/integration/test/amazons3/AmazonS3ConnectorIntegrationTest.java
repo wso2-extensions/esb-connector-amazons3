@@ -1043,7 +1043,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
         RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
-                        "createBucketLifecycle_mandatory.xml");
+                        "createBucketLifeCycle_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
     }
@@ -1463,7 +1463,7 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         esbRequestHeadersMap.put("Content-Type", "application/xml");
 
         RestResponse<OMElement> esbRestResponse = sendXmlRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
-                        "deleteBucketLifecycle_mandatory.xml");
+                        "deleteBucketLifeCycle_mandatory.xml");
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
     }

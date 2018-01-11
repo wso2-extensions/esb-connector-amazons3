@@ -34,9 +34,15 @@
         <property name="uri.var.contentEncoding" expression="$func:contentEncoding"/>
         <property name="uri.var.expires" expression="$func:expires"/>
         <property name="uri.var.objectName" expression="$func:objectName"/>
+        <script language="js">
+            <![CDATA[
+            var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
+                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
+        ]]>
+        </script>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.uriRemainder"
-                  expression="fn:concat('/',$ctx:uri.var.objectName)"/>
+                  expression="fn:concat('/',$ctx:uri.var.encodedObjectName)"/>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <!-- Properties Assigned in AmazonS3AuthConnector -->
         <filter xpath="string($ctx:date) and $ctx:date != ''">
@@ -62,7 +68,8 @@
         </filter>
         <call>
             <endpoint>
-                <http method="delete" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?uploadId={+uri.var.uploadId}"/>
+                <http method="delete"
+                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?uploadId={+uri.var.uploadId}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->
