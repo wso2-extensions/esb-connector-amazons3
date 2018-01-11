@@ -28,7 +28,7 @@
         <script language="js">
             <![CDATA[
             var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
-                mc.setProperty('uri.var.objectName' , encodedObjectName);
+                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
         ]]>
         </script>
         <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
@@ -36,7 +36,7 @@
         <property name="uri.var.ownerDisplayName" expression="$func:ownerDisplayName"/>
         <property name="uri.var.accessControlList" expression="$func:accessControlList"/>
         <property name="uri.var.versionId" expression="$func:versionId"/>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName)"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.encodedObjectName)"/>
         <property name="uri.var.queryString" value="acl"/>
         <payloadFactory media-type="xml">
             <format>
@@ -91,7 +91,7 @@
         </filter>
         <call>
             <endpoint>
-                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?acl"/>
+                <http method="put" uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?acl"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

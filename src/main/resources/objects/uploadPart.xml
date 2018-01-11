@@ -30,7 +30,7 @@
         <script language="js">
             <![CDATA[
             var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
-                mc.setProperty('uri.var.objectName' , encodedObjectName);
+                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
         ]]>
         </script>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
@@ -44,8 +44,8 @@
         </filter>
         <script language="js">
             <![CDATA[
-            var objectName=mc.getProperty('uri.var.objectName');
-            mc.setProperty('uri.var.uriRemainder', '/'+objectName);
+            var encodedObjectName=mc.getProperty('uri.var.encodedObjectName');
+            mc.setProperty('uri.var.uriRemainder', '/'+encodedObjectName);
         ]]>
         </script>
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>

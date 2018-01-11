@@ -172,10 +172,10 @@ public class AmazonS3AuthConnector extends AbstractConnector {
             stringToSign.append(AmazonS3Constants.NEW_LINE);
             stringToSign.append(bytesToHex(hash(messageContext, canonicalRequest.toString())).toLowerCase());
 
-            if (StringUtils.isNotEmpty(messageContext.getProperty(AmazonS3Constants.SECRET_ACCESS_KEY).toString()) &&
-                    StringUtils.isNotEmpty(messageContext.getProperty(AmazonS3Constants.REGION).toString()) &&
-                    StringUtils.isNotEmpty(messageContext.getProperty(AmazonS3Constants.SERVICE).toString()) &&
-                    StringUtils.isNotEmpty(shortDate)) {
+            if ((messageContext.getProperty(AmazonS3Constants.SECRET_ACCESS_KEY) != null) &&
+                    (messageContext.getProperty(AmazonS3Constants.REGION) != null) &&
+                    (messageContext.getProperty(AmazonS3Constants.SERVICE) != null) &&
+                    (shortDate) != null) {
                 final byte[] signingKey =
                         getSignatureKey(messageContext,
                                 messageContext.getProperty(AmazonS3Constants.SECRET_ACCESS_KEY).toString(),
@@ -207,12 +207,14 @@ public class AmazonS3AuthConnector extends AbstractConnector {
 
                 // Adds authorization header to message context
                 messageContext.setProperty(AmazonS3Constants.AUTH_CODE, authHeader.toString());
-            } else{
-                if(log.isDebugEnabled()){
-                    log.debug("uri.var.secretAccessKey or uri.var.region or uri.var.service or shortDate may be null" +
+            } else {
+                if (log.isDebugEnabled()) {
+                    log.debug("secretAccessKey or region or service or shortDate may be null" +
                             "Hence couldn't generate signingKey");
                 }
-                handleException(AmazonS3Constants.CONNECTOR_ERROR, messageContext);
+                handleException(AmazonS3Constants.CONNECTOR_ERROR + " secretAccessKey or region or service or " +
+                        "shortDate may be null" +
+                        "Hence couldn't generate signingKey." , messageContext);
             }
         } catch (InvalidKeyException exc) {
             storeErrorResponseStatus(messageContext, exc, AmazonS3Constants.INVALID_KEY_ERROR_CODE);

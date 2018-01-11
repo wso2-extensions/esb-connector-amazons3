@@ -38,13 +38,13 @@
         <script language="js">
             <![CDATA[
             var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
-                mc.setProperty('uri.var.objectName' , encodedObjectName);
+                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
         ]]>
         </script>
         <property name="uri.var.uploadId" expression="$func:uploadId"/>
         <property name="uri.var.partDetails" expression="$func:partDetails"/>
         <property name="uri.var.uriRemainder"
-                  expression="fn:concat('/',$ctx:uri.var.objectName)"/>
+                  expression="fn:concat('/',$ctx:uri.var.encodedObjectName)"/>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>
                 <property name="uri.var.contentType"
@@ -84,7 +84,8 @@
         </filter>
         <call>
             <endpoint>
-                <http method="post" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}?uploadId={+uri.var.uploadId}"/>
+                <http method="post"
+                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?uploadId={+uri.var.uploadId}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

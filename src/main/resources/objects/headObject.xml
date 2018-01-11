@@ -40,10 +40,10 @@
         <script language="js">
             <![CDATA[
             var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
-                mc.setProperty('uri.var.objectName' , encodedObjectName);
+                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
         ]]>
         </script>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName)"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.encodedObjectName)"/>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>
                 <property name="uri.var.contentType"
@@ -114,7 +114,7 @@
         <property name="NO_ENTITY_BODY" value="true" type="BOOLEAN" scope="axis2"/>
         <call>
             <endpoint>
-                <http method="head" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="head" uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->

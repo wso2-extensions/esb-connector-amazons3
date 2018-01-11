@@ -39,10 +39,10 @@
         <script language="js">
             <![CDATA[
             var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
-                mc.setProperty('uri.var.objectName' , encodedObjectName);
+                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
         ]]>
         </script>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.objectName)"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.encodedObjectName)"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <filter xpath="string($ctx:date) and $ctx:date != ''">
@@ -96,7 +96,7 @@
         </filter>
         <call>
             <endpoint>
-                <http method="head" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
+                <http method="head" uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->
