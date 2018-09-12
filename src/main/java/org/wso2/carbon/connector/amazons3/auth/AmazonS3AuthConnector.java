@@ -80,7 +80,7 @@ public class AmazonS3AuthConnector extends AbstractConnector {
             }
             String urlRemainder = (String) messageContext.getProperty(AmazonS3Constants.URI_REMAINDER);
             if (urlRemainder != null && !urlRemainder.isEmpty()) {
-                canonicalRequest.append(urlRemainder);
+                canonicalRequest.append(urlRemainder.replaceAll("%2F" , "/"));
             }
 
             // Setting canonicalQueryString
