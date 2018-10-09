@@ -5,7 +5,7 @@
     <contentType>%s(contentType)</contentType>
     <addCharset>%s(addCharset)</addCharset>
     <bucketName>%s(bucketName2)</bucketName>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host1)</host>
     <isXAmzDate>true</isXAmzDate>
     <bucketUrl>http://s3.amazonaws.com/invalidBucket</bucketUrl>

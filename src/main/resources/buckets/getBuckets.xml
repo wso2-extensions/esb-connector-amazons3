@@ -17,10 +17,11 @@
 -->
 <template name="getBuckets" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="apiUrl" description="Amazon S3 API Url."/>
+    <parameter name="region" description="Amazon S3 region."/>
     <sequence>
         <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
         <property name="uri.var.apiUrl" expression="$func:apiUrl"/>
-        <property name="uri.var.region" value="us-east-1"/>
+        <property name="uri.var.region" expression="$func:region"/>
         <!-- Authentication Header Setup -->
         <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
         <filter xpath="string($ctx:date) and $ctx:date != ''">

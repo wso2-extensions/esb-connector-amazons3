@@ -10,11 +10,11 @@
     <contentLength></contentLength>
     <region>us-east-1</region>
     <host>%s(host1)</host>
-    <bucketRegion>us-west-2</bucketRegion>
+    <bucketRegion>%s(bucketRegion)</bucketRegion>
     <xAmzAcl>bucket-owner-full-control</xAmzAcl>
     <xAmzGrantRead></xAmzGrantRead>
     <xAmzGrantWrite></xAmzGrantWrite>
     <xAmzGrantReadAcp></xAmzGrantReadAcp>
     <xAmzGrantWriteAcp></xAmzGrantWriteAcp>
     <xAmzGrantFullControl></xAmzGrantFullControl>
-</createBucket> 
+</createBucket>

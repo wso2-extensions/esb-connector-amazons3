@@ -5,7 +5,7 @@
     <contentType>application/xml</contentType>
     <isXAmzDate>true</isXAmzDate>
     <bucketUrl>%s(bucketUrl5)</bucketUrl>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host5)</host>
     <maxUploads>1000</maxUploads>
 </listMultipartUploads>

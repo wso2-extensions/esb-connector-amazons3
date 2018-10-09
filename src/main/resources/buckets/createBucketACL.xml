@@ -34,12 +34,13 @@
                         <ID>$1</ID>
                         <DisplayName>$2</DisplayName>
                     </Owner>
-                    <AccessControlList>$ctx:uri.var.accessControlList</AccessControlList>
+                    <AccessControlList>$3</AccessControlList>
                 </AccessControlPolicy>
             </format>
             <args>
                 <arg expression="$ctx:uri.var.ownerId"/>
                 <arg expression="$ctx:uri.var.ownerDisplayName"/>
+                <arg expression="$ctx:uri.var.accessControlList"/>
             </args>
         </payloadFactory>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">

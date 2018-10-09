@@ -6,7 +6,7 @@
     <isXAmzDate>true</isXAmzDate>
     <bucketUrl>%s(bucketUrl5)</bucketUrl>
     <objectName>%s(objectName6)</objectName>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host5)</host>
     <uploadId>%s(uploadIdOptional)</uploadId>
 </abortMultipartUpload>

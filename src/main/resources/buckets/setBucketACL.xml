@@ -26,9 +26,11 @@
         <property name="uri.var.queryString" value="acl"/>
         <payloadFactory media-type="xml">
             <format>
-                <AccessControlPolicy xmlns="">$ctx:uri.var.accessControlPolicy</AccessControlPolicy>
+                <AccessControlPolicy xmlns="">$1</AccessControlPolicy>
             </format>
-            <args/>
+            <args>
+                <arg expression="$ctx:uri.var.accessControlPolicy"/>
+            </args>
         </payloadFactory>
         <filter xpath="string($ctx:uri.var.addCharset)='true'">
             <then>

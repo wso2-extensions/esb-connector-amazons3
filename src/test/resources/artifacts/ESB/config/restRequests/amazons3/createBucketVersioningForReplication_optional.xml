@@ -6,7 +6,7 @@
     <contentType>%s(contentType)</contentType>
     <addCharset>%s(addCharset)</addCharset>
     <expect></expect>
-    <region>us-west-1</region>
+    <region>%s(otherRegion)</region>
     <host>%s(host8)</host>
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>

@@ -4,7 +4,7 @@
     "methodType": "PUT",
     "contentType": "%s(jsonContentType)",
     "addCharset": "%s(addCharset)",
-    "region":"us-west-2",
+    "region":"%s(region)",
     "isXAmzDate": "true",
     "bucketUrl": "%s(bucketUrl5)",
     "contentMD5":"",

@@ -8,10 +8,10 @@
     <bucketUrl>%s(bucketUrl2)</bucketUrl>
     <bucketName>%s(bucketName2)</bucketName>
     <contentLength></contentLength>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host1)</host>
     <region>us-east-1</region>
-    <bucketRegion>us-west-2</bucketRegion>
+    <bucketRegion>%s(bucketRegion)</bucketRegion>
     <xAmzAcl>bucket-owner-full-control</xAmzAcl>
     <xAmzGrantRead></xAmzGrantRead>
     <xAmzGrantWrite></xAmzGrantWrite>

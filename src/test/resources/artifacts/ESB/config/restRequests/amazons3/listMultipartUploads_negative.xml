@@ -5,6 +5,6 @@
     <contentType>application/xml</contentType>
     <isXAmzDate>Invalid</isXAmzDate>
     <bucketUrl>%s(bucketUrl5)</bucketUrl>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host5)</host>
 </listMultipartUploads>

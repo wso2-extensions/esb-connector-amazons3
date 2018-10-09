@@ -8,7 +8,7 @@
     <contentMD5></contentMD5>
     <bucketUrl>%s(bucketUrl5)</bucketUrl>
     <objectName>%s(objectName6)</objectName>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host5)</host>
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>

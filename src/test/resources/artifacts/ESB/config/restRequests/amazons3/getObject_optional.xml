@@ -3,7 +3,7 @@
     <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
     <methodType>GET</methodType>
     <contentType>application/xml</contentType>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host5)</host>
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken/>

@@ -179,9 +179,9 @@ Following is a sample REST request that can be handled by the deleteMultipleObje
     <host>s3.us-east-2.amazonaws.com</host>
     <bucketUrl>http://s3.us-east-2.amazonaws.com/signv4test</bucketUrl>
     <bucketName>signv4test</bucketName>
+    <quiet>true</quiet>
     <deleteConfig>
-        <Delete>
-            <Quiet>true</Quiet>
+        <Objects>
             <Object>
                 <Key>testobject33</Key>
                 <VersionId>M46OVgxl4lHBNCeZwBpEZvGhj0k5vvjK</VersionId>
@@ -190,7 +190,7 @@ Following is a sample REST request that can be handled by the deleteMultipleObje
                 <Key>testObject1</Key>
                 <VersionId>PwbvPU.yn3YcHOCF8bntKeTdzfKQC6jN</VersionId>
             </Object>
-        </Delete>
+        </Objects>
     </deleteConfig>
 </deleteMultipleObjects>
 ```

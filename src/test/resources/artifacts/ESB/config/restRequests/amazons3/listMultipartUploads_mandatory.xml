@@ -1,7 +1,7 @@
 <listMultipartUploads>
     <accessKeyId>%s(accessKeyId)</accessKeyId>
     <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host5)</host>
     <methodType>GET</methodType>
     <contentType>application/xml</contentType>

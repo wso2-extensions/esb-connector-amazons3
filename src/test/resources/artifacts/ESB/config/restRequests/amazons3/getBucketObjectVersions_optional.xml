@@ -8,7 +8,7 @@
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>
     <bucketName>%s(bucketName2)</bucketName>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host2)</host>
     <expect></expect>
     <bucketUrl>%s(bucketUrl4)</bucketUrl>

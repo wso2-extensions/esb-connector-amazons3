@@ -5,7 +5,7 @@
     <methodType>HEAD</methodType> 
     <contentType>application/xml</contentType>
     <host>%s(host2)</host>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <isXAmzDate>true</isXAmzDate>
     <bucketName>invalidBucket</bucketName>
     <bucketUrl>%s(bucketUrl4)</bucketUrl>

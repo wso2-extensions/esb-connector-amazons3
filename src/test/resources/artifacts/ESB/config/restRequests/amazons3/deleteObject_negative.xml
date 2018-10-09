@@ -3,10 +3,10 @@
     <secretAccessKey>%s(secretAccessKey)</secretAccessKey>
     <methodType>DELETE</methodType>
     <contentLength></contentLength>
-    <contentType>text/plain</contentType>
+    <contentType>application/xml</contentType>
     <contentMD5></contentMD5>
     <expect>100-continue</expect>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host1)</host>
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>

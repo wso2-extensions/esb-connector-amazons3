@@ -55,6 +55,7 @@ When calling init before this operation, the following headers should be removed
 ```xml
 <amazons3.getBuckets>
   <apiUrl>{$ctx:apiUrl}</apiUrl>
+  <region>{$ctx:region}</region>
 <amazons3.getBuckets>
 ```
 
@@ -74,6 +75,7 @@ Following is a sample REST request that can be handled by the getBuckets operati
     <contentMD5></contentMD5>
     <expect>100-continue</expect>
     <host>s3.amazonaws.com</host>
+    <region>us-east-1</region>
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>
     <apiUrl>https://s3.amazonaws.com</apiUrl>
