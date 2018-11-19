@@ -44,6 +44,17 @@
                           type="STRING"/>
             </then>
         </filter>
+        <payloadFactory media-type="xml">
+            <format>
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                    <soapenv:Header/>
+                    <soapenv:Body/>
+                </soapenv:Envelope>
+            </format>
+            <args/>
+        </payloadFactory>
+        <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
+        <property name="DISABLE_CHUNKING" scope="axis2" value="true"/>
         <call>
             <endpoint>
                 <http method="delete" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
