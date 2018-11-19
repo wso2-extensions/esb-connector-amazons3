@@ -6,6 +6,6 @@
     <isXAmzDate>true</isXAmzDate>
     <contentType>application/xml</contentType>
     <bucketUrl>%s(bucketUrl7)</bucketUrl>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host7)</host>
 </getWebSiteConfiguration>

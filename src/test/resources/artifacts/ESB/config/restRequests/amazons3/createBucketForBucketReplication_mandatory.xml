@@ -7,7 +7,7 @@
 	<isXAmzDate>true</isXAmzDate>
 	<bucketUrl>%s(bucketUrl8)</bucketUrl>
 	<bucketName>%s(bucketName4)</bucketName>
-	<bucketRegion>%s(bucketRegion)</bucketRegion>
-	<region>us-west-1</region>
+	<bucketRegion>%s(otherRegion)</bucketRegion>
+	<region>%s(otherRegion)</region>
 	<host>%s(host8)</host>
 </createBucket>

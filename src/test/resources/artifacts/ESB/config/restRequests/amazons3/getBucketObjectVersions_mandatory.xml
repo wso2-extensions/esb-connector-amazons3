@@ -7,7 +7,7 @@
     <contentMD5></contentMD5>
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host5)</host>
     <expect></expect>
     <bucketUrl>%s(bucketUrl5)</bucketUrl>

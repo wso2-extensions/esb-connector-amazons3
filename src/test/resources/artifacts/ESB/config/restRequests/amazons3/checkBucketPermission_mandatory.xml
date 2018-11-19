@@ -5,7 +5,7 @@
     <contentType>%s(contentType)</contentType>
     <addCharset>%s(addCharset)</addCharset>
     <host>%s(host7)</host>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <bucketName>%s(bucketName3)</bucketName>
     <isXAmzDate>true</isXAmzDate>
     <bucketUrl>%s(bucketUrl7)</bucketUrl>

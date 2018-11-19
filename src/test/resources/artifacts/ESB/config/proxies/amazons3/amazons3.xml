@@ -173,6 +173,7 @@
                 <case regex="urn:getBuckets">
                     <amazons3.getBuckets>
                         <apiUrl>{$ctx:apiUrl}</apiUrl>
+                        <region>{$ctx:region}</region>
                     </amazons3.getBuckets>
                 </case>
                 <case regex="urn:createBucketVersioning">

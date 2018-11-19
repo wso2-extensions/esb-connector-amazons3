@@ -36,11 +36,12 @@
             <format>
                 <Delete>
                     <Quiet>$1</Quiet>
-                    $ctx:uri.var.deleteConfig
+                    $2
                 </Delete>
             </format>
             <args>
                 <arg expression="$ctx:uri.var.quiet"/>
+                <arg expression="$ctx:uri.var.deleteConfig"/>
             </args>
         </payloadFactory>
         <script language="js">

@@ -18,14 +18,12 @@
 package org.wso2.carbon.connector.integration.test.amazons3;
 
 import org.apache.axiom.om.OMElement;
-import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.connector.integration.test.base.ConnectorIntegrationTestBase;
 import org.wso2.connector.integration.test.base.RestResponse;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,12 +37,16 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
         String connectorName = System.getProperty("connector_name") + "-connector-" +
                 System.getProperty("connector_version") + ".zip";
         init(connectorName);
+        getApiConfigProperties();
 
         multipartProxyUrl = getProxyServiceURLHttp("multipart");
 
         String bucketName1 = System.currentTimeMillis() + connectorProperties.getProperty("bucketName_1");
         String bucketName2 = System.currentTimeMillis() + connectorProperties.getProperty("bucketName_2");
         String bucketName3 = System.currentTimeMillis() + connectorProperties.getProperty("bucketName_3");
+
+        String bucketRegion = connectorProperties.getProperty("bucketRegion");
+        String region = connectorProperties.getProperty("region");
         connectorProperties.setProperty("bucketName1", bucketName1);
         connectorProperties.setProperty("bucketName2", bucketName2);
         connectorProperties.setProperty("bucketName3", bucketName3);
@@ -54,27 +56,34 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
                 connectorProperties.getProperty("bucketUrl1").replace("<bucketName_1>", bucketName1));
         connectorProperties.setProperty("bucketUrl2",
                 connectorProperties.getProperty("bucketUrl2").replace("<bucketName_2>", bucketName2));
-        connectorProperties.setProperty("bucketUrl3",
-                connectorProperties.getProperty("bucketUrl3").replace("<bucketName_1>", bucketName1));
-        connectorProperties.setProperty("bucketUrl4",
-                connectorProperties.getProperty("bucketUrl4").replace("<bucketName_2>", bucketName2));
-        connectorProperties.setProperty("bucketUrl5",
-                connectorProperties.getProperty("bucketUrl5").replace("<bucketName_2>", bucketName2));
+        connectorProperties.setProperty("bucketUrl3", connectorProperties.getProperty("bucketUrl3")
+                .replace("<bucketName_1>", bucketName1).replace("<bucketRegion>", bucketRegion));
+        connectorProperties.setProperty("bucketUrl4", connectorProperties.getProperty("bucketUrl4")
+                .replace("<bucketName_2>", bucketName2).replace("<bucketRegion>", bucketRegion));
+        connectorProperties.setProperty("bucketUrl5", connectorProperties.getProperty("bucketUrl5")
+                .replace("<bucketName_2>", bucketName2).replace("<bucketRegion>", bucketRegion));
         connectorProperties.setProperty("bucketUrl6",
                 connectorProperties.getProperty("bucketUrl6").replace("<bucketName_2>", bucketName2));
-        connectorProperties.setProperty("bucketUrl7",
-                connectorProperties.getProperty("bucketUrl7").replace("<bucketName_3>", bucketName3));
+        connectorProperties.setProperty("bucketUrl7", connectorProperties.getProperty("bucketUrl7").
+                replace("<bucketName_3>", bucketName3).replace("<bucketRegion>", bucketRegion));
         connectorProperties.setProperty("bucketUrl8",
-                connectorProperties.getProperty("bucketUrl7").replace("us-west-2", "us-west-1") + "1");
-        connectorProperties.setProperty("host5",
-                connectorProperties.getProperty("host5").replace("<bucketName_2>", bucketName2));
+                connectorProperties.getProperty("bucketUrl7").replace(connectorProperties.getProperty("bucketRegion"), connectorProperties.getProperty("otherRegion")) + "1");
+        connectorProperties.setProperty("host2", connectorProperties.getProperty("host2").replace("<region>", region));
+        connectorProperties.setProperty("host5", connectorProperties.getProperty("host5")
+                .replace("<bucketName_2>", bucketName2).replace("<region>", region));
         connectorProperties.setProperty("host6",
                 connectorProperties.getProperty("host6").replace("<bucketName_2>", bucketName2));
-        connectorProperties.setProperty("host7",
-                connectorProperties.getProperty("host7").replace("<bucketName_3>", bucketName3));
+        connectorProperties.setProperty("host7", connectorProperties.getProperty("host7")
+                .replace("<region>", region));
         connectorProperties.setProperty("host8",
-                connectorProperties.getProperty("host7").replace("us-west-2", "us-west-1"));
-
+                connectorProperties.getProperty("host7").replace(connectorProperties.getProperty("region"), connectorProperties.getProperty("otherRegion")));
+        String objectName6 = connectorProperties.getProperty("objectName6");
+        connectorProperties.setProperty("copySource", connectorProperties.getProperty("copySource")
+                .replace("<bucketName_2>", bucketName2).replace("<objectName6>", objectName6));
+        connectorProperties.setProperty("bucketUrlToDeleteMultipleObjects",
+                connectorProperties.getProperty("bucketUrlToDeleteMultipleObjects").
+                        replace("<bucketToDeleteMultipleObjects>",
+                                connectorProperties.getProperty("bucketToDeleteMultipleObjects")));
     }
 
     @Test(groups = {"wso2.esb"}, description = "AmazonS3 {createBucket} integration test with mandatory parameters.")
@@ -802,7 +811,8 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
     /**
      * Positive test case for createObjectCopy method with mandatory parameters.
      */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testCreateBucketWithOptionalParameters",
+            "testCompleteMultipartUplaodWithOptionalParameters"},
             description = "AmazonS3 {createObjectCopy} integration test with mandatory parameters.")
     public void testCreateObjectCopyMandatoryParameters() throws Exception {
 
@@ -1645,7 +1655,6 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
 
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 403);
     }
-
 
     /**
      * Mandatory parameter test case for uploadPartCopy method.

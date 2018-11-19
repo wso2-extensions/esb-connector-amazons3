@@ -7,7 +7,7 @@
     <addCharset>%s(addCharset)</addCharset>
     <contentMD5></contentMD5>
     <expect></expect>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host2)</host>
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>

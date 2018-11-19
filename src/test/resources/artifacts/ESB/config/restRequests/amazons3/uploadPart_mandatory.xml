@@ -9,7 +9,7 @@
     <objectName>%s(objectName6)</objectName>
     <isXAmzDate>true</isXAmzDate>
     <xAmzSecurityToken></xAmzSecurityToken>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host5)</host>
     <expect></expect>
     <fileContent>test content</fileContent>

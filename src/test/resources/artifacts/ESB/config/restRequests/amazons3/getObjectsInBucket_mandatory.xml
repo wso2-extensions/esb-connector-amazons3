@@ -4,7 +4,7 @@
     <methodType>GET</methodType>
     <contentType>application/xml</contentType>
     <bucketName>%s(bucketName2)</bucketName>
-    <region>us-west-2</region>
+    <region>%s(region)</region>
     <host>%s(host2)</host>
     <isXAmzDate>true</isXAmzDate>
     <contentMD5/>
