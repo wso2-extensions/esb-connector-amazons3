@@ -32,7 +32,7 @@
         <property name="uri.var.versionId" expression="$func:versionId"/>
         <property name="uri.var.query" value=""/>
         <!-- urlRemainder needs to be sent to generate authentication code -->
-        <property name="uri.var.uriRemainder" expression="fn:concat('/', $ctx:uri.var.encodedObjectName, '/')"/>
+        <property name="uri.var.uriRemainder" expression="fn:concat('/', $ctx:uri.var.encodedObjectName)"/>
         <filter xpath="string(uri.var.versionId) and uri.var.versionId != ''">
             <then>
                 <property name="uri.var.query"
@@ -81,7 +81,7 @@
         <property name="DISABLE_CHUNKING" scope="axis2" value="true"/>
         <call>
             <endpoint>
-                <http method="delete" uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}/{+uri.var.query}"/>
+                <http method="delete" uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}{+uri.var.query}"/>
             </endpoint>
         </call>
         <!-- Remove response custom header information -->
