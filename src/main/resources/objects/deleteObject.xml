@@ -32,8 +32,9 @@
         <property name="uri.var.versionId" expression="$func:versionId"/>
         <property name="uri.var.query" value=""/>
         <!-- urlRemainder needs to be sent to generate authentication code -->
+        <property name="uri.var.uriRemainder" expression="fn:concat('/', $ctx:uri.var.encodedObjectName, '/')"/>
         <property name="uri.var.uriRemainder" expression="fn:concat('/', $ctx:uri.var.encodedObjectName)"/>
-        <filter xpath="string(uri.var.versionId) and uri.var.versionId != ''">
+        <filter xpath="string($ctx:uri.var.versionId) and $ctx:uri.var.versionId != ''">
             <then>
                 <property name="uri.var.query"
                           expression="fn:concat($ctx:uri.var.query, '?versionId=', $ctx:uri.var.versionId)"/>
