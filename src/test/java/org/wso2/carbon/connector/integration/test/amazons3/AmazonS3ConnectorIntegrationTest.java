@@ -1515,7 +1515,9 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
     /**
      * Mandatory Parameter test case for deleteBucket method.
      */
-    @Test(dependsOnMethods = {"testCreateBucketWithMandatoryParameters"}, groups = {"wso2.esb"},
+    @Test(dependsOnMethods = {"testCreateBucketWithMandatoryParameters",
+            "testDeleteMultipleObjectsWithMandatoryParameters",
+            "testDeleteBucketReplicationWithMandatoryParameters"}, groups = {"wso2.esb"},
             description = "AmazonS3 {deleteBucket} integration test with mandatory parameters.")
     public void testDeleteBucketWithMandatoryParameters() throws Exception {
 
@@ -1659,7 +1661,8 @@ public class AmazonS3ConnectorIntegrationTest extends ConnectorIntegrationTestBa
     /**
      * Mandatory parameter test case for uploadPartCopy method.
      */
-    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testInitMultipartUploadWithMandatoryParameters"},
+    @Test(groups = {"wso2.esb"}, dependsOnMethods = {"testInitMultipartUploadWithMandatoryParameters",
+            "testUploadPartWithMandatoryParameters"},
             description = "AmazonS3 {uploadPartCopy} integration test with mandatory parameter.")
     public void testUploadPartCopyWithMandatoryParameters() throws Exception {
 
