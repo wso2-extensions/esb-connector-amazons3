@@ -66,6 +66,7 @@
                           type="STRING"/>
             </then>
         </filter>
+        <property name="NO_ENTITY_BODY" value="true" scope="axis2" type="BOOLEAN"/>
         <call>
             <endpoint>
                 <http method="delete"
