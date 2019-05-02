@@ -12,7 +12,7 @@ Product: Integration tests for WSO2 EI AmazonS3 connector
 	
 Steps to follow in setting integration test.
 
- 1. Download EI 6.4.0 by navigating the following the URL: https://wso2.com/integration/.
+ 1. Download EI 6.5.0 by navigating the following the URL: https://wso2.com/integration/.
  
  2. Place the EI 6.5.0 zip file in "{AmazonS3_Connector_Home}/repository/" location.
 
