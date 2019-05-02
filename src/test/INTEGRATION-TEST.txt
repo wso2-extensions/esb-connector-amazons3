@@ -7,14 +7,16 @@ Product: Integration tests for WSO2 EI AmazonS3 connector
     Tested Platforms: 
 
     - Mac OSx
-    - WSO2 EI 6.4.0
+    - WSO2 EI 6.5.0
 
 	
 Steps to follow in setting integration test.
 
- 1. Place the EI 6.4.0 zip file in "{AmazonS3_Connector_Home}/repository/" location.
+ 1. Download EI 6.5.0 by navigating the following the URL: https://wso2.com/integration/.
+ 
+ 2. Place the EI 6.5.0 zip file in "{AmazonS3_Connector_Home}/repository/" location.
 
- 2. Prerequisites for AmazonS3 Connector Integration Testing
+ 3. Prerequisites for AmazonS3 Connector Integration Testing
 
     Follow these steps before start testing.
     a)  Create a fresh account in amazons3 and Log on to http://aws.amazon.com/s3/ with the web browser.
@@ -34,5 +36,5 @@ Steps to follow in setting integration test.
         7) objectName2 is the object name that need to be delete. Upload this object into the bucket that you mentioned in bucketToDeleteMultipleObjects.
         8) role The Amazon Resource Name (ARN) of an IAM role that Amazon S3 can assume when replicating the objects.
 
- 3.Navigate to "<ESB_CONNECTORS_HOME>" and run the following command.
+ 4. Navigate to "<ESB_CONNECTORS_HOME>" and run the following command.
         $ mvn clean install -Dskip-tests=false
