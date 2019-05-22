@@ -21,7 +21,7 @@ The AmazonS3 [Connector](https://docs.wso2.com/display/EI650/Working+with+Connec
 4. If you want to work with connectors via WSO2 EI Tooling, see [Working with Connectors via Tooling](https://docs.wso2.com/display/EI650/Working+with+Connectors+via+Tooling).
 
 #### Configuring the connector operations
-To get started with the **Amazon S3** connector and their operations, see [Configuring BigQuery Operations](docs/config.md).
+To get started with the **Amazon S3** connector and their operations, see [Configuring Amazon S3 Operations](docs/config.md).
 
 ## Building from the source
 
@@ -35,13 +35,3 @@ Follow the steps given below to build the BigQuery connector from the source cod
 
 As an open source project, WSO2 extensions welcome contributions from the community.
 Check the [issue tracker](https://github.com/wso2-extensions/esb-connector-amazons3/issues) for open issues that interest you. We look forward to receiving your contributions.
-
-### Build
-
-mvn clean install
-
-### How You Can Contribute
-
-You can create a third party connector and publish in WSO2 Store.
-
-https://docs.wso2.com/display/ESBCONNECTORS/Creating+a+Third+Party+Connector+and+Publishing+in+WSO2+Store
