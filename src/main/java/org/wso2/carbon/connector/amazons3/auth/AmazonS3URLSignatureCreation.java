@@ -28,7 +28,6 @@ import org.jets3t.service.utils.ServiceUtils;
 import org.wso2.carbon.connector.amazons3.constants.AmazonS3Constants;
 import org.wso2.carbon.connector.core.AbstractConnector;
 import org.wso2.carbon.mediation.registry.WSO2Registry;
-import org.wso2.carbon.registry.core.exceptions.RegistryException;
 
 import java.io.IOException;
 import java.security.Security;
@@ -104,8 +103,8 @@ public class AmazonS3URLSignatureCreation extends AbstractConnector {
         } catch (ParseException pe) {
             storeErrorResponseStatus(messageContext, pe, AmazonS3Constants.INVALID_KEY_ERROR_CODE);
             handleException("Could not parse the date in correct format", pe, messageContext);
-        } catch (RegistryException re) {
-            handleException("No File in Registry", re, messageContext);
+        } catch (Exception e) {
+            handleException("Unexpected error occurred during Amazon S3 URL signature creation", e, messageContext);
         }
     }
 
