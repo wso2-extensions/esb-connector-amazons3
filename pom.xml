@@ -23,7 +23,7 @@
     <groupId>org.wso2.carbon.connector</groupId>
     <artifactId>org.wso2.carbon.connector.amazons3</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.11</version>
     <name>WSO2 Carbon - Mediation Library Connector For amazons3</name>
     <url>http://wso2.org</url>
     <properties>
