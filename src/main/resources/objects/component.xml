@@ -40,7 +40,7 @@
             <file>getObjectACL.xml</file>
             <description>Returns the access control list (ACL) of an object</description>
         </component>
-        <component name="getObjectTorrent.">
+        <component name="getObjectTorrent">
             <file>getObjectTorrent.xml</file>
             <description>Returns torrent files from a bucket</description>
         </component>
