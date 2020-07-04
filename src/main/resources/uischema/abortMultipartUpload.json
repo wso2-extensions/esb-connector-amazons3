@@ -1,0 +1,116 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "abortMultipartUpload",
+  "title": "Abort Multipart Upload",
+  "help": "<h1>Abort Multipart Upload</h1> <b>The abortMultipartUpload operation aborts a multipart upload.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketUrl",
+                    "displayName": "Bucket URL",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The URL of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectName",
+                    "displayName": "Object Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the object to retrieve details for."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "cacheControl",
+                    "displayName": "Cache Control",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "This can be used to specify caching behavior along the request or reply chain."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentDisposition",
+                    "displayName": "Content Disposition",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "This specifies presentational information for the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentEncoding",
+                    "displayName": "Content Encoding",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "This specifies what content encodings have been applied to the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "expires",
+                    "displayName": "Expires",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "This specifies the date and time at which the object is no longer cacheable."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "uploadId",
+                    "displayName": "Upload ID",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "This specifies the ID of the current multipart upload."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

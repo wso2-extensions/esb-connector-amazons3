@@ -1,0 +1,105 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "listParts",
+  "title": "List Parts",
+  "help": "<h1>List Parts</h1> <b>The listParts operation lists the parts that have been uploaded for a specific multipart upload.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketUrl",
+                    "displayName": "Bucket URL",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The URL of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectName",
+                    "displayName": "Object Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the object to retrieve details for."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "uploadId",
+                    "displayName": "Upload ID",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "This specifies the ID of the current multipart upload."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "encodingType",
+                    "displayName": "Encoding Type",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Requests Amazon S3 to encode the response and specifies the encoding method to use."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "maxParts",
+                    "displayName": "Max Parts",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Sets the maximum number of parts to return in the response body."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "partNumberMarker",
+                    "displayName": "Part Number Marker",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Specifies the part after which listing should begin."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

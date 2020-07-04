@@ -1,0 +1,487 @@
+{
+  "connectorName": "amazons3",
+  "connectionName": "amazons3",
+  "title": "Amazon S3 Connection",
+  "help": "<h1>Amazon S3 Connection</h1> <b>The Amazon S3 Connector allows you to access the REST API of Amazon Storage Service S3, which lets you store your information and retrieve them back when needed. WSO2 EI AmazonS3 Connector is useful to take your on-premise data to the cloud. The advantage is, you do not need to worry about managing and replicating data on-premise.</b>",
+  "elements": [
+    {
+      "type": "attribute",
+      "value": {
+        "name": "connectionName",
+        "displayName": "Connection Name",
+        "inputType": "string",
+        "defaultValue": "AMAZON_S3_CONNECTION_1",
+        "required": "true",
+        "helpTip": "The name for the AmazonS3 connection",
+        "validation": "nameWithoutSpecialCharactors"
+      }
+    },
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "accessKeyId",
+                    "displayName": "Access Key ID",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "AWS access key ID."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "secretAccessKey",
+                    "displayName": "Secret Access Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "AWS secret access key."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "region",
+                    "displayName": "Region",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Region which is used select a regional endpoint to make requests."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "methodType",
+                    "displayName": "Method Type",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Type of the HTTP method."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentLength",
+                    "displayName": "Content Length",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Length of the message without the headers according to RFC 2616."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentType",
+                    "displayName": "Content Type",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The content type of the resource in case the request content in the body."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "addCharset",
+                    "displayName": "Add Charset",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "To add the char set to ContentType header. Set to true to add the charset in the ContentType header of POST and HEAD methods."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "host",
+                    "displayName": "Host",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "For path-style requests, the value is s3.amazonaws.com. For virtual-style requests, the value is BucketName.s3.amazonaws.com."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "isXAmzDate",
+                    "displayName": "Date and Time",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The current date and time according to the requester."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Name of the bucket required."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "blocking",
+                    "displayName": "Blocking",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The blocking parameter helps the connector to perform the blocking invocations to Amazon S3."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "privateKeyFilePath",
+                    "displayName": "Private Key File Path",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Path of AWS private Key File."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "keyPairId",
+                    "displayName": "Key Pair ID",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Key pair ID of AWS cloud front."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "policyType",
+                    "displayName": "Policy Type",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Policy for the URL signing. It can be custom or canned policy."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "urlSign",
+                    "displayName": "URL Sign",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Specify whether to create Signed URL or not. It can be true or false."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "dateLessThan",
+                    "displayName": "Date Less Than",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Can access the object before this specific date only."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "dateGreaterThan",
+                    "displayName": "Date Greater Than",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Can access the object before this specific date only."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "ipAddress",
+                    "displayName": "IP Address",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "IP address for creating Policy."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentMD5",
+                    "displayName": "Content MD5",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Base64 encoded 128-bit MD5 digest of the message without the headers according to RFC 1864."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "expect",
+                    "displayName": "Expect",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "This header can be used only if a body is sent to not to send the request body until it receives an acknowledgment."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzSecurityToken",
+                    "displayName": "Security Token",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The security token based on whether using Amazon DevPay operations or temporary security credentials."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzAcl",
+                    "displayName": "ACL of the bucket",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Sets the ACL of the bucket using the specified canned ACL."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzGrantRead",
+                    "displayName": "Grant Read",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Allows the specified grantee or grantees to list the objects in the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzGrantWrite",
+                    "displayName": "Grant Write",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Allows the specified grantee or grantees to create, overwrite, and delete any object in the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzGrantReadAcp",
+                    "displayName": "Grant Read ACL",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Allows the specified grantee or grantees to read the bucket ACL."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzGrantWriteAcp",
+                    "displayName": "Grant Write ACL",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Allows the specified grantee or grantees to write the ACL for the applicable bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzGrantFullControl",
+                    "displayName": "Grant Full Control",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Allows the specified grantee or grantees the READ, WRITE, READ_ACP, and WRITE_ACP permissions on the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzMeta",
+                    "displayName": "User-specified metadata",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Field names prefixed with x-amz-meta- contain user-specified metadata."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzGrantRead",
+                    "displayName": "Grant Read",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Allows the specified grantee or grantees to list the objects in the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzServeEncryption",
+                    "displayName": "Server Encryption",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Specifies server-side encryption algorithm to use when Amazon S3 creates an object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzStorageClass",
+                    "displayName": "Storage Class",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Storage class to use for storing the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzWebsiteLocation",
+                    "displayName": "Website Location",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Amazon S3 stores the value of this header in the object metadata."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzMfa",
+                    "displayName": "Multi-Factor Authentication",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The value is the concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzCopySource",
+                    "displayName": "Copy Source",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the source bucket and key name of the source object, separated by a slash."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzCopySourceRange",
+                    "displayName": "Copy Source Range",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The range of bytes to copy from the source object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzMetadataDirective",
+                    "displayName": "Metadata Directive",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzCopySourceIfMatch",
+                    "displayName": "Copy Source If Match",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Copies the object if its entity tag (ETag) matches the specified tag."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzCopySourceIfNoneMatch",
+                    "displayName": "Copy Source If None Match",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Copies the object if its entity tag (ETag) is different than the specified ETag."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzCopySourceIfUnmodifiedSince",
+                    "displayName": "Copy Source If Unmodified Since",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Copies the object if it hasn't been modified since the specified time."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzCopySourceIfModifiedSince",
+                    "displayName": "Copy Source If Modified Since",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Copies the object if it has been modified since the specified time."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "xAmzServerSideEncryption",
+                    "displayName": "Server Side Encryption",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Specifies the server-side encryption algorithm to use when Amazon S3 creates the target object."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
