@@ -21,6 +21,7 @@
         <component name="init">
             <file>init.xml</file>
             <description>Configuration files.</description>
+            <hidden>true</hidden>
         </component>
     </subComponents>
 </component>
