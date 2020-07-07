@@ -6,6 +6,8 @@ The AmazonS3 [Connector](https://docs.wso2.com/display/EI650/Working+with+Connec
 
 | Connector version | Supported Amazon S3 API version | Supported WSO2 ESB/EI version |
 | ------------- | ---------------                     |------------- |
+|  [1.1.0](https://github.com/wso2-extensions/esb-connector-amazons3/tree/v1.1.0)        |   2006-03-01                        | EI 6.5.0, EI 6.6.0, EI 7.0.x |
+|  [1.0.10](https://github.com/wso2-extensions/esb-connector-amazons3/tree/v1.0.10)        |   2006-03-01                        | EI 6.5.0 |
 |  [1.0.9](https://github.com/wso2-extensions/esb-connector-amazons3/tree/org.wso2.carbon.connector.amazons3-1.0.9)        |   2006-03-01                        | EI 6.5.0 |
 |  [1.0.8](https://github.com/wso2-extensions/esb-connector-amazons3/tree/org.wso2.carbon.connector.amazons3-1.0.8)        |   2006-03-01                        | EI 6.4.0, EI 6.1.1, ESB 5.0.0 |
 |  [1.0.7](https://github.com/wso2-extensions/esb-connector-amazons3/tree/org.wso2.carbon.connector.amazons3-1.0.7)        |   2006-03-01                        | EI 6.1.1, ESB 5.0.0 |
@@ -13,15 +15,9 @@ The AmazonS3 [Connector](https://docs.wso2.com/display/EI650/Working+with+Connec
 |  [1.0.5](https://github.com/wso2-extensions/esb-connector-amazons3/tree/org.wso2.carbon.connector.amazons3-1.0.5)        |   2006-03-01                        | EI 6.4.0, EI 6.1.1, ESB 5.0.0 |
 |  [1.0.4](https://github.com/wso2-extensions/esb-connector-amazons3/tree/org.wso2.carbon.connector.amazons3-1.0.4)        |   2006-03-01                        | ESB 4.9.0, ESB 5.0.0 |
 
-#### Download and install the connector
+## Documentation
 
-1. Download the connector from the [WSO2 Store](https://store.wso2.com/store/assets/esbconnector/details/3fcaf309-1a69-4edf-870a-882bb76fdaa1) by clicking the **Download Connector** button.
-2. You can then follow this [documentation](https://docs.wso2.com/display/EI650/Working+with+Connectors+via+the+Management+Console) to add the connector to your WSO2 EI instance and to enable it (via the management console).
-3. For more information on using connectors and their operations in your WSO2 EI configurations, see [Using a Connector](https://docs.wso2.com/display/EI650/Using+a+Connector).
-4. If you want to work with connectors via WSO2 EI Tooling, see [Working with Connectors via Tooling](https://docs.wso2.com/display/EI650/Working+with+Connectors+via+Tooling).
-
-#### Configuring the connector operations
-To get started with the **Amazon S3** connector and their operations, see [Configuring BigQuery Operations](docs/config.md).
+Please refer to documentation [here](https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-overview/).
 
 ## Building from the source
 
