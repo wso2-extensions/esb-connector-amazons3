@@ -1,5 +1,5 @@
 <!--
- ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~  Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  ~
  ~  WSO2 Inc. licenses this file to you under the Apache License,
  ~  Version 2.0 (the "License"); you may not use this file except
@@ -16,68 +16,13 @@
  ~  under the License.
 -->
 <template name="abortMultipartUpload" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="bucketUrl" description="End point URL of the request."/>
-    <parameter name="objectName" description="The name to give the newly created object."/>
-    <parameter name="cacheControl"
-               description="This can be used to specify caching behavior along the request or reply chain."/>
-    <parameter name="contentDisposition" description="This specifies presentational information for the object."/>
-    <parameter name="contentEncoding"
-               description="This specifies what content encodings have been applied to the object."/>
-    <parameter name="expires"
-               description="This specifies the date and time at which the object is no longer cacheable."/>
+    <parameter name="bucketName" description="Name of the bucket."/>
+    <parameter name="objectKey" description="The hostName of the object."/>
     <parameter name="uploadId" description="This specifies the ID of the current multipart upload."/>
+    <parameter name="requestPayer"
+               description="Confirms that the requester knows that they will be charged for the request."/>
     <sequence>
-        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
-        <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
-        <property name="uri.var.cacheControl" expression="$func:cacheControl"/>
-        <property name="uri.var.contentDisposition" expression="$func:contentDisposition"/>
-        <property name="uri.var.contentEncoding" expression="$func:contentEncoding"/>
-        <property name="uri.var.expires" expression="$func:expires"/>
-        <property name="uri.var.objectName" expression="$func:objectName"/>
-        <script language="js">
-            <![CDATA[
-            var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
-                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
-        ]]>
-        </script>
-        <property name="uri.var.uploadId" expression="$func:uploadId"/>
-        <property name="uri.var.uriRemainder"
-                  expression="fn:concat('/',$ctx:uri.var.encodedObjectName)"/>
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <!-- Properties Assigned in AmazonS3AuthConnector -->
-        <filter xpath="string($ctx:date) and $ctx:date != ''">
-            <then>
-                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
-            <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
-            <then>
-                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <property name="NO_ENTITY_BODY" value="true" scope="axis2" type="BOOLEAN"/>
-        <call>
-            <endpoint>
-                <http method="delete"
-                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?uploadId={+uri.var.uploadId}"/>
-            </endpoint>
-        </call>
-        <!-- Remove response custom header information -->
-        <header name="x-amz-id-2" scope="transport" action="remove"/>
-        <header name="x-amz-request-id" scope="transport" action="remove"/>
-        <header name="Via" scope="transport" action="remove"/>
-        <header name="ETag" scope="transport" action="remove"/>
-        <header name="x-amz-server-side-encryption" scope="transport" action="remove"/>
+        <property name="operationName" value="abortMultipartUpload"/>
+        <class name="org.wso2.carbon.connector.amazons3.operations.ObjectOperations"/>
     </sequence>
 </template>

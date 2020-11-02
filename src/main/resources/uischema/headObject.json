@@ -13,7 +13,7 @@
             "type": "attribute",
             "value": {
               "name": "configRef",
-              "displayName": "Connection",
+              "displayName": "Amazon S3 Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
                 "amazons3"
@@ -32,19 +32,19 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "bucketUrl",
-                    "displayName": "Bucket URL",
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The URL of the bucket."
+                    "helpTip": "The name of the bucket."
                   }
                 },
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "objectName",
-                    "displayName": "Object Name",
+                    "name": "objectKey",
+                    "displayName": "Object Key",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
@@ -104,6 +104,75 @@
                     "defaultValue": "",
                     "required": "false",
                     "helpTip": "Return the object only if its entity tag (ETag) is different from the one specified."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "versionId",
+                    "displayName": "Version ID",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "VersionId used to reference a specific version of the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerAlgorithm",
+                    "displayName": "Server Side Encryption Customer Algorithm",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The algorithm to use to when encrypting the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerKey",
+                    "displayName": "Server Side Encryption Customer Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The customer-provided encryption key to use in encrypting data."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerKeyMD5",
+                    "displayName": "Server Side Encryption Customer Key MD5",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "partNumber",
+                    "displayName": "Part Number",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Part number of the object being read."
                   }
                 }
               ]

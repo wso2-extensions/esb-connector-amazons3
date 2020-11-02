@@ -1,0 +1,32 @@
+<!--
+ ~  Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 Inc. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+<template name="listObjectVersions" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="bucketName" description="Name of the bucket."/>
+    <parameter name="delimiter" description="Character that specify to group keys"/>
+    <parameter name="encodingType"
+               description="Requests Amazon S3 to encode the response and specifies the encoding method to use"/>
+    <parameter name="keyMarker" description="Specifies the hostName in the bucket that you want to start listing from"/>
+    <parameter name="maxKeys" description="Sets the maximum number of keys returned in the response body"/>
+    <parameter name="prefix"
+               description="Lists only those keys that begin with the specified prefix.."/>
+    <parameter name="versionIdMarker" description="Specifies the object version you want to start listing from"/>
+    <sequence>
+        <property name="operationName" value="listObjectVersions"/>
+        <class name="org.wso2.carbon.connector.amazons3.operations.BucketOperations"/>
+    </sequence>
+</template>

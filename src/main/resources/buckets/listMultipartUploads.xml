@@ -1,5 +1,5 @@
 <!--
- ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~  Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  ~
  ~  WSO2 Inc. licenses this file to you under the Apache License,
  ~  Version 2.0 (the "License"); you may not use this file except
@@ -16,7 +16,7 @@
  ~  under the License.
 -->
 <template name="listMultipartUploads" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="bucketUrl" description="End point URL of the request."/>
+    <parameter name="bucketName" description="Name of the bucket."/>
     <parameter name="delimiter" description="Character use to group keys."/>
     <parameter name="encodingType" description="Encode the response and specifies the encoding method to use."/>
     <parameter name="maxUploads" description="Number of uploads that can be returned in a response."/>
@@ -25,122 +25,7 @@
                description="Lists in-progress uploads only for those keys that begin with the specified prefix."/>
     <parameter name="uploadIdMarker" description="Specifies the multipart upload after which listing should begin."/>
     <sequence>
-        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
-        <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
-        <property name="uri.var.delimiter" expression="$func:delimiter"/>
-        <property name="uri.var.encodingType" expression="$func:encodingType"/>
-        <property name="uri.var.maxUploads" expression="$func:maxUploads"/>
-        <property name="uri.var.keyMarker" expression="$func:keyMarker"/>
-        <property name="uri.var.prefix" expression="$func:prefix"/>
-        <property name="uri.var.uploadIdMarker" expression="$func:uploadIdMarker"/>
-        <property name="uri.var.queryString" value="uploads"/>
-        <property name="uri.var.query" value=""/>
-        <!-- Authentication Header Setup -->
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <!-- Properties Assigned in AmazonS3AuthConnector -->
-        <filter xpath="string($ctx:date) and $ctx:date != ''">
-            <then>
-                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
-            <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
-            <then>
-                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <!-- Building Custom Query -->
-        <script language="js">
-            <![CDATA[
-            var queryString = mc.getProperty('uri.var.queryString');
-            var query = mc.getProperty('uri.var.query');
-            var delimiter = mc.getProperty('uri.var.delimiter');
-            var encodingType = mc.getProperty('uri.var.encodingType');
-            var maxUploads = mc.getProperty('uri.var.maxUploads');
-            var keyMarker = mc.getProperty('uri.var.keyMarker');
-            var prefix = mc.getProperty('uri.var.prefix');
-            var uploadIdMarker = mc.getProperty('uri.var.uploadIdMarker');
-            if (delimiter != null && delimiter != "") {
-                query += 'delimiter=' + delimiter + '&';
-            }
-            if (encodingType != null && encodingType != "") {
-                query += 'encoding-type=' + encodingType + '&';
-            }
-            if (maxUploads != null && maxUploads != "") {
-                query += 'max-uploads=' + maxUploads + '&';
-            }
-            if (keyMarker != null && keyMarker != "") {
-                query += 'max-keys=' + keyMarker + '&';
-            }
-            if (prefix != null && prefix != "") {
-                query += 'prefix=' + prefix + '&';
-            }
-            if (uploadIdMarker != null && uploadIdMarker != "") {
-                query += 'upload-id-marker=' + uploadIdMarker + '&';
-            }
-            if (query != "") {
-                query = '?' + queryString + '&' + query;
-                mc.setProperty('uri.var.query' , query.toString().substring(0, query.toString().lastIndexOf("&")));
-            } else {
-                query = '?' + queryString;
-                mc.setProperty('uri.var.query' , query.toString());
-            }
-        ]]>
-        </script>
-        <filter xpath="string($ctx:uri.var.delimiter) and $ctx:uri.var.delimiter != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','delimiter=',$ctx:uri.var.delimiter)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.encodingType) and $ctx:uri.var.encodingType != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','encoding-type=',$ctx:uri.var.encodingType)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.maxUploads) and $ctx:uri.var.maxUploads != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','max-uploads=',$ctx:uri.var.maxUploads)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.keyMarker) and $ctx:uri.var.keyMarker != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','key-marker=',$ctx:uri.var.keyMarker)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.prefix) and $ctx:uri.var.prefix != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','prefix=',$ctx:uri.var.prefix)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.uploadIdMarker) and $ctx:uri.var.uploadIdMarker != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;','upload-id-marker=',$ctx:uri.var.uploadIdMarker)"/>
-            </then>
-        </filter>
-        <call>
-            <endpoint>
-                <http method="get" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}{+uri.var.query}"/>
-            </endpoint>
-        </call>
-        <!-- Remove response custom header information -->
-        <header name="x-amz-id-2" scope="transport" action="remove"/>
-        <header name="x-amz-request-id" scope="transport" action="remove"/>
-        <header name="Via" scope="transport" action="remove"/>
+        <property name="operationName" value="listMultipartUploads"/>
+        <class name="org.wso2.carbon.connector.amazons3.operations.BucketOperations"/>
     </sequence>
 </template>

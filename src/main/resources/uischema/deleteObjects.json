@@ -1,0 +1,101 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "deleteObjects",
+  "title": "Delete Multiple Objects",
+  "help": "<h1>Delete Multiple Objects</h1> <b>The deleteObjects operation deletes multiple objects from a bucket using a single HTTP request.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Amazon S3 Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "deleteConfig",
+                    "displayName": "Delete Config",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Contains the objects that are suppose to be deleted."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bypassGovernanceRetention",
+                    "displayName": "Bypass Governance Retention",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "true",
+                      "false"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "mfa",
+                    "displayName": "MFA",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The concatenation of the authentication device's serial number, a space, and the value that is displayed on the authentication device."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

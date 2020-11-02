@@ -1,0 +1,392 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "putObject",
+  "title": "Put Object",
+  "help": "<h1>Put Object</h1> <b>The putObject operation adds an object to a bucket.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Amazon S3 Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectKey",
+                    "displayName": "Object Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name to give the newly created object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "filePath",
+                    "displayName": "File Path",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The path of the file to be uploaded."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "acl",
+                    "displayName": "Canned ACL",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "private",
+                      "public-read",
+                      "public-read-write",
+                      "authenticated-read",
+                      "aws-exec-read",
+                      "bucket-owner-read",
+                      "bucket-owner-full-control"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The set of AWS accounts or groups are granted access and the type of access."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "cacheControl",
+                    "displayName": "Cache Control",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "This can be used to specify caching behavior along the request or reply chain."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentDisposition",
+                    "displayName": "Content Disposition",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "This specifies presentational information for the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentEncoding",
+                    "displayName": "Content Encoding",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "This specifies what content encodings have been applied to the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentLanguage",
+                    "displayName": "Content Language",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The language the content is in."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentType",
+                    "displayName": "Content Type",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "A standard MIME type describing the format of the object data."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentMD5",
+                    "displayName": "Content MD5",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The base64-encoded 128-bit MD5 digest of the message according to RFC 1864."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "expires",
+                    "displayName": "Expires",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The date and time at which the object is no longer cacheable."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantFullControl",
+                    "displayName": "Grant Full Control",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ, READ_ACP, and WRITE_ACP permissions on the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantRead",
+                    "displayName": "Grant Read",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantReadACP",
+                    "displayName": "Grant Read ACP",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ_ACP objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantWriteACP",
+                    "displayName": "Grant Write ACP",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE_ACP objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "metadata",
+                    "displayName": "Metadata",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "COPY",
+                      "REPLACE"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "New metadata to be created. Comma separated key value pair. The key and value are separated by ':'."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "serverSideEncryption",
+                    "displayName": "Server Side Encryption",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The server-side encryption algorithm used for storing the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "storageClass",
+                    "displayName": "Storage Class",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "STANDARD",
+                      "REDUCED_REDUNDANCY",
+                      "STANDARD_IA",
+                      "ONEZONE_IA",
+                      "INTELLIGENT_TIERING",
+                      "GLACIER",
+                      "DEEP_ARCHIVE",
+                      "OUTPOSTS"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The storage class."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "websiteRedirectLocation",
+                    "displayName": "Website Redirect Location",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The redirect URL of the object if the bucket is configured as a website."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerAlgorithm",
+                    "displayName": "Server Side Encryption Customer Algorithm",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The algorithm to use to when encrypting the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerKey",
+                    "displayName": "Server Side Encryption Customer Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The customer-provided encryption key to use in encrypting data."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerKeyMD5",
+                    "displayName": "Server Side Encryption Customer Key MD5",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "ssekmsKeyId",
+                    "displayName": "Server Side Encryption AWS KMS Key Id",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The ID of the symmetric customer managed AWS KMS CMK to use for object encryption."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "ssekmsEncryptionContext",
+                    "displayName": "Server Side AWS KMS Encryption Context to use for object encryption",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The AWS KMS Encryption Context to use for object encryption."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "tagging",
+                    "displayName": "Tag Set",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, Key1=Value1). This must be used in conjunction with the TaggingDirective."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectLockMode",
+                    "displayName": "Object Lock Mode",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "GOVERNANCE",
+                      "COMPLIANCE"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The object Lock mode that you want to apply to the uploaded object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectLockRetainUntilDate",
+                    "displayName": "Object Lock Retain Until Date",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The date and time when you want the Object Lock to expire."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectLockLegalHoldStatus",
+                    "displayName": "Object LockLegal Hold Status",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "ON",
+                      "OFF"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Specify whether apply a Legal Hold to the uploaded object or not."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

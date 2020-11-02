@@ -1,5 +1,5 @@
 <!--
- ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~  Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  ~
  ~  WSO2 Inc. licenses this file to you under the Apache License,
  ~  Version 2.0 (the "License"); you may not use this file except
@@ -16,87 +16,14 @@
  ~  under the License.
 -->
 <template name="restoreObject" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="objectName" description="Name of the object to be restored."/>
-    <parameter name="bucketUrl" description="End point URL of the request."/>
-    <parameter name="numberOfDays" description="Lifetime of the restored (active) copy."/>
+    <parameter name="bucketName" description="Name of the bucket."/>
+    <parameter name="objectKey" description="Name of the object to be restored."/>
+    <parameter name="restoreRequest" description="Container for the RestoreRequest parameters."/>
     <parameter name="versionId" description="Version Id of an object to restore a specific object version."/>
+    <parameter name="requestPayer"
+               description="Confirms that the requester knows that they will be charged for the request."/>
     <sequence>
-        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
-        <property name="uri.var.objectName" expression="$func:objectName"/>
-        <script language="js">
-            <![CDATA[
-            var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
-                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
-        ]]>
-        </script>
-        <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
-        <property name="uri.var.numberOfDays" expression="$func:numberOfDays"/>
-        <property name="uri.var.versionId" expression="$func:versionId"/>
-        <property name="uri.var.uriRemainder" expression="fn:concat('/',$ctx:uri.var.encodedObjectName,'')"/>
-        <property name="uri.var.queryString" value="restore"/>
-        <property name="uri.var.query" value=""/>
-        <!-- Setting the ACL of a specified object version -->
-        <filter xpath="string($ctx:uri.var.versionId) and $ctx:uri.var.versionId != ''">
-            <then>
-                <property name="uri.var.query"
-                          expression="fn:concat($ctx:uri.var.query,'&amp;versionId=',$ctx:uri.var.versionId)"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.addCharset)='true'">
-            <then>
-                <property name="uri.var.contentType"
-                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
-            </then>
-        </filter>
-        <payloadFactory media-type="xml">
-            <format>
-                <RestoreRequest>
-                    <Days>$1</Days>
-                </RestoreRequest>
-            </format>
-            <args>
-                <arg expression="$ctx:uri.var.numberOfDays"/>
-            </args>
-        </payloadFactory>
-        <!-- Generate MD5 Content -->
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3ContentMD5Builder"/>
-        <!-- Authentication Header Setup -->
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="string($ctx:uri.var.contentMD5) or $ctx:uri.var.contentMD5 != ''">
-            <then>
-                <property name="Content-MD5" expression="$ctx:uri.var.contentMD5" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:date) and $ctx:date != ''">
-            <then>
-                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
-            <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
-            <then>
-                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <call>
-            <endpoint>
-                <http method="post"
-                      uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?{+uri.var.queryString}{+uri.var.query}"/>
-            </endpoint>
-        </call>
-        <!-- Remove response custom header information -->
-        <header name="x-amz-id-2" scope="transport" action="remove"/>
-        <header name="x-amz-request-id" scope="transport" action="remove"/>
-        <header name="Via" scope="transport" action="remove"/>
+        <property name="operationName" value="restoreObject"/>
+        <class name="org.wso2.carbon.connector.amazons3.operations.ObjectOperations"/>
     </sequence>
 </template>

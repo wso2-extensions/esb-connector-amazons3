@@ -1,5 +1,5 @@
 <!--
- ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~  Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  ~
  ~  WSO2 Inc. licenses this file to you under the Apache License,
  ~  Version 2.0 (the "License"); you may not use this file except
@@ -16,83 +16,21 @@
  ~  under the License.
 -->
 <template name="createBucket" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="bucketUrl" description="Url of the bucket"/>
-    <parameter name="bucketRegion" description="The region for created bucket"/>
+    <parameter name="bucketName" description="Name of the bucket"/>
+    <parameter name="bucketRegion" description="The region for creating the bucket"/>
+    <parameter name="acl"
+               description="Canned ACL which defines the set of AWS accounts or groups are granted access and the type of access."/>
+    <parameter name="grantFullControl"
+               description="Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object."/>
+    <parameter name="grantRead" description="Allows grantee to read the object data and its metadata."/>
+    <parameter name="grantReadACP" description="Allows grantee to read the object ACL."/>
+    <parameter name="grantWrite"
+               description="Allows grantee to create, overwrite, and delete any object in the bucket."/>
+    <parameter name="grantWriteACP" description="Allows grantee to write the ACL for the applicable object."/>
+    <parameter name="objectLockEnabledForBucket"
+               description="The object lock mode that you want to apply to the copied object."/>
     <sequence>
-        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
-        <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
-        <property name="uri.var.bucketRegion" expression="$func:bucketRegion"/>
-        <property name="uri.var.uriRemainder" value="/"/>
-        <filter
-                xpath="string($ctx:uri.var.bucketRegion) and $ctx:uri.var.bucketRegion != ''">
-            <then>
-                <payloadFactory media-type="xml">
-                    <format>
-                        <CreateBucketConfiguration
-                                xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-                            <LocationConstraint>$1</LocationConstraint>
-                        </CreateBucketConfiguration>
-                    </format>
-                    <args>
-                        <arg expression="$ctx:uri.var.bucketRegion"/>
-                    </args>
-                </payloadFactory>
-            </then>
-            <else>
-                <!-- Apply Default Bucket Region -->
-                <payloadFactory media-type="xml">
-                    <format>
-                        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-                            <soapenv:Header/>
-                            <soapenv:Body/>
-                        </soapenv:Envelope>
-                    </format>
-                    <args/>
-                </payloadFactory>
-                <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
-            </else>
-        </filter>
-        <filter xpath="string($ctx:uri.var.addCharset)='true'">
-            <then>
-                <property name="uri.var.contentType"
-                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
-            </then>
-        </filter>
-        <!-- Authentication Header Setup -->
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="string($ctx:date) and $ctx:date != ''">
-            <then>
-                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
-            <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
-            <then>
-                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <call>
-            <endpoint>
-                <http method="put" uri-template="{uri.var.bucketUrl}{+uri.var.uriRemainder}"/>
-            </endpoint>
-        </call>
-        <!-- Remove response custom header information -->
-        <header name="x-amz-date" scope="transport" action="remove"/>
-        <header name="Authorization" scope="transport" action="remove"/>
-        <header name="nnCoection" scope="transport" action="remove"/>
-        <header name="x-amz-id-2" scope="transport" action="remove"/>
-        <header name="x-amz-request-id" scope="transport" action="remove"/>
-        <header name="Location" scope="transport" action="remove"/>
-        <header name="Via" scope="transport" action="remove"/>
+        <property name="operationName" value="createBucket"/>
+        <class name="org.wso2.carbon.connector.amazons3.operations.BucketOperations"/>
     </sequence>
 </template>

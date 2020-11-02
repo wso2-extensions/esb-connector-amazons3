@@ -1,5 +1,5 @@
 <!--
- ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~  Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  ~
  ~  WSO2 Inc. licenses this file to you under the Apache License,
  ~  Version 2.0 (the "License"); you may not use this file except
@@ -16,86 +16,23 @@
  ~  under the License.
 -->
 <template name="uploadPart" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="bucketUrl" description="The URL of the bucket without the http prefix."/>
-    <parameter name="objectName" description="The name to give for the newly created object."/>
-    <parameter name="uploadId" description="This specifiy the ID of the initiated multipart upload."/>
-    <parameter name="partNumber" description="This specifiy the number or the index of the uploaded part."/>
-    <parameter name="body" description="Content of the file."/>
+    <parameter name="bucketName" description="Name of the bucket."/>
+    <parameter name="objectKey" description="The name to give for the newly created object."/>
+    <parameter name="contentMD5"
+               description="The base64-encoded 128-bit MD5 digest of the message according to RFC 1864."/>
+    <parameter name="uploadId" description="This specifies the ID of the initiated multipart upload."/>
+    <parameter name="partNumber" description="This specifies the number or the index of the uploaded tag."/>
+    <parameter name="filePath" description="Path of the file to be uploaded."/>
+    <parameter name="sseCustomerAlgorithm"
+               description="The algorithm to use to when encrypting the object (for example, AES256)."/>
+    <parameter name="sseCustomerKey"
+               description="The customer-provided encryption key for Amazon S3 to use in encrypting data."/>
+    <parameter name="sseCustomerKeyMD5"
+               description="The 128-bit MD5 digest of the encryption key according to RFC 1321."/>
+    <parameter name="requestPayer"
+               description="Confirms that the requester knows that they will be charged for the request."/>
     <sequence>
-        <class name="org.wso2.carbon.connector.amazons3.auth.RemoveAmazonS3Context"/>
-        <property name="uri.var.bucketName" expression="$func:bucketName"/>
-        <property name="uri.var.uriRemainder" value=""/>
-        <property name="uri.var.bucketUrl" expression="$func:bucketUrl"/>
-        <property name="uri.var.objectName" expression="$func:objectName"/>
-        <script language="js">
-            <![CDATA[
-            var encodedObjectName = encodeURIComponent(mc.getProperty('uri.var.objectName'));
-                mc.setProperty('uri.var.encodedObjectName' , encodedObjectName);
-        ]]>
-        </script>
-        <property name="uri.var.uploadId" expression="$func:uploadId"/>
-        <property name="uri.var.partNumber" expression="$func:partNumber"/>
-        <property name="uri.var.body" expression="$func:body"/>
-        <filter xpath="string($ctx:uri.var.addCharset)='true'">
-            <then>
-                <property name="uri.var.contentType"
-                          expression="fn:concat($ctx:uri.var.contentType,'; charset=UTF-8')"/>
-            </then>
-        </filter>
-        <script language="js">
-            <![CDATA[
-            var encodedObjectName=mc.getProperty('uri.var.encodedObjectName');
-            mc.setProperty('uri.var.uriRemainder', '/'+encodedObjectName);
-        ]]>
-        </script>
-        <class name="org.wso2.carbon.connector.amazons3.auth.AmazonS3AuthConnector"/>
-        <filter xpath="string($ctx:date) and $ctx:date != '' ">
-            <then>
-                <property name="Date" expression="$ctx:date" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:isXAmzDateValue) and $ctx:isXAmzDateValue != ''">
-            <then>
-                <property name="x-amz-date" expression="$ctx:isXAmzDateValue" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:authenticationCode) and $ctx:authenticationCode != ''">
-            <then>
-                <property name="Authorization" expression="$ctx:authenticationCode" scope="transport" type="STRING"/>
-            </then>
-        </filter>
-        <filter xpath="string($ctx:uri.var.xAmzContentSha256) and $ctx:uri.var.xAmzContentSha256 != ''">
-            <then>
-                <property name="x-amz-content-sha256" expression="$ctx:uri.var.xAmzContentSha256" scope="transport"
-                          type="STRING"/>
-            </then>
-        </filter>
-        <!-- Force ESB to send the content length to the AmazonS3 API -->
-        <property name="FORCE_HTTP_CONTENT_LENGTH" value="true" scope="axis2"/>
-        <property name="COPY_CONTENT_LENGTH_FROM_INCOMING" value="true" scope="axis2"/>
-        <property name="DISABLE_CHUNKING" value="true" scope="axis2" />
-        <filter source="$ctx:AMAZONS3_BLOCKING" regex="true">
-            <then>
-                <call blocking="true">
-                    <endpoint>
-                        <http method="put"
-                              uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?partNumber={+uri.var.partNumber}&amp;uploadId={+uri.var.uploadId}"/>
-                    </endpoint>
-                </call>
-            </then>
-            <else>
-                <call>
-                    <endpoint>
-                        <http method="put"
-                              uri-template="{uri.var.bucketUrl}/{+uri.var.objectName}?partNumber={+uri.var.partNumber}&amp;uploadId={+uri.var.uploadId}"/>
-                    </endpoint>
-                </call>
-            </else>
-        </filter>
-        <!-- Remove response custom header information -->
-        <header name="x-amz-id-2" scope="transport" action="remove"/>
-        <header name="x-amz-request-id" scope="transport" action="remove"/>
-        <header name="Via" scope="transport" action="remove"/>
-        <header name="x-amz-server-side-encryption" scope="transport" action="remove"/>
+        <property name="operationName" value="uploadPart"/>
+        <class name="org.wso2.carbon.connector.amazons3.operations.ObjectOperations"/>
     </sequence>
 </template>

@@ -1,0 +1,76 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "putBucketPolicy",
+  "title": "Put Bucket Policy",
+  "help": "<h1>Put Bucket Policy</h1> <b>The putBucketPolicy implementation of the PUT operation adds or replaces a policy on a bucket.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Amazon S3 Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketPolicy",
+                    "displayName": "Bucket Policy",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Bucket policy configuration information."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "confirmRemoveSelfBucketAccess",
+                    "displayName": "Confirm Remove Self Bucket Access",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "true",
+                      "false"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in future."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
