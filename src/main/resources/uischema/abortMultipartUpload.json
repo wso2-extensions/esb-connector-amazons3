@@ -13,7 +13,7 @@
             "type": "attribute",
             "value": {
               "name": "configRef",
-              "displayName": "Connection",
+              "displayName": "Amazon S3 Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
                 "amazons3"
@@ -32,67 +32,23 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "bucketUrl",
-                    "displayName": "Bucket URL",
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The URL of the bucket."
+                    "helpTip": "The name of the bucket."
                   }
                 },
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "objectName",
-                    "displayName": "Object Name",
+                    "name": "objectKey",
+                    "displayName": "Object Key",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
                     "helpTip": "The name of the object to retrieve details for."
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "cacheControl",
-                    "displayName": "Cache Control",
-                    "inputType": "stringOrExpression",
-                    "defaultValue": "",
-                    "required": "true",
-                    "helpTip": "This can be used to specify caching behavior along the request or reply chain."
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "contentDisposition",
-                    "displayName": "Content Disposition",
-                    "inputType": "stringOrExpression",
-                    "defaultValue": "",
-                    "required": "true",
-                    "helpTip": "This specifies presentational information for the object."
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "contentEncoding",
-                    "displayName": "Content Encoding",
-                    "inputType": "stringOrExpression",
-                    "defaultValue": "",
-                    "required": "true",
-                    "helpTip": "This specifies what content encodings have been applied to the object."
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "expires",
-                    "displayName": "Expires",
-                    "inputType": "stringOrExpression",
-                    "defaultValue": "",
-                    "required": "true",
-                    "helpTip": "This specifies the date and time at which the object is no longer cacheable."
                   }
                 },
                 {
@@ -104,6 +60,20 @@
                     "defaultValue": "",
                     "required": "true",
                     "helpTip": "This specifies the ID of the current multipart upload."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
                   }
                 }
               ]

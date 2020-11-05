@@ -1,0 +1,97 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "multipartUpload",
+  "title": "Multipart Upload",
+  "help": "<h1>Multipart Upload</h1> <b>The multipartUpload operation initializes and completes a multipart upload by uploading parts.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Amazon S3 Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectKey",
+                    "displayName": "Object Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "partDetails",
+                    "displayName": "Part Details",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Array of parts with part with the part number."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "filePath",
+                    "displayName": "File Path",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The file path to upload it as the object content."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

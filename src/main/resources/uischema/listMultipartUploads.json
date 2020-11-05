@@ -13,7 +13,7 @@
             "type": "attribute",
             "value": {
               "name": "configRef",
-              "displayName": "Connection",
+              "displayName": "Amazon S3 Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
                 "amazons3"
@@ -32,12 +32,12 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "bucketUrl",
-                    "displayName": "Bucket URL",
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The URL of the bucket."
+                    "helpTip": "The name of the bucket."
                   }
                 },
                 {
@@ -98,12 +98,15 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "versionIdMarker",
-                    "displayName": "Version ID Marker",
-                    "inputType": "stringOrExpression",
+                    "name": "uploadIdMarker",
+                    "displayName": "Upload ID Marker",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "url"
+                    ],
                     "defaultValue": "",
                     "required": "false",
-                    "helpTip": "Specifies the object version you want to start listing from."
+                    "helpTip": "Specifies the multipart upload after which listing should begin."
                   }
                 }
               ]

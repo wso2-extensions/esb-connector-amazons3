@@ -18,76 +18,80 @@
 -->
 <component name="objects" type="synapse/template">
     <subComponents>
+        <component name="abortMultipartUpload">
+            <file>abortMultipartUpload.xml</file>
+            <description>Abort a currently active multipart upload</description>
+        </component>
+        <component name="copyBucketObject">
+            <file>copyBucketObject.xml</file>
+            <description>Creates a copy of an object that is already stored in Amazon S3</description>
+        </component>
         <component name="deleteObject">
             <file>deleteObject.xml</file>
             <description>Removes the null version (if there is one) of an object and inserts a delete marker, which
                 becomes the latest version of the object
             </description>
         </component>
-        <component name="deleteMultipleObjects">
-            <file>deleteMultipleObjects.xml</file>
+        <component name="deleteObjects">
+            <file>deleteObjects.xml</file>
             <description>Delete multiple objects from a bucket using a single HTTP request</description>
         </component>
         <component name="getObject">
             <file>getObject.xml</file>
             <description>Retrieves objects from Amazon S3</description>
         </component>
-        <component name="createObject">
-            <file>createObject.xml</file>
-            <description>Create objects from Amazon S3 bucket</description>
-        </component>
         <component name="getObjectACL">
             <file>getObjectACL.xml</file>
             <description>Returns the access control list (ACL) of an object</description>
+        </component>
+        <component name="getObjectTagging">
+            <file>getObjectTagging.xml</file>
+            <description>Retrieve the list of tags associated with the object</description>
         </component>
         <component name="getObjectTorrent">
             <file>getObjectTorrent.xml</file>
             <description>Returns torrent files from a bucket</description>
         </component>
-        <component name="getObjectMetaData">
-            <file>getObjectMetaData.xml</file>
+        <component name="headObject">
+            <file>headObject.xml</file>
             <description>Retrieves metadata from an object without returning the object itself</description>
-        </component>
-        <component name="restoreObject">
-            <file>restoreObject.xml</file>
-            <description>Restores a temporary copy of an archived object</description>
-        </component>
-        <component name="createObjectACL">
-            <file>createObjectACL.xml</file>
-            <description>Set the access control list (ACL) permissions for an object that already exists in a bucket
-            </description>
-        </component>
-        <component name="createObjectCopy">
-            <file>createObjectCopy.xml</file>
-            <description>Creates a copy of an object that is already stored in Amazon S3</description>
-        </component>
-        <component name="initMultipartUpload">
-            <file>initMultipartUpload.xml</file>
-            <description>Initiate a multipart upload for Part uploads</description>
-        </component>
-        <component name="abortMultipartUpload">
-            <file>abortMultipartUpload.xml</file>
-            <description>Abort a currently active multipart upload</description>
-        </component>
-        <component name="uploadPart">
-            <file>uploadPart.xml</file>
-            <description>Upload a part for a current multipart upload</description>
-        </component>
-        <component name="uploadPartCopy">
-            <file>uploadPartCopy.xml</file>
-            <description>Uploads a part by copying data from an existing object as data source</description>
         </component>
         <component name="completeMultipartUpload">
             <file>completeMultipartUpload.xml</file>
-            <description>Complete a currently active multipart upload</description>
+            <description>Complete the multipart upload</description>
+        </component>
+        <component name="createMultipartUpload">
+            <file>createMultipartUpload.xml</file>
+            <description>Create a multipart upload for Part uploads</description>
         </component>
         <component name="listParts">
             <file>listParts.xml</file>
             <description>Retrieve list of uploaded parts</description>
         </component>
-        <component name="headObject">
-            <file>headObject.xml</file>
-            <description>Retrieves metadata from an object without returning the object itself</description>
+        <component name="multipartUpload">
+            <file>multipartUpload.xml</file>
+            <description>Complete a currently active multipart upload</description>
+        </component>
+        <component name="putObject">
+            <file>putObject.xml</file>
+            <description>Create objects from Amazon S3 bucket</description>
+        </component>
+        <component name="putObjectAcl">
+            <file>putObjectAcl.xml</file>
+            <description>Set the access control list (ACL) permissions for an object that already exists in a bucket
+            </description>
+        </component>
+        <component name="restoreObject">
+            <file>restoreObject.xml</file>
+            <description>Restores a temporary copy of an archived object</description>
+        </component>
+        <component name="uploadPart">
+            <file>uploadPart.xml</file>
+            <description>Upload a tag for a current multipart upload</description>
+        </component>
+        <component name="uploadPartCopy">
+            <file>uploadPartCopy.xml</file>
+            <description>Uploads a tag by copying data from an existing object as data source</description>
         </component>
     </subComponents>
 </component>

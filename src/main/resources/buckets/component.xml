@@ -18,9 +18,9 @@
 -->
 <component name="buckets" type="synapse/template">
     <subComponents>
-        <component name="getBuckets">
-            <file>getBuckets.xml</file>
-            <description>Return the request payment configuration of a bucket.</description>
+        <component name="createBucket">
+            <file>createBucket.xml</file>
+            <description>Get details about payments that have not completed</description>
         </component>
         <component name="deleteBucket">
             <file>deleteBucket.xml</file>
@@ -28,13 +28,17 @@
                 Markers) in the bucket must be deleted before the bucket itself can be deleted
             </description>
         </component>
-        <component name="deleteBucketCors">
-            <file>deleteBucketCors.xml</file>
-            <description>Deletes the cors configuration information set for the bucket</description>
+        <component name="deleteBucketCORS">
+            <file>deleteBucketCORS.xml</file>
+            <description>Deletes the CORS configuration information set for the bucket</description>
         </component>
         <component name="deleteBucketLifecycle">
             <file>deleteBucketLifecycle.xml</file>
             <description>Deletes the lifecycle configuration from the specified bucket</description>
+        </component>
+        <component name="deleteBucketPolicy">
+            <file>deleteBucketPolicy.xml</file>
+            <description>Delete the policy on a specified bucket</description>
         </component>
         <component name="deleteBucketReplication">
             <file>deleteBucketReplication.xml</file>
@@ -42,86 +46,23 @@
         </component>
         <component name="deleteBucketTagging">
             <file>deleteBucketTagging.xml</file>
-            <description>Removes a tag set from the specified bucket</description>
-        </component>
-        <component name="createBucket">
-            <file>createBucket.xml</file>
-            <description>Get details about payments that have not completed</description>
-        </component>
-        <component name="createBucketCors">
-            <file>createBucketCors.xml</file>
-            <description>Sets the cors configuration for your bucket</description>
-        </component>
-        <component name="createBucketACL">
-            <file>createBucketACL.xml</file>
-            <description>Set the permissions on an existing bucket using access control lists</description>
-        </component>
-        <component name="createBucketLifecycle">
-            <file>createBucketLifecycle.xml</file>
-            <description>Creates a new lifecycle configuration for the bucket or replaces an existing
-                lifecycle configuration
-            </description>
-        </component>
-        <component name="createBucketReplication">
-            <file>createBucketReplication.xml</file>
-            <description>Creates a new replication configuration</description>
-        </component>
-        <component name="createBucketTagging">
-            <file>createBucketTagging.xml</file>
-            <description>Adds a set of tags to an existing bucket</description>
-        </component>
-        <component name="createBucketRequestPayment">
-            <file>createBucketRequestPayment.xml</file>
-            <description>Set the request payment configuration of a bucket</description>
-        </component>
-        <component name="createBucketVersioning">
-            <file>createBucketVersioning.xml</file>
-            <description>Set the versioning state of an existing bucket</description>
-        </component>
-        <component name="getBucketVersioning">
-            <file>getBucketVersioning.xml</file>
-            <description>Returns the versioning state of a bucket</description>
-        </component>
-        <component name="checkBucketPermission">
-            <file>checkBucketPermission.xml</file>
-            <description>Determine if a bucket exists and you have permission to access it</description>
-        </component>
-        <component name="getBucketACL">
-            <file>getBucketACL.xml</file>
-            <description>Return the access control list (ACL) of a bucket</description>
-        </component>
-        <component name="deleteBucketPolicy">
-            <file>deleteBucketPolicy.xml</file>
-            <description>Delete the policy on a specified bucket</description>
+            <description>Removes a tags set from the specified bucket</description>
         </component>
         <component name="deleteBucketWebsiteConfiguration">
             <file>deleteBucketWebsiteConfiguration.xml</file>
             <description>Removes the website configuration for a bucket</description>
         </component>
-        <component name="createBucketWebsiteConfiguration">
-            <file>createBucketWebsiteConfiguration.xml</file>
-            <description>Sets the configuration of the website that is specified in the website subresource
-            </description>
+        <component name="getBucketACL">
+            <file>getBucketACL.xml</file>
+            <description>Return the access control list (ACL) of a bucket</description>
         </component>
-        <component name="getWebSiteConfiguration">
-            <file>getWebSiteConfiguration.xml</file>
-            <description>Returns the website configuration associated with a bucket</description>
+        <component name="getBucketCORS">
+            <file>getBucketCORS.xml</file>
+            <description>Returns the CORS configuration information set for the bucket</description>
         </component>
-        <component name="getObjectsInBucket">
-            <file>getObjectsInBucket.xml</file>
-            <description>Rreturns some or all (up to 1000) of the objects in a bucket</description>
-        </component>
-        <component name="getBucketObjectVersions">
-            <file>getBucketObjectVersions.xml</file>
-            <description>List metadata about all of the versions of objects in a bucket</description>
-        </component>
-        <component name="getBucketLifeCycle">
-            <file>getBucketLifeCycle.xml</file>
+        <component name="getBucketLifecycleConfiguration">
+            <file>getBucketLifecycleConfiguration.xml</file>
             <description>Returns the lifecycle configuration information set on the bucket</description>
-        </component>
-        <component name="getBucketPolicy">
-            <file>getBucketPolicy.xml</file>
-            <description>Return the policy of a specified bucket</description>
         </component>
         <component name="getBucketLocation">
             <file>getBucketLocation.xml</file>
@@ -129,43 +70,94 @@
         </component>
         <component name="getBucketLogging">
             <file>getBucketLogging.xml</file>
-            <description>Returns the logging status of a bucket</description>
+            <description>Returns the logging storageClass of a bucket</description>
         </component>
-        <component name="getBucketNotification">
-            <file>getBucketNotification.xml</file>
+        <component name="getBucketNotificationConfiguration">
+            <file>getBucketNotificationConfiguration.xml</file>
             <description>Returns the notification configuration of a bucket</description>
         </component>
-        <component name="getBucketCors">
-            <file>getBucketCors.xml</file>
-            <description>Returns the cors configuration information set for the bucket</description>
+        <component name="getBucketPolicy">
+            <file>getBucketPolicy.xml</file>
+            <description>Return the policy of a specified bucket</description>
         </component>
         <component name="getBucketReplication">
             <file>getBucketReplication.xml</file>
             <description>Returns replication configuration information set on the bucket</description>
         </component>
-        <component name="getBucketTagging">
-            <file>getBucketTagging.xml</file>
-            <description>Returns the tag set associated with the bucket</description>
-        </component>
-        <component name="createBucketPolicy">
-            <file>createBucketPolicy.xml</file>
-            <description>Add to or replace a policy on a bucket</description>
-        </component>
         <component name="getBucketRequestPayment">
             <file>getBucketRequestPayment.xml</file>
             <description>Return the request payment configuration of a bucket</description>
         </component>
-        <component name="setBucketACL">
-            <file>setBucketACL.xml</file>
-            <description>Set the permissions on an existing bucket using access control lists(ACL)</description>
+        <component name="getBucketTagging">
+            <file>getBucketTagging.xml</file>
+            <description>Returns the tags set associated with the bucket</description>
+        </component>
+        <component name="getBucketVersioning">
+            <file>getBucketVersioning.xml</file>
+            <description>Returns the versioning state of a bucket</description>
+        </component>
+        <component name="getBucketWebsite">
+            <file>getBucketWebsite.xml</file>
+            <description>Returns the website configuration associated with a bucket</description>
         </component>
         <component name="headBucket">
             <file>headBucket.xml</file>
             <description>To determine if a bucket exists and you have permission to access it</description>
         </component>
+        <component name="listBuckets">
+            <file>listBuckets.xml</file>
+            <description>Return the request payment configuration of a bucket.</description>
+        </component>
         <component name="listMultipartUploads">
             <file>listMultipartUploads.xml</file>
             <description>Lists in-progress multipart uploads</description>
+        </component>
+        <component name="listObjects">
+            <file>listObjects.xml</file>
+            <description>Returns some or all (up to 1000) of the objects in a bucket</description>
+        </component>
+        <component name="listObjectVersions">
+            <file>listObjectVersions.xml</file>
+            <description>List metadata about all of the versions of objects in a bucket</description>
+        </component>
+        <component name="putBucketACL">
+            <file>putBucketACL.xml</file>
+            <description>Set the permissions on an existing bucket using access control lists</description>
+        </component>
+        <component name="putBucketCORS">
+            <file>putBucketCORS.xml</file>
+            <description>Sets the CORS configuration for your bucket</description>
+        </component>
+        <component name="putBucketLifecycleConfiguration">
+            <file>putBucketLifecycleConfiguration.xml</file>
+            <description>Creates a new lifecycle configuration for the bucket or replaces an existing
+                lifecycle configuration
+            </description>
+        </component>
+        <component name="putBucketPolicy">
+            <file>putBucketPolicy.xml</file>
+            <description>Add to or replace a policy on a bucket</description>
+        </component>
+        <component name="putBucketReplication">
+            <file>putBucketReplication.xml</file>
+            <description>Creates a new replication configuration</description>
+        </component>
+        <component name="putBucketRequestPayment">
+            <file>putBucketRequestPayment.xml</file>
+            <description>Set the request payment configuration of a bucket</description>
+        </component>
+        <component name="putBucketTagging">
+            <file>putBucketTagging.xml</file>
+            <description>Adds a set of tags to an existing bucket</description>
+        </component>
+        <component name="putBucketVersioning">
+            <file>putBucketVersioning.xml</file>
+            <description>Set the versioning state of an existing bucket</description>
+        </component>
+        <component name="putBucketWebsite">
+            <file>putBucketWebsite.xml</file>
+            <description>Sets the configuration of the website that is specified in the website subresource
+            </description>
         </component>
     </subComponents>
 </component>

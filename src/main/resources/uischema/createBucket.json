@@ -13,7 +13,7 @@
             "type": "attribute",
             "value": {
               "name": "configRef",
-              "displayName": "Connection",
+              "displayName": "Amazon S3 Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
                 "amazons3"
@@ -32,12 +32,12 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "bucketUrl",
-                    "displayName": "Bucket URL",
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The URL of the bucket."
+                    "helpTip": "The name of the bucket."
                   }
                 },
                 {
@@ -45,10 +45,127 @@
                   "value": {
                     "name": "bucketRegion",
                     "displayName": "Bucket Region",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "af-south-1",
+                      "ap-east-1",
+                      "ap-northeast-1",
+                      "ap-northeast-2",
+                      "ap-northeast-3",
+                      "ap-south-1",
+                      "ap-southeast-1",
+                      "ap-southeast-2",
+                      "ca-central-1",
+                      "cn-north-1",
+                      "cn-northwest-1",
+                      "EU",
+                      "eu-central-1",
+                      "eu-north-1",
+                      "eu-south-1",
+                      "eu-west-1",
+                      "eu-west-2",
+                      "eu-west-3",
+                      "me-south-1",
+                      "sa-east-1",
+                      "us-east-2",
+                      "us-gov-east-1",
+                      "us-gov-west-1",
+                      "us-west-1",
+                      "us-west-2"
+                    ],
+                    "defaultValue": "us-east-1",
+                    "required": "false",
+                    "helpTip": "Region for the created bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "acl",
+                    "displayName": "Canned ACL",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "private",
+                      "public-read",
+                      "public-read-write",
+                      "authenticated-read",
+                      "aws-exec-read",
+                      "bucket-owner-read",
+                      "bucket-owner-full-control"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The set of AWS accounts or groups are granted access and the type of access."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantFullControl",
+                    "displayName": "Grant Full Control",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
-                    "required": "true",
-                    "helpTip": "Region for the created bucket."
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ, READ_ACP, and WRITE_ACP permissions on the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantRead",
+                    "displayName": "Grant Read",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantReadACP",
+                    "displayName": "Grant Read ACP",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ_ACP objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantWrite",
+                    "displayName": "Grant Write",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantWriteACP",
+                    "displayName": "Grant Write ACP",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE_ACP objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectLockEnabledForBucket",
+                    "displayName": "Enable Object Lock For Bucket",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "true",
+                      "false"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Specify whether you want S3 Object Lock to be enabled for this bucket."
                   }
                 }
               ]

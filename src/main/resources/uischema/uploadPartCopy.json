@@ -13,7 +13,7 @@
             "type": "attribute",
             "value": {
               "name": "configRef",
-              "displayName": "Connection",
+              "displayName": "Amazon S3 Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
                 "amazons3"
@@ -32,19 +32,19 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "bucketUrl",
-                    "displayName": "Bucket URL",
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The URL of the bucket."
+                    "helpTip": "The name of the bucket."
                   }
                 },
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "objectName",
-                    "displayName": "Object Name",
+                    "name": "objectKey",
+                    "displayName": "Object Key",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
@@ -71,6 +71,152 @@
                     "defaultValue": "",
                     "required": "true",
                     "helpTip": "This specifies the number or the index of the uploaded part."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "copySourceRange",
+                    "displayName": "Copy Source Range",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The range of bytes to copy from the source object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "ifModifiedSince",
+                    "displayName": "If Modified Since",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Return the object only if it has been modified."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "ifUnmodifiedSince",
+                    "displayName": "If Unmodified Since",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Return the object only if it has not been modified."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "ifMatch",
+                    "displayName": "If Match",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Return the object only if its ETag is the same."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "ifNoneMatch",
+                    "displayName": "If None Match",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Return the object only if its ETag is not same."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "copySource",
+                    "displayName": "Source Object",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the source bucket and the source object key, separated by a slash (/)"
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "copySourceSSECustomerAlgorithm",
+                    "displayName": "Copy Source SSE Customer Algorithm",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The algorithm to use when decrypting the source object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "copySourceSSECustomerKey",
+                    "displayName": "Copy Source SSE Customer Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The customer-provided encryption key for Amazon S3 to use to decrypt the source object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "copySourceSSECustomerKeyMD5",
+                    "displayName": "Copy Source SSE Customer Key MD5",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerAlgorithm",
+                    "displayName": "Server Side Encryption Customer Algorithm",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The algorithm to use to when encrypting the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerKey",
+                    "displayName": "Server Side Encryption Customer Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The customer-provided encryption key to use in encrypting data."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerKeyMD5",
+                    "displayName": "Server Side Encryption Customer Key MD5",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
                   }
                 }
               ]

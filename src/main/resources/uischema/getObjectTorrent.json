@@ -13,7 +13,7 @@
             "type": "attribute",
             "value": {
               "name": "configRef",
-              "displayName": "Connection",
+              "displayName": "Amazon S3 Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
                 "amazons3"
@@ -32,23 +32,48 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "bucketUrl",
-                    "displayName": "Bucket URL",
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The URL of the bucket."
+                    "helpTip": "The name of the bucket."
                   }
                 },
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "objectName",
-                    "displayName": "Object Name",
+                    "name": "objectKey",
+                    "displayName": "Object Key",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
                     "helpTip": "The name of the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectPath",
+                    "displayName": "Object Path",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The path of the torrent file to be created."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
                   }
                 }
               ]

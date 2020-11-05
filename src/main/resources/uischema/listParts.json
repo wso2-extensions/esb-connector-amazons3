@@ -13,7 +13,7 @@
             "type": "attribute",
             "value": {
               "name": "configRef",
-              "displayName": "Connection",
+              "displayName": "Amazon S3 Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
                 "amazons3"
@@ -32,19 +32,19 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "bucketUrl",
-                    "displayName": "Bucket URL",
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The URL of the bucket."
+                    "helpTip": "The name of the bucket."
                   }
                 },
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "objectName",
-                    "displayName": "Object Name",
+                    "name": "objectKey",
+                    "displayName": "Object Key",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
@@ -65,22 +65,11 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "encodingType",
-                    "displayName": "Encoding Type",
-                    "inputType": "stringOrExpression",
-                    "defaultValue": "",
-                    "required": "true",
-                    "helpTip": "Requests Amazon S3 to encode the response and specifies the encoding method to use."
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
                     "name": "maxParts",
                     "displayName": "Max Parts",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
-                    "required": "true",
+                    "required": "false",
                     "helpTip": "Sets the maximum number of parts to return in the response body."
                   }
                 },
@@ -91,8 +80,22 @@
                     "displayName": "Part Number Marker",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
-                    "required": "true",
+                    "required": "false",
                     "helpTip": "Specifies the part after which listing should begin."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
                   }
                 }
               ]

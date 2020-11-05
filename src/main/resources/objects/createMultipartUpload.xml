@@ -1,0 +1,63 @@
+<!--
+ ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 Inc. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+<template name="createMultipartUpload" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="bucketName" description="Name of the bucket."/>
+    <parameter name="objectKey" description="The name to give the newly created object."/>
+    <parameter name="acl"
+               description="Canned ACL which defines the set of AWS accounts or groups are granted access and the type of access."/>
+    <parameter name="cacheControl" description="Specifies caching behavior along the request/reply chain."/>
+    <parameter name="contentDisposition" description="Specifies presentational information for the object."/>
+    <parameter name="contentEncoding" description="Specifies what content encodings have been applied to the object."/>
+    <parameter name="contentLanguage" description="The language the content is in."/>
+    <parameter name="contentType" description="A standard MIME type describing the format of the object data."/>
+    <parameter name="expires" description="The date and time at which the object is no longer cacheable."/>
+    <parameter name="grantFullControl"
+               description="Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object."/>
+    <parameter name="grantRead" description="Allows grantee to read the object data and its metadata."/>
+    <parameter name="grantReadACP" description="Allows grantee to read the object ACL."/>
+    <parameter name="grantWriteACP" description="Allows grantee to write the ACL for the applicable object."/>
+    <parameter name="metadata"
+               description="New metadata. Comma separated key value pair. The key and value are separated by ':'"/>
+    <parameter name="serverSideEncryption"
+               description="The server-side encryption algorithm used when storing this object in Amazon S3."/>
+    <parameter name="storageClass" description="The storage class."/>
+    <parameter name="websiteRedirectLocation"
+               description="The redirect URL of the object if the bucket is configured as a website."/>
+    <parameter name="sseCustomerAlgorithm" description="Specifies the algorithm to use to when encrypting the object."/>
+    <parameter name="sseCustomerKey"
+               description="Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data."/>
+    <parameter name="sseCustomerKeyMD5"
+               description="Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321."/>
+    <parameter name="ssekmsKeyId"
+               description="Specifies the ID of the symmetric customer managed AWS KMS CMK to use for object encryption."/>
+    <parameter name="ssekmsEncryptionContext"
+               description="Specifies the AWS KMS Encryption Context to use for object encryption."/>
+    <parameter name="requestPayer"
+               description="Confirms that the requester knows that they will be charged for the request."/>
+    <parameter name="tagging" description="The tag-set for the object."/>
+    <parameter name="objectLockMode"
+               description="Specifies the Object Lock mode that you want to apply to the uploaded object."/>
+    <parameter name="objectLockRetainUntilDate"
+               description="Specifies the date and time when you want the Object Lock to expire."/>
+    <parameter name="objectLockLegalHoldStatus"
+               description="Specifies whether you want to apply a Legal Hold to the uploaded object."/>
+    <sequence>
+        <property name="operationName" value="createMultipartUpload"/>
+        <class name="org.wso2.carbon.connector.amazons3.operations.ObjectOperations"/>
+    </sequence>
+</template>

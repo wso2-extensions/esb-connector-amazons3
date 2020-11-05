@@ -1,0 +1,61 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "putBucketTagging",
+  "title": "Put Bucket Tagging",
+  "help": "<h1>Put Bucket Tagging</h1> <b>The putBucketTagging operation uses the tagging subresource to add a set of tags to an existing bucket.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Amazon S3 Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "tagSet",
+                    "displayName": "Tag Set",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Container for a set of tags."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

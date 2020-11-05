@@ -1,0 +1,172 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "putObjectACL",
+  "title": "Put Object ACL",
+  "help": "<h1>Put Object ACL</h1> <b>The putObjectACL operation sets the access control list (ACL) permissions for an object that already exists in a bucket.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Amazon S3 Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectKey",
+                    "displayName": "Object Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the object to retrieve details for."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "accessControlList",
+                    "displayName": "Access Control List",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Object ACL information."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "versionId",
+                    "displayName": "version ID",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Version ID of an object to remove a specific object version."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "acl",
+                    "displayName": "Canned ACL",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "private",
+                      "public-read",
+                      "public-read-write",
+                      "authenticated-read",
+                      "aws-exec-read",
+                      "bucket-owner-read",
+                      "bucket-owner-full-control"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The set of AWS accounts or groups are granted access and the type of access."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantFullControl",
+                    "displayName": "Grant Full Control",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ, READ_ACP, and WRITE_ACP permissions on the object."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantRead",
+                    "displayName": "Grant Read",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantReadACP",
+                    "displayName": "Grant Read ACP",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant READ_ACP objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantWrite",
+                    "displayName": "Grant Write",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "grantWriteACP",
+                    "displayName": "Grant Write ACP",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE_ACP objects permission to those accounts."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "requester"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
