@@ -237,7 +237,16 @@
         </filter>
         <filter xpath="string($ctx:uri.var.xAmzMeta) or $ctx:uri.var.xAmzMeta != ''">
             <then>
-                <property name="x-amz-meta-" expression="$ctx:uri.var.xAmzMeta" scope="transport" type="STRING"/>
+                <script language="js"><![CDATA[
+				var metadata = mc.getProperty("uri.var.xAmzMeta");
+				var metadata_list = metadata.split(',');
+				for(var i =0 ; i< metadata_list.length; i++){
+					var key_value = metadata_list[i].split(':');
+					if(key_value[1] && key_value[0]){
+						mc.setProperty("x-amz-meta-" + key_value[0], key_value[1],"transport");
+					}
+				}
+  ]]></script>
             </then>
         </filter>
         <filter xpath="string($ctx:uri.var.xAmzServeEncryption) or $ctx:uri.var.xAmzServeEncryption != ''">
