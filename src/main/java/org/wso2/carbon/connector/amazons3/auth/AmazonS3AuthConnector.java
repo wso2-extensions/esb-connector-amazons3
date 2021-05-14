@@ -53,7 +53,6 @@ public class AmazonS3AuthConnector extends AbstractConnector {
         final StringBuilder authHeader = new StringBuilder();
         final Map<String, String> parametersMap = getParametersMap(messageContext);
         final Locale defaultLocale = Locale.getDefault();
-
         final Date date = new Date();
         final TimeZone timeZone = TimeZone.getTimeZone(AmazonS3Constants.TIME_ZONE);
         final SimpleDateFormat dateFormat = new SimpleDateFormat(AmazonS3Constants.CURR_DATE_FORMAT, defaultLocale);
@@ -64,6 +63,17 @@ public class AmazonS3AuthConnector extends AbstractConnector {
         shortDateFormat.setTimeZone(timeZone);
         final String shortDate = shortDateFormat.format(date);
         try{
+        	final String amzMetadata = (String) messageContext.getProperty("uri.var.xAmzMeta");
+            final String[] amzMetadataArray = amzMetadata.split(",");
+            Map<String, String> metadataMap = new HashMap<>();
+            for(String metadata : amzMetadataArray) {
+            	String[] splitedMetadata = metadata.split(":");
+            	if((splitedMetadata[1] != null || !splitedMetadata[1].isEmpty()) && (splitedMetadata[0] != null || !splitedMetadata[0].isEmpty())) {
+            		metadataMap.put(splitedMetadata[0], splitedMetadata[1]);
+            	}
+            }
+            
+            
             final String dateTrimmed = currentDate.trim();
             final Map<String, String> amzHeadersMap = new HashMap<>();
             final Map<String, String> queryParamsMap = new HashMap<>();
@@ -137,6 +147,12 @@ public class AmazonS3AuthConnector extends AbstractConnector {
                 }
             }
     
+            // Add custom meta data
+            for ( Map.Entry<String, String> entry : metadataMap.entrySet()) {
+            	String header_value = "x-amz-meta-".concat(entry.getKey());
+            	amzHeadersMap.put(header_value, entry.getValue());
+            }
+            
             final SortedSet<String> keys = new TreeSet<>(amzHeadersMap.keySet());
             for (String key : keys) {
                 String headerValues = amzHeadersMap.get(key);
@@ -145,6 +161,7 @@ public class AmazonS3AuthConnector extends AbstractConnector {
                 signedHeader.append(key.toLowerCase(defaultLocale));
                 signedHeader.append(AmazonS3Constants.SEMI_COLON);
             }
+            
             canonicalRequest.append(canonicalHeaders).append(AmazonS3Constants.NEW_LINE);
 
             // Remove unwanted semi-colon at the end of the signedHeader string
@@ -160,7 +177,6 @@ public class AmazonS3AuthConnector extends AbstractConnector {
             stringToSign.append(AmazonS3Constants.NEW_LINE);
             stringToSign.append(dateTrimmed);
             stringToSign.append(AmazonS3Constants.NEW_LINE);
-    
             stringToSign.append(shortDate);
             stringToSign.append(AmazonS3Constants.FORWARD_SLASH);
             stringToSign.append(messageContext.getProperty(AmazonS3Constants.REGION));
@@ -243,7 +259,7 @@ public class AmazonS3AuthConnector extends AbstractConnector {
                 AmazonS3Constants.BUCKET_NAME, AmazonS3Constants.IS_XAMZ_DATE, AmazonS3Constants.XAMZ_SECURITY_TOKEN,
                 AmazonS3Constants.XAMZ_ACL, AmazonS3Constants.XAMZ_GRANT_READ, AmazonS3Constants.XAMZ_GRANT_WRITE,
                 AmazonS3Constants.XAMZ_GRANT_READ_ACP, AmazonS3Constants.XAMZ_GRANT_WRITE_ACP,
-                AmazonS3Constants.XAMZ_GRANT_FULL_CONTROL, AmazonS3Constants.XAMZ_META,
+                AmazonS3Constants.XAMZ_GRANT_FULL_CONTROL,
                 AmazonS3Constants.XAMZ_SERVE_ENCRYPTION, AmazonS3Constants.XAMZ_STORAGE_CLASS,
                 AmazonS3Constants.XAMZ_WEBSITE_LOCATION, AmazonS3Constants.XAMZ_MFA,
                 AmazonS3Constants.XAMZ_COPY_SOURCE, AmazonS3Constants.XAMZ_COPY_SOURCE_RANGE,
@@ -336,7 +352,6 @@ public class AmazonS3AuthConnector extends AbstractConnector {
         headerKeysMap.put(AmazonS3Constants.XAMZ_GRANT_READ_ACP, AmazonS3Constants.HD_XAMZ_GRANT_READ_ACP);
         headerKeysMap.put(AmazonS3Constants.XAMZ_GRANT_WRITE_ACP, AmazonS3Constants.HD_XAMZ_GRANT_WRITE_ACP);
         headerKeysMap.put(AmazonS3Constants.XAMZ_GRANT_FULL_CONTROL, AmazonS3Constants.HD_XAMZ_GRANT_FULL_CONTROL);
-        headerKeysMap.put(AmazonS3Constants.XAMZ_META, AmazonS3Constants.HD_XAMZ_META);
         headerKeysMap.put(AmazonS3Constants.XAMZ_SERVE_ENCRYPTION, AmazonS3Constants.HD_XAMZ_SERVE_ENCRYPTION);
         headerKeysMap.put(AmazonS3Constants.XAMZ_STORAGE_CLASS, AmazonS3Constants.HD_XAMZ_STORAGE_CLASS);
         headerKeysMap.put(AmazonS3Constants.XAMZ_WEBSITE_LOCATION, AmazonS3Constants.HD_XAMZ_WEBSITE_LOCATION);
