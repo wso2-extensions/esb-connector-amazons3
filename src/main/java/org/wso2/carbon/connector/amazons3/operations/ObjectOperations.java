@@ -18,6 +18,7 @@ import org.wso2.carbon.connector.core.ConnectException;
 import org.wso2.carbon.connector.core.connection.ConnectionHandler;
 import org.wso2.carbon.connector.core.util.ConnectorUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.SdkHttpResponse;
@@ -812,10 +813,10 @@ public class ObjectOperations extends AbstractConnector {
                 .partNumber(partNumber)
                 .build();
         try {
-            GetObjectResponse response = s3Client.getObject(request).response();
+            ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObjectAsBytes(request);
             OMElement responseElement = S3ConnectorUtils.createOMElement("GetObjectResponse", "");
             org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse objectResponse =
-                    s3POJOHandler.castS3GetObjectResponse(response);
+                    s3POJOHandler.castS3GetObjectResponseWithContent(responseBytes);
             String objString = s3POJOHandler.getObjectAsXml(objectResponse,
                     org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse.class);
             try {

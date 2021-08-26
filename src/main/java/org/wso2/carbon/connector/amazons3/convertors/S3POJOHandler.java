@@ -20,8 +20,10 @@ package org.wso2.carbon.connector.amazons3.convertors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.entity.ContentType;
 import org.wso2.carbon.connector.amazons3.exception.InvalidConfigurationException;
 import org.wso2.carbon.connector.amazons3.utils.XmlUtil;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.model.AccessControlPolicy;
 import software.amazon.awssdk.services.s3.model.AccessControlTranslation;
 import software.amazon.awssdk.services.s3.model.AbortIncompleteMultipartUpload;
@@ -119,6 +121,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1369,6 +1373,21 @@ public class S3POJOHandler {
                 .key(obj.getKey())
                 .versionId(obj.getVersionId())
                 .build();
+    }
+
+    public org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse castS3GetObjectResponseWithContent(
+            ResponseBytes<GetObjectResponse> responseBytes) {
+
+        org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse obj1 =
+                castS3GetObjectResponse(responseBytes.response());
+
+        ContentType contentType = ContentType.parse(responseBytes.response().contentType());
+        Charset charset = contentType.getCharset();
+        if (charset == null) {
+            charset = StandardCharsets.UTF_8;
+        }
+        obj1.setContent(responseBytes.asString(charset));
+        return obj1;
     }
 
     public org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse castS3GetObjectResponse(GetObjectResponse obj) {
