@@ -20,6 +20,7 @@ import org.wso2.carbon.connector.core.util.ConnectorUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.core.exception.SdkException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.SdkHttpResponse;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -105,7 +106,7 @@ public class ObjectOperations extends AbstractConnector {
                 storageClass, websiteRedirectLocation, ssekmsKeyId, ssekmsEncryptionContext, tagging, objectLockMode,
                 objectLockLegalHoldStatus, copySourceIfMatch, copySourceIfNoneMatch, metadataDirective,
                 taggingDirective, destinationKey, expires, copySourceIfModifiedSince, copySourceIfUnmodifiedSince,
-                objectLockRetainUntilDate;
+                objectLockRetainUntilDate, destinationFilePath;
         Map<String, String> metadata;
         int maxParts, partNumberMarker;
         Integer partNumber = null;
@@ -221,6 +222,8 @@ public class ObjectOperations extends AbstractConnector {
             if (StringUtils.isNotEmpty(filePath)) {
                 s3RequestBody = RequestBody.fromFile(Paths.get(filePath));
             }
+            destinationFilePath = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "destinationFilePath");
             range = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "range");
             ifModifiedSince = (String) ConnectorUtils.
@@ -356,7 +359,7 @@ public class ObjectOperations extends AbstractConnector {
                             ifMatch, ifNoneMatch, responseCacheControl, responseContentType, responseContentLanguage,
                             responseContentDisposition, responseContentEncoding, responseExpires, versionId,
                             sseCustomerAlgorithm, sseCustomerKey, sseCustomerKeyMD5, requestPayer, partNumber,
-                            messageContext);
+                            destinationFilePath, messageContext);
                     break;
                 case S3Constants.OPERATION_GET_OBJECT_ACL:
                     errorMessage = "Error while retrieving the object ACL";
@@ -788,7 +791,7 @@ public class ObjectOperations extends AbstractConnector {
                           String responseCacheControl, String responseContentType, String responseContentLanguage,
                           String responseContentDisposition, String responseContentEncoding, String responseExpires,
                           String versionId, String sseCustomerAlgorithm, String sseCustomerKey,
-                          String sseCustomerKeyMD5, String requestPayer, Integer partNumber,
+                          String sseCustomerKeyMD5, String requestPayer, Integer partNumber, String destinationFilePath,
                           MessageContext messageContext) {
         S3OperationResult result;
         GetObjectRequest request = GetObjectRequest.builder()
@@ -813,10 +816,15 @@ public class ObjectOperations extends AbstractConnector {
                 .partNumber(partNumber)
                 .build();
         try {
-            ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObjectAsBytes(request);
+            org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse objectResponse;
+            if (StringUtils.isNotBlank(destinationFilePath)) {
+                GetObjectResponse response = s3Client.getObject(request, Paths.get(destinationFilePath));
+                objectResponse = s3POJOHandler.castS3GetObjectResponse(response);
+            } else {
+                ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObjectAsBytes(request);
+                objectResponse = s3POJOHandler.castS3GetObjectResponseWithContent(responseBytes);
+            }
             OMElement responseElement = S3ConnectorUtils.createOMElement("GetObjectResponse", "");
-            org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse objectResponse =
-                    s3POJOHandler.castS3GetObjectResponseWithContent(responseBytes);
             String objString = s3POJOHandler.getObjectAsXml(objectResponse,
                     org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse.class);
             try {
@@ -832,6 +840,9 @@ public class ObjectOperations extends AbstractConnector {
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
+            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+        } catch (SdkException e) {
+            result = S3ConnectorUtils.getFailureResult(e.getMessage(), operationName, Error.BAD_REQUEST);
             S3ConnectorUtils.setResultAsPayload(messageContext, result);
         }
     }

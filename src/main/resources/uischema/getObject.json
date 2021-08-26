@@ -240,6 +240,17 @@
                     "required": "false",
                     "helpTip": "Part number of the object being read."
                   }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "destinationFilePath",
+                    "displayName": "Destination File Path",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Path to the file that response contents will be written to."
+                  }
                 }
               ]
             }

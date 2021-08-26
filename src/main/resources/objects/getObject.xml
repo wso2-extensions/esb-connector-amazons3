@@ -38,6 +38,7 @@
     <parameter name="requestPayer"
                description="Confirms that the requester knows that they will be charged for the request."/>
     <parameter name="partNumber" description="Part number of the object being read."/>
+    <parameter name="destinationFilePath" description="Path to the file that response contents will be written to."/>
     <sequence>
         <property name="operationName" value="getObject"/>
         <class name="org.wso2.carbon.connector.amazons3.operations.ObjectOperations"/>
