@@ -18,7 +18,9 @@ import org.wso2.carbon.connector.core.ConnectException;
 import org.wso2.carbon.connector.core.connection.ConnectionHandler;
 import org.wso2.carbon.connector.core.util.ConnectorUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.core.exception.SdkException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.SdkHttpResponse;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -104,9 +106,10 @@ public class ObjectOperations extends AbstractConnector {
                 storageClass, websiteRedirectLocation, ssekmsKeyId, ssekmsEncryptionContext, tagging, objectLockMode,
                 objectLockLegalHoldStatus, copySourceIfMatch, copySourceIfNoneMatch, metadataDirective,
                 taggingDirective, destinationKey, expires, copySourceIfModifiedSince, copySourceIfUnmodifiedSince,
-                objectLockRetainUntilDate;
+                objectLockRetainUntilDate, destinationFilePath;
         Map<String, String> metadata;
-        int maxParts, partNumberMarker, partNumber;
+        int maxParts, partNumberMarker;
+        Integer partNumber = null;
         RequestBody s3RequestBody = null;
         List<Part> s3PartDetails = new ArrayList<>();
         List<CompletedPart> s3CompletedParts = new ArrayList<>();
@@ -209,18 +212,18 @@ public class ObjectOperations extends AbstractConnector {
                         org.wso2.carbon.connector.amazons3.pojo.RestoreRequest.class);
                 s3RestoreRequest = s3POJOHandler.castRestoreRequest(configuration);
             }
-            Object partNumberObj = ConnectorUtils.
+            String partNumberObj = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "partNumber");
-            if (partNumberObj == null) {
-                partNumber = 0;
-            } else {
-                partNumber = Integer.valueOf((String) partNumberObj);
+            if (StringUtils.isNotBlank(partNumberObj)) {
+                partNumber = Integer.valueOf(partNumberObj);
             }
             filePath = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "filePath");
             if (StringUtils.isNotEmpty(filePath)) {
                 s3RequestBody = RequestBody.fromFile(Paths.get(filePath));
             }
+            destinationFilePath = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "destinationFilePath");
             range = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "range");
             ifModifiedSince = (String) ConnectorUtils.
@@ -356,7 +359,7 @@ public class ObjectOperations extends AbstractConnector {
                             ifMatch, ifNoneMatch, responseCacheControl, responseContentType, responseContentLanguage,
                             responseContentDisposition, responseContentEncoding, responseExpires, versionId,
                             sseCustomerAlgorithm, sseCustomerKey, sseCustomerKeyMD5, requestPayer, partNumber,
-                            messageContext);
+                            destinationFilePath, messageContext);
                     break;
                 case S3Constants.OPERATION_GET_OBJECT_ACL:
                     errorMessage = "Error while retrieving the object ACL";
@@ -415,8 +418,8 @@ public class ObjectOperations extends AbstractConnector {
                     break;
                 case S3Constants.OPERATION_UPLOAD_PART:
                     errorMessage = "Error while uploading the object part";
-                    if (partNumber == 0) {
-                        throw new IllegalArgumentException("Invalid value passed for partNumber: " + partNumber);
+                    if (partNumber == null) {
+                        throw new IllegalArgumentException("partNumber is required for the operation " + operationName);
                     }
                     uploadPart(operationName, s3Client, bucketName, objectKey, contentMD5, uploadId, partNumber,
                             s3RequestBody, sseCustomerAlgorithm, sseCustomerKey, sseCustomerKeyMD5, requestPayer,
@@ -424,6 +427,9 @@ public class ObjectOperations extends AbstractConnector {
                     break;
                 case S3Constants.OPERATION_UPLOAD_PART_COPY:
                     errorMessage = "Error while uploading the part copy";
+                    if (partNumber == null) {
+                        throw new IllegalArgumentException("partNumber is required for the operation " + operationName);
+                    }
                     uploadPartCopy(operationName, s3Client, bucketName, objectKey, uploadId, partNumber,
                             copySourceRange, ifModifiedSince, ifUnmodifiedSince, ifMatch, ifNoneMatch, copySource,
                             copySourceSSECustomerAlgorithm, copySourceSSECustomerKey, copySourceSSECustomerKeyMD5,
@@ -785,7 +791,7 @@ public class ObjectOperations extends AbstractConnector {
                           String responseCacheControl, String responseContentType, String responseContentLanguage,
                           String responseContentDisposition, String responseContentEncoding, String responseExpires,
                           String versionId, String sseCustomerAlgorithm, String sseCustomerKey,
-                          String sseCustomerKeyMD5, String requestPayer, int partNumber,
+                          String sseCustomerKeyMD5, String requestPayer, Integer partNumber, String destinationFilePath,
                           MessageContext messageContext) {
         S3OperationResult result;
         GetObjectRequest request = GetObjectRequest.builder()
@@ -810,10 +816,15 @@ public class ObjectOperations extends AbstractConnector {
                 .partNumber(partNumber)
                 .build();
         try {
-            GetObjectResponse response = s3Client.getObject(request).response();
+            org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse objectResponse;
+            if (StringUtils.isNotBlank(destinationFilePath)) {
+                GetObjectResponse response = s3Client.getObject(request, Paths.get(destinationFilePath));
+                objectResponse = s3POJOHandler.castS3GetObjectResponse(response);
+            } else {
+                ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObjectAsBytes(request);
+                objectResponse = s3POJOHandler.castS3GetObjectResponseWithContent(responseBytes);
+            }
             OMElement responseElement = S3ConnectorUtils.createOMElement("GetObjectResponse", "");
-            org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse objectResponse =
-                    s3POJOHandler.castS3GetObjectResponse(response);
             String objString = s3POJOHandler.getObjectAsXml(objectResponse,
                     org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse.class);
             try {
@@ -829,6 +840,9 @@ public class ObjectOperations extends AbstractConnector {
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
+            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+        } catch (SdkException e) {
+            result = S3ConnectorUtils.getFailureResult(e.getMessage(), operationName, Error.BAD_REQUEST);
             S3ConnectorUtils.setResultAsPayload(messageContext, result);
         }
     }
@@ -961,7 +975,7 @@ public class ObjectOperations extends AbstractConnector {
     public void headObject(String operationName, S3Client s3Client, String bucketName, String objectKey, String range,
                            String ifModifiedSince, String ifUnmodifiedSince, String ifMatch, String ifNoneMatch,
                            String versionId, String sseCustomerAlgorithm, String sseCustomerKey,
-                           String sseCustomerKeyMD5, String requestPayer, int partNumber,
+                           String sseCustomerKeyMD5, String requestPayer, Integer partNumber,
                            MessageContext messageContext) {
         S3OperationResult result;
         HeadObjectRequest request = HeadObjectRequest.builder()
@@ -1244,7 +1258,7 @@ public class ObjectOperations extends AbstractConnector {
     }
 
     public CompletedPart uploadPart(String operationName, S3Client s3Client, String bucketName, String objectKey,
-                                    String contentMD5, String uploadId, int partNumber, RequestBody requestBody,
+                                    String contentMD5, String uploadId, Integer partNumber, RequestBody requestBody,
                                     String sseCustomerAlgorithm, String sseCustomerKey, String sseCustomerKeyMD5,
                                     String requestPayer, MessageContext messageContext) {
         S3OperationResult result;
@@ -1298,7 +1312,7 @@ public class ObjectOperations extends AbstractConnector {
     }
 
     public void uploadPartCopy(String operationName, S3Client s3Client, String bucketName, String objectKey,
-                               String uploadId, int partNumber, String copySourceRange, String ifModifiedSince,
+                               String uploadId, Integer partNumber, String copySourceRange, String ifModifiedSince,
                                String ifUnmodifiedSince, String ifMatch, String ifNoneMatch, String copySource,
                                String copySourceSSECustomerAlgorithm, String copySourceSSECustomerKey,
                                String copySourceSSECustomerKeyMD5, String sseCustomerAlgorithm, String sseCustomerKey,

@@ -55,6 +55,7 @@ public class GetObjectResponse {
     private String objectLockMode;
     private Instant objectLockRetainUntilDate;
     private String objectLockLegalHoldStatus;
+    private String content;
 
     @XmlElement(name = "DeleteMarker")
     public boolean getDeleteMarker() {
@@ -324,5 +325,14 @@ public class GetObjectResponse {
 
     public void setObjectLockLegalHoldStatus(String objectLockLegalHoldStatus) {
         this.objectLockLegalHoldStatus = objectLockLegalHoldStatus;
+    }
+
+    @XmlElement(name = "Content")
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
