@@ -37,7 +37,6 @@ public class S3ConnectionHandler implements Connection {
                     .build();
         } else {
             return S3Client.builder()
-                    .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
                     .region(Region.of(region))
                     .httpClientBuilder(UrlConnectionHttpClient.builder())
                     .build();
