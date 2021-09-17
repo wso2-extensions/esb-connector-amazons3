@@ -54,11 +54,22 @@
                 {
                   "type": "attribute",
                   "value": {
+                    "name": "fileContent",
+                    "displayName": "File Content",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The content of the file."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
                     "name": "filePath",
                     "displayName": "File Path",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
-                    "required": "true",
+                    "required": "false",
                     "helpTip": "The path of the file to be uploaded."
                   }
                 },
