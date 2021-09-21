@@ -20,6 +20,7 @@
     <parameter name="objectKey" description="The name to give the newly created object."/>
     <parameter name="partDetails" description="This contains all the parts."/>
     <parameter name="filePath" description="Path of the file to be uploaded."/>
+    <parameter name="fileContent" description="Content of the file."/>
     <parameter name="requestPayer"
                description="Confirms that the requester knows that they will be charged for the request."/>
     <sequence>

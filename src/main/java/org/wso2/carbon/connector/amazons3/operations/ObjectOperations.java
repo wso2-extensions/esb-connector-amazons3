@@ -106,7 +106,7 @@ public class ObjectOperations extends AbstractConnector {
                 storageClass, websiteRedirectLocation, ssekmsKeyId, ssekmsEncryptionContext, tagging, objectLockMode,
                 objectLockLegalHoldStatus, copySourceIfMatch, copySourceIfNoneMatch, metadataDirective,
                 taggingDirective, destinationKey, expires, copySourceIfModifiedSince, copySourceIfUnmodifiedSince,
-                objectLockRetainUntilDate, destinationFilePath;
+                objectLockRetainUntilDate, destinationFilePath, fileContent;
         Map<String, String> metadata;
         int maxParts, partNumberMarker;
         Integer partNumber = null;
@@ -219,6 +219,11 @@ public class ObjectOperations extends AbstractConnector {
             }
             filePath = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "filePath");
+            fileContent = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "fileContent");
+            if (StringUtils.isNotEmpty(fileContent)) {
+                s3RequestBody = RequestBody.fromString(fileContent);
+            }
             if (StringUtils.isNotEmpty(filePath)) {
                 s3RequestBody = RequestBody.fromFile(Paths.get(filePath));
             }
@@ -402,7 +407,7 @@ public class ObjectOperations extends AbstractConnector {
                             grantRead, grantReadACP, grantWriteACP, objectKey, metadata, serverSideEncryption,
                             storageClass, websiteRedirectLocation, sseCustomerAlgorithm, sseCustomerKey,
                             sseCustomerKeyMD5, ssekmsKeyId, ssekmsEncryptionContext, requestPayer, tagging,
-                            objectLockMode, objectLockRetainUntilDate, objectLockLegalHoldStatus, filePath,
+                            objectLockMode, objectLockRetainUntilDate, objectLockLegalHoldStatus, s3RequestBody,
                             messageContext);
                     break;
                 case S3Constants.OPERATION_PUT_OBJECT_ACL:
@@ -1114,7 +1119,7 @@ public class ObjectOperations extends AbstractConnector {
                           String sseCustomerKey, String sseCustomerKeyMD5, String ssekmsKeyId,
                           String ssekmsEncryptionContext, String requestPayer, String tagging,
                           String objectLockMode, String objectLockRetainUntilDate,
-                          String objectLockLegalHoldStatus, String filePath, MessageContext messageContext) {
+                          String objectLockLegalHoldStatus, RequestBody requestBody, MessageContext messageContext) {
         S3OperationResult result;
         PutObjectRequest request = PutObjectRequest.builder()
                 .acl(acl)
@@ -1148,7 +1153,7 @@ public class ObjectOperations extends AbstractConnector {
                 .objectLockLegalHoldStatus(objectLockLegalHoldStatus)
                 .build();
         try {
-            PutObjectResponse response = s3Client.putObject(request, RequestBody.fromBytes(getObjectFile(filePath)));
+            PutObjectResponse response = s3Client.putObject(request, requestBody);
             OMElement responseElement = S3ConnectorUtils.createOMElement("PutObjectResponse", "");
             org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse uploadResponse =
                     s3POJOHandler.castS3PutObjectResponse(response);
@@ -1167,8 +1172,6 @@ public class ObjectOperations extends AbstractConnector {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
             S3ConnectorUtils.setResultAsPayload(messageContext, result);
-        } catch (IOException e) {
-            handleException(e.getMessage(), e, messageContext);
         }
     }
 
