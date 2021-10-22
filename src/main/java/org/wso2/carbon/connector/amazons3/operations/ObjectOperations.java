@@ -350,7 +350,7 @@ public class ObjectOperations extends AbstractConnector {
                     break;
                 case S3Constants.OPERATION_DELETE_OBJECT:
                     errorMessage = "Error while deleting the objects";
-                    deleteObject(operationName, s3Client, bucketName, operationName, mfa, versionId, requestPayer,
+                    deleteObject(operationName, s3Client, bucketName, objectKey, mfa, versionId, requestPayer,
                             bypassGovernanceRetentionObj, messageContext);
                     break;
                 case S3Constants.OPERATION_DELETE_OBJECTS:
