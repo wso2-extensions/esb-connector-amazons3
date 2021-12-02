@@ -1386,7 +1386,13 @@ public class S3POJOHandler {
         if (charset == null) {
             charset = StandardCharsets.UTF_8;
         }
-        obj1.setContent(responseBytes.asString(charset));
+
+        String content = responseBytes.asString(charset);
+        if (XmlUtil.isXmlContent(contentType)) {
+            content = XmlUtil.removeProlog(content);
+        }
+
+        obj1.setContent(content);
         return obj1;
     }
 
