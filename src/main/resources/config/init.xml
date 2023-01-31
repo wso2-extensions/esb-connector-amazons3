@@ -20,6 +20,7 @@
     <parameter name="region" description="Region which is used select a regional endpoint to make requests"/>
     <parameter name="awsAccessKeyId" description="AWS access key ID"/>
     <parameter name="awsSecretAccessKey" description="AWS secret key"/>
+    <parameter name="host" description="AWS SDK host"/>
     <sequence>
         <property name="name" expression="$func:name"/>
         <class name="org.wso2.carbon.connector.amazons3.operations.S3Config"/>

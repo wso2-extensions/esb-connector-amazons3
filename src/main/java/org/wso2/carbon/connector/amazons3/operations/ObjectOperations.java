@@ -13,6 +13,7 @@ import org.wso2.carbon.connector.amazons3.exception.InvalidConfigurationExceptio
 import org.wso2.carbon.connector.amazons3.pojo.S3OperationResult;
 import org.wso2.carbon.connector.amazons3.utils.Error;
 import org.wso2.carbon.connector.amazons3.utils.S3ConnectorUtils;
+import org.wso2.carbon.connector.amazons3.utils.XmlUtil;
 import org.wso2.carbon.connector.core.AbstractConnector;
 import org.wso2.carbon.connector.core.ConnectException;
 import org.wso2.carbon.connector.core.connection.ConnectionHandler;
@@ -830,7 +831,12 @@ public class ObjectOperations extends AbstractConnector {
                 objectResponse = s3POJOHandler.castS3GetObjectResponseWithContent(responseBytes);
             }
             OMElement responseElement = S3ConnectorUtils.createOMElement("GetObjectResponse", "");
-            String objString = s3POJOHandler.getObjectAsXml(objectResponse,
+            XmlUtil xmlUtil = new XmlUtil();
+            String encoding = S3Constants.UTF_8;
+            if (objectResponse.getContentEncoding() != null) {
+                encoding = objectResponse.getContentEncoding();
+            }
+            String objString = xmlUtil.convertToXml(objectResponse, encoding,
                     org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse.class);
             try {
                 responseElement = AXIOMUtil.stringToOM(objString);

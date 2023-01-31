@@ -63,12 +63,14 @@ public class S3Config extends AbstractConnector implements ManagedLifecycle {
                 lookupTemplateParamater(msgContext, S3Constants.AWS_ACCESS_KEY_ID);
         String awsSecretAccessKey = (String) ConnectorUtils.
                 lookupTemplateParamater(msgContext, S3Constants.AWS_SECRET_ACCESS_KEY);
+        String host = (String) ConnectorUtils.lookupTemplateParamater(msgContext, S3Constants.HOST);
 
         ConnectionConfiguration connectionConfig = new ConnectionConfiguration();
         connectionConfig.setConnectionName(connectionName);
         connectionConfig.setRegion(region);
         connectionConfig.setAwsAccessKeyId(awsAccessKeyId);
         connectionConfig.setAwsSecretAccessKey(awsSecretAccessKey);
+        connectionConfig.setHost(host);
         return connectionConfig;
     }
 }

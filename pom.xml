@@ -23,7 +23,7 @@
     <groupId>org.wso2.carbon.connector</groupId>
     <artifactId>org.wso2.carbon.connector.amazons3</artifactId>
     <packaging>jar</packaging>
-    <version>2.0.3</version>
+    <version>2.0.4</version>
     <name>WSO2 Carbon - Mediation Library Connector For amazons3</name>
     <url>http://wso2.org</url>
     <properties>
@@ -41,6 +41,8 @@
         <integration.base.version>1.0.3</integration.base.version>
         <skip-tests>true</skip-tests>
         <software.amazon.awssdk.version>2.14.12</software.amazon.awssdk.version>
+        <jaxb.core.version>2.2.10-b140802.1033</jaxb.core.version>
+        <jaxb.impl.version>2.0.1</jaxb.impl.version>
     </properties>
     <dependencies>
         <dependency>
@@ -174,6 +176,16 @@
             <groupId>org.wso2.ei</groupId>
             <artifactId>integration-test-utils</artifactId>
             <version>${product.ei.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>${jaxb.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.impl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.ei</groupId>

@@ -32,6 +32,8 @@ public class ConnectionConfiguration {
     private String awsAccessKeyId;
     private String awsSecretAccessKey;
 
+    private String host;
+
     public String getConnectionName() {
         return connectionName;
     }
@@ -72,4 +74,12 @@ public class ConnectionConfiguration {
         this.awsSecretAccessKey = awsSecretAccessKey;
     }
 
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
 }

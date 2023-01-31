@@ -58,6 +58,17 @@
                     "required": "true",
                     "helpTip": "Region which is used select a regional endpoint to make requests."
                   }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "host",
+                    "displayName": "Host",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "For path-style requests, the value is s3.amazonaws.com. For virtual-style requests, the value is BucketName.s3.amazonaws.com."
+                  }
                 }
               ]
             }
