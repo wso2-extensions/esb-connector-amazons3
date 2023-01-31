@@ -9,6 +9,9 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3ClientBuilder;
+
+import java.net.URI;
 
 public class S3ConnectionHandler implements Connection {
 
@@ -26,20 +29,20 @@ public class S3ConnectionHandler implements Connection {
         String region = this.connectionConfig.getRegion();
         String awsAccessKeyId = this.connectionConfig.getAwsAccessKeyId();
         String awsSecretAccessKey = this.connectionConfig.getAwsSecretAccessKey();
+        String host = this.connectionConfig.getHost();
+        S3ClientBuilder s3ClientBuilder = S3Client.builder();
         if (StringUtils.isNotEmpty(awsAccessKeyId) && StringUtils.isNotEmpty(awsSecretAccessKey)) {
             AwsCredentialsProvider credentialsProvider =
                     StaticCredentialsProvider.create(AwsBasicCredentials.create(awsAccessKeyId, awsSecretAccessKey));
-            return S3Client.builder()
-                    .credentialsProvider(credentialsProvider)
-                    .region(Region.of(region))
-                    .httpClientBuilder(UrlConnectionHttpClient.builder())
-                    .build();
-        } else {
-            return S3Client.builder()
-                    .region(Region.of(region))
-                    .httpClientBuilder(UrlConnectionHttpClient.builder())
-                    .build();
+            s3ClientBuilder
+                    .credentialsProvider(credentialsProvider);
         }
+        if (StringUtils.isNotEmpty(host)) {
+            s3ClientBuilder.endpointOverride(URI.create(host));
+        }
+
+        return s3ClientBuilder.region(Region.of(region))
+                .httpClientBuilder(UrlConnectionHttpClient.builder()).build();
     }
 
     public ConnectionConfiguration getConnectionConfig() {

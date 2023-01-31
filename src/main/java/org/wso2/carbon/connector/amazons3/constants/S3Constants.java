@@ -39,6 +39,8 @@ public class S3Constants {
      */
     public static final String AWS_SECRET_ACCESS_KEY = "awsSecretAccessKey";
 
+    public static final String HOST = "host";
+
     /**
      * Constant for connection name.
      */
@@ -109,4 +111,6 @@ public class S3Constants {
     public static final String OPERATION_RESTORE_OBJECT = "restoreObject";
     public static final String OPERATION_UPLOAD_PART = "uploadPart";
     public static final String OPERATION_UPLOAD_PART_COPY = "uploadPartCopy";
+
+    public static final String UTF_8 = "UTF-8";
 }
