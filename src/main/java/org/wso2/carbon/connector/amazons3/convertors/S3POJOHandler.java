@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.entity.ContentType;
 import org.wso2.carbon.connector.amazons3.exception.InvalidConfigurationException;
+import org.wso2.carbon.connector.amazons3.pojo.GetObjectPresignedUrlResponse;
 import org.wso2.carbon.connector.amazons3.utils.XmlUtil;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.model.AccessControlPolicy;
@@ -116,6 +117,8 @@ import software.amazon.awssdk.services.s3.model.Transition;
 import software.amazon.awssdk.services.s3.model.UploadPartCopyResponse;
 import software.amazon.awssdk.services.s3.model.UploadPartResponse;
 import software.amazon.awssdk.services.s3.model.WebsiteConfiguration;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -1785,6 +1788,22 @@ public class S3POJOHandler {
                 new org.wso2.carbon.connector.amazons3.pojo.CopyObjectResult();
         obj1.setETag(obj.eTag());
         obj1.setLastModified(obj.lastModified());
+        return obj1;
+    }
+
+    public org.wso2.carbon.connector.amazons3.pojo.PutObjectPresignedUrlResponse castS3PutObjectPresignedUrlRequest(PresignedPutObjectRequest obj) {
+        org.wso2.carbon.connector.amazons3.pojo.PutObjectPresignedUrlResponse obj1 =
+                new org.wso2.carbon.connector.amazons3.pojo.PutObjectPresignedUrlResponse();
+        obj1.setUrl(obj.url().toString());
+        obj1.setExpiration(obj.expiration().toString());
+        return obj1;
+    }
+
+    public GetObjectPresignedUrlResponse castS3GetObjectPresignedUrlRequest(PresignedGetObjectRequest obj) {
+        org.wso2.carbon.connector.amazons3.pojo.GetObjectPresignedUrlResponse obj1 =
+                new org.wso2.carbon.connector.amazons3.pojo.GetObjectPresignedUrlResponse();
+        obj1.setUrl(obj.url().toString());
+        obj1.setExpiration(obj.expiration().toString());
         return obj1;
     }
 }

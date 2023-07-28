@@ -112,5 +112,9 @@ public class S3Constants {
     public static final String OPERATION_UPLOAD_PART = "uploadPart";
     public static final String OPERATION_UPLOAD_PART_COPY = "uploadPartCopy";
 
+    public static final String OPERATION_GENERATE_PUT_OBJECT_PRESIGNED_URL = "generatePutObjectPresignedUrl";
+    public static final String OPERATION_GENERATE_GET_OBJECT_PRESIGNED_URL = "generateGetObjectPresignedUrl";
+
+
     public static final String UTF_8 = "UTF-8";
 }
