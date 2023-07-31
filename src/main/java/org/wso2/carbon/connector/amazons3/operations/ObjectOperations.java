@@ -69,6 +69,11 @@ import software.amazon.awssdk.services.s3.model.UploadPartCopyRequest;
 import software.amazon.awssdk.services.s3.model.UploadPartCopyResponse;
 import software.amazon.awssdk.services.s3.model.UploadPartRequest;
 import software.amazon.awssdk.services.s3.model.UploadPartResponse;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
@@ -76,6 +81,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,7 +113,7 @@ public class ObjectOperations extends AbstractConnector {
                 storageClass, websiteRedirectLocation, ssekmsKeyId, ssekmsEncryptionContext, tagging, objectLockMode,
                 objectLockLegalHoldStatus, copySourceIfMatch, copySourceIfNoneMatch, metadataDirective,
                 taggingDirective, destinationKey, expires, copySourceIfModifiedSince, copySourceIfUnmodifiedSince,
-                objectLockRetainUntilDate, destinationFilePath, fileContent;
+                objectLockRetainUntilDate, destinationFilePath, fileContent, signatureDurationInMins;
         Map<String, String> metadata;
         int maxParts, partNumberMarker;
         Integer partNumber = null;
@@ -125,6 +131,9 @@ public class ObjectOperations extends AbstractConnector {
             S3ConnectionHandler s3ConnectionHandler = (S3ConnectionHandler) handler
                     .getConnection(connectorName, connectionName);
             S3Client s3Client = s3ConnectionHandler.getS3Client();
+
+            // get s3 presigner
+            S3Presigner s3Presigner = s3ConnectionHandler.getS3Presigner();
 
             //read inputs
             bucketName = (String) ConnectorUtils.
@@ -311,6 +320,8 @@ public class ObjectOperations extends AbstractConnector {
                     lookupTemplateParamater(messageContext, "copySourceIfModifiedSince");
             copySourceIfUnmodifiedSince = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "copySourceIfUnmodifiedSince");
+            signatureDurationInMins = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "signatureDurationInMins");
 
             //call the operations
             switch (operationName) {
@@ -440,6 +451,24 @@ public class ObjectOperations extends AbstractConnector {
                             copySourceRange, ifModifiedSince, ifUnmodifiedSince, ifMatch, ifNoneMatch, copySource,
                             copySourceSSECustomerAlgorithm, copySourceSSECustomerKey, copySourceSSECustomerKeyMD5,
                             sseCustomerAlgorithm, sseCustomerKey, sseCustomerKeyMD5, requestPayer, messageContext);
+                    break;
+                case S3Constants.OPERATION_GENERATE_PUT_OBJECT_PRESIGNED_URL:
+                    errorMessage = "Error while generating the presigned URL to upload an object";
+                    if (signatureDurationInMins == null) {
+                        throw new IllegalArgumentException("signatureDurationInMins is required for the operation "
+                                + operationName);
+                    }
+                    generatePutObjectPresignedUrl(operationName, s3Presigner, bucketName, objectKey, contentType,
+                            Long.parseLong(signatureDurationInMins), metadata, messageContext);
+                    break;
+                case S3Constants.OPERATION_GENERATE_GET_OBJECT_PRESIGNED_URL:
+                    errorMessage = "Error while generating the presigned URL to download an object";
+                    if (signatureDurationInMins == null) {
+                        throw new IllegalArgumentException("signatureDurationInMins is required for the operation "
+                                + operationName);
+                    }
+                    generateGetObjectPresignedUrl(operationName, s3Presigner, bucketName, objectKey,
+                            Long.parseLong(signatureDurationInMins), messageContext);
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid operation: " + operationName);
@@ -1375,6 +1404,65 @@ public class ObjectOperations extends AbstractConnector {
             S3ConnectorUtils.setResultAsPayload(messageContext, result);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
+    }
+
+    public void generatePutObjectPresignedUrl(String operationName, S3Presigner s3Presigner, String bucketName,
+                                              String objectKey, String contentType, long signatureDurationInMins,
+                                              Map<String, String> metadata, MessageContext messageContext) {
+        S3OperationResult result;
+        PutObjectRequest.Builder putObjectRequestBuilder = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey);
+        if (StringUtils.isNotEmpty(contentType)) {
+            putObjectRequestBuilder.contentType(contentType);
+        }
+        if (metadata != null) {
+            putObjectRequestBuilder.metadata(metadata);
+        }
+        PutObjectRequest request = putObjectRequestBuilder.build();
+        PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
+                .signatureDuration(Duration.ofMinutes(signatureDurationInMins))
+                .putObjectRequest(request)
+                .build();
+        PresignedPutObjectRequest presignedPutObjectRequest = s3Presigner.presignPutObject(presignRequest);
+        OMElement responseElement = S3ConnectorUtils.createOMElement("PutObjectPresignedUrlResponse", "");
+        org.wso2.carbon.connector.amazons3.pojo.PutObjectPresignedUrlResponse response =
+                s3POJOHandler.castS3PutObjectPresignedUrlRequest(presignedPutObjectRequest);
+        String responseString = s3POJOHandler.getObjectAsXml(response,
+                org.wso2.carbon.connector.amazons3.pojo.PutObjectPresignedUrlResponse.class);
+        try {
+            responseElement = AXIOMUtil.stringToOM(responseString);
+        } catch (XMLStreamException e) {
+            handleException("Unable to process the response: " + e.getMessage(), e, messageContext);
+        }
+        result = new S3OperationResult(operationName, true, responseElement);
+        S3ConnectorUtils.setResultAsPayload(messageContext, result);
+    }
+
+    public void generateGetObjectPresignedUrl(String operationName, S3Presigner s3Presigner, String bucketName,
+                                              String objectKey, long signatureDurationInMins, MessageContext messageContext) {
+        S3OperationResult result;
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey)
+                .build();
+        GetObjectPresignRequest getObjectPresignRequest = GetObjectPresignRequest.builder()
+                .signatureDuration(Duration.ofMinutes(signatureDurationInMins))
+                .getObjectRequest(getObjectRequest)
+                .build();
+        PresignedGetObjectRequest presignedGetObjectRequest = s3Presigner.presignGetObject(getObjectPresignRequest);
+        OMElement responseElement = S3ConnectorUtils.createOMElement("GetObjectPresignedUrlResponse", "");
+        org.wso2.carbon.connector.amazons3.pojo.GetObjectPresignedUrlResponse response =
+                s3POJOHandler.castS3GetObjectPresignedUrlRequest(presignedGetObjectRequest);
+        String responseString = s3POJOHandler.getObjectAsXml(response,
+                org.wso2.carbon.connector.amazons3.pojo.GetObjectPresignedUrlResponse.class);
+        try {
+            responseElement = AXIOMUtil.stringToOM(responseString);
+        } catch (XMLStreamException e) {
+            handleException("Unable to process the response: " + e.getMessage(), e, messageContext);
+        }
+        result = new S3OperationResult(operationName, true, responseElement);
+        S3ConnectorUtils.setResultAsPayload(messageContext, result);
     }
 
     public byte[] getObjectFile(String path) throws IOException {

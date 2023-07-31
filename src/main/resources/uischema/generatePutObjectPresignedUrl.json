@@ -1,0 +1,94 @@
+{
+  "connectorName": "amazons3",
+  "operationName": "generatePutObjectPresignedUrl",
+  "title": "Generate Put Object Presigned URL",
+  "help": "<h1>Generate Put Object Presigned URL </h1> <b>The generatePutObjectPresignedUrl operation generated a presigned URL to upload objects to Amazon S3.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Amazon S3 Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "amazons3"
+              ],
+              "defaultType": "connection.amazons3",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "bucketName",
+                    "displayName": "Bucket Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the bucket."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "objectKey",
+                    "displayName": "Object Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the object to generate the presigned URL."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "contentType",
+                    "displayName": "Content Type",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "A standard MIME type describing the format of the object data."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "signatureDurationInMins",
+                    "displayName": "Signature Duration (in minutes)",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The time in minutes until the pre-signed URL expires.."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "metadata",
+                    "displayName": "Metadata",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "New metadata to be created. Comma separated key value pair. The key and value are separated by ':'."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

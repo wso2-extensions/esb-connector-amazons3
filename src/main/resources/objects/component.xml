@@ -93,5 +93,13 @@
             <file>uploadPartCopy.xml</file>
             <description>Uploads a tag by copying data from an existing object as data source</description>
         </component>
+        <component name="generatePutObjectPresignedUrl">
+            <file>generatePutObjectPresignedUrl.xml</file>
+            <description>Generate a presigned URL to upload an object to Amazon S3</description>
+        </component>
+        <component name="generateGetObjectPresignedUrl">
+            <file>generateGetObjectPresignedUrl.xml</file>
+            <description>Generate a presigned URL to download an object from Amazon S3</description>
+        </component>
     </subComponents>
 </component>
