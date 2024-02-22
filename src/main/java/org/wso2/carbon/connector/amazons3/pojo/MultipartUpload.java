@@ -41,8 +41,8 @@ public class MultipartUpload {
     }
 
     @XmlElement(name = "Initiated")
-    public Instant getInitiated() {
-        return initiated;
+    public String getInitiated() {
+        return (initiated != null) ? initiated.toString() : "";
     }
 
     public void setInitiated(Instant initiated) {

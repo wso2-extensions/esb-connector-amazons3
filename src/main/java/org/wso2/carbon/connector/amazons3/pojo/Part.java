@@ -30,6 +30,10 @@ public class Part {
     private long size;
 
     @XmlElement(name = "LastModified")
+    public String getLastModifiedAsString() {
+        return (lastModified != null) ? lastModified.toString() : "";
+    }
+
     public Instant getLastModified() {
         return lastModified;
     }
