@@ -113,7 +113,7 @@ public class ObjectOperations extends AbstractConnector {
                 storageClass, websiteRedirectLocation, ssekmsKeyId, ssekmsEncryptionContext, tagging, objectLockMode,
                 objectLockLegalHoldStatus, copySourceIfMatch, copySourceIfNoneMatch, metadataDirective,
                 taggingDirective, destinationKey, expires, copySourceIfModifiedSince, copySourceIfUnmodifiedSince,
-                objectLockRetainUntilDate, destinationFilePath, fileContent, signatureDurationInMins;
+                objectLockRetainUntilDate, destinationFilePath, fileContent, signatureDurationInMins, isContentAsBase64;
         Map<String, String> metadata;
         int maxParts, partNumberMarker;
         Integer partNumber = null;
@@ -322,6 +322,8 @@ public class ObjectOperations extends AbstractConnector {
                     lookupTemplateParamater(messageContext, "copySourceIfUnmodifiedSince");
             signatureDurationInMins = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "signatureDurationInMins");
+            isContentAsBase64 = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "isContentAsBase64");
 
             //call the operations
             switch (operationName) {
@@ -376,7 +378,7 @@ public class ObjectOperations extends AbstractConnector {
                             ifMatch, ifNoneMatch, responseCacheControl, responseContentType, responseContentLanguage,
                             responseContentDisposition, responseContentEncoding, responseExpires, versionId,
                             sseCustomerAlgorithm, sseCustomerKey, sseCustomerKeyMD5, requestPayer, partNumber,
-                            destinationFilePath, messageContext);
+                            destinationFilePath, isContentAsBase64, messageContext);
                     break;
                 case S3Constants.OPERATION_GET_OBJECT_ACL:
                     errorMessage = "Error while retrieving the object ACL";
@@ -827,7 +829,7 @@ public class ObjectOperations extends AbstractConnector {
                           String responseContentDisposition, String responseContentEncoding, String responseExpires,
                           String versionId, String sseCustomerAlgorithm, String sseCustomerKey,
                           String sseCustomerKeyMD5, String requestPayer, Integer partNumber, String destinationFilePath,
-                          MessageContext messageContext) {
+                          String isContentAsBase64, MessageContext messageContext) {
         S3OperationResult result;
         GetObjectRequest request = GetObjectRequest.builder()
                 .bucket(bucketName)
@@ -857,7 +859,7 @@ public class ObjectOperations extends AbstractConnector {
                 objectResponse = s3POJOHandler.castS3GetObjectResponse(response);
             } else {
                 ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObjectAsBytes(request);
-                objectResponse = s3POJOHandler.castS3GetObjectResponseWithContent(responseBytes);
+                objectResponse = s3POJOHandler.castS3GetObjectResponseWithContent(responseBytes, isContentAsBase64);
             }
             OMElement responseElement = S3ConnectorUtils.createOMElement("GetObjectResponse", "");
             XmlUtil xmlUtil = new XmlUtil();

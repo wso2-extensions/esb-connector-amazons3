@@ -127,6 +127,7 @@ import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class S3POJOHandler {
@@ -1377,19 +1378,25 @@ public class S3POJOHandler {
                 .versionId(obj.getVersionId())
                 .build();
     }
-
     public org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse castS3GetObjectResponseWithContent(
-            ResponseBytes<GetObjectResponse> responseBytes) {
+            ResponseBytes<GetObjectResponse> responseBytes, String isContentAsBase64) {
 
         org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse obj1 =
                 castS3GetObjectResponse(responseBytes.response());
+        if ("true".equalsIgnoreCase(isContentAsBase64)) {
+            byte[] objectBytes = responseBytes.asByteArray();
 
-        ContentType contentType = ContentType.parse(responseBytes.response().contentType());
-        Charset charset = contentType.getCharset();
-        if (charset == null) {
-            charset = StandardCharsets.UTF_8;
+            // Convert PDF bytes to base64
+            String base64String = Base64.getEncoder().encodeToString(objectBytes);
+            obj1.setContent(base64String);
+        } else {
+            ContentType contentType = ContentType.parse(responseBytes.response().contentType());
+            Charset charset = contentType.getCharset();
+            if (charset == null) {
+                charset = StandardCharsets.UTF_8;
+            }
+            obj1.setContent(responseBytes.asString(charset));
         }
-        obj1.setContent(responseBytes.asString(charset));
         return obj1;
     }
 
