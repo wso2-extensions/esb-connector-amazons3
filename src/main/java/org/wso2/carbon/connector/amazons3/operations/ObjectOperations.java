@@ -323,7 +323,7 @@ public class ObjectOperations extends AbstractConnector {
             signatureDurationInMins = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "signatureDurationInMins");
             isContentAsBase64 = (String) ConnectorUtils.
-                    lookupTemplateParamater(messageContext, "isContentAsBase64");
+                    lookupTemplateParamater(messageContext, "getContentAsBase64");
 
             //call the operations
             switch (operationName) {
