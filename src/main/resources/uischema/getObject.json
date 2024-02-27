@@ -251,6 +251,21 @@
                     "required": "false",
                     "helpTip": "Path to the file that response contents will be written to."
                   }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "getContentAsBase64",
+                    "displayName": "Get Content As Base64",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "true",
+                      "false"
+                    ],
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Get Content As Base64."
+                  }
                 }
               ]
             }
