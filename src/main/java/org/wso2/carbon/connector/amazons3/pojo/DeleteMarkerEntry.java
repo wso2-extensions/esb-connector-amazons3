@@ -67,8 +67,8 @@ public class DeleteMarkerEntry {
     }
 
     @XmlElement(name = "LastModified")
-    public Instant getLastModified() {
-        return lastModified;
+    public String getLastModified() {
+        return (lastModified != null) ? lastModified.toString() : "";
     }
 
     public void setLastModified(Instant lastModified) {

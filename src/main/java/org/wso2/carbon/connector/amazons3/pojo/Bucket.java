@@ -37,8 +37,8 @@ public class Bucket {
     }
 
     @XmlElement(name = "CreationDate")
-    public Instant getCreationDate() {
-        return creationDate;
+    public String getCreationDate() {
+        return (creationDate != null) ? creationDate.toString() : "";
     }
 
     public void setCreationDate(Instant creationDate) {

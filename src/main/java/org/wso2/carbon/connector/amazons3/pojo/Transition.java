@@ -28,9 +28,13 @@ public class Transition {
     private String storageClass;
     private int days;
 
-    @XmlElement(name = "Date")
     public Instant getDate() {
         return date;
+    }
+
+    @XmlElement(name = "Date")
+    public String getDateAsString() {
+        return (date != null) ? date.toString() : "";
     }
 
     public void setDate(Instant date) {

@@ -37,8 +37,8 @@ public class CreateMultipartUploadResponse {
     private String ssekmsEncryptionContext;
 
     @XmlElement(name = "AbortDate")
-    public Instant getAbortDate() {
-        return abortDate;
+    public String getAbortDate() {
+        return (abortDate != null) ? abortDate.toString() : "";
     }
 
     public void setAbortDate(Instant abortDate) {

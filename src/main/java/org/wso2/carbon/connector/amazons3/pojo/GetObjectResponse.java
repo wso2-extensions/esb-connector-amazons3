@@ -94,8 +94,8 @@ public class GetObjectResponse {
     }
 
     @XmlElement(name = "LastModified")
-    public Instant getLastModified() {
-        return lastModified;
+    public String getLastModified() {
+        return (lastModified != null) ? lastModified.toString() : "";
     }
 
     public void setLastModified(Instant lastModified) {
@@ -193,8 +193,8 @@ public class GetObjectResponse {
     }
 
     @XmlElement(name = "Expires")
-    public Instant getExpires() {
-        return expires;
+    public String getExpires() {
+        return (expires != null) ? expires.toString() : "";
     }
 
     public void setExpires(Instant expires) {
@@ -310,8 +310,8 @@ public class GetObjectResponse {
     }
 
     @XmlElement(name = "ObjectLockRetainUntilDate")
-    public Instant getObjectLockRetainUntilDate() {
-        return objectLockRetainUntilDate;
+    public String getObjectLockRetainUntilDate() {
+        return (objectLockRetainUntilDate != null) ? objectLockRetainUntilDate.toString() : "";
     }
 
     public void setObjectLockRetainUntilDate(Instant objectLockRetainUntilDate) {

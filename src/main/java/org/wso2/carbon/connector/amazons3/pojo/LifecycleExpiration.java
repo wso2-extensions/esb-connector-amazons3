@@ -29,6 +29,10 @@ public class LifecycleExpiration {
     private int days;
 
     @XmlElement(name = "Date")
+    public String getDateAsString() {
+        return (date != null) ? date.toString() : "";
+    }
+
     public Instant getDate() {
         return date;
     }
