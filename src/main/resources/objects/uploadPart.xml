@@ -24,6 +24,7 @@
     <parameter name="partNumber" description="This specifies the number or the index of the uploaded tag."/>
     <parameter name="filePath" description="Path of the file to be uploaded."/>
     <parameter name="fileContent" description="Content of the file."/>
+    <parameter name="isContentBase64Encoded" description="Whether the file content is base64 encoded."/>
     <parameter name="sseCustomerAlgorithm"
                description="The algorithm to use to when encrypting the object (for example, AES256)."/>
     <parameter name="sseCustomerKey"

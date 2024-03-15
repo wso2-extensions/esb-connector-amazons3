@@ -20,6 +20,7 @@
     <parameter name="objectKey" description="The name to give for the newly created object."/>
     <parameter name="filePath" description="The path of the source file to be uploaded."/>
     <parameter name="fileContent" description="Content of the file."/>
+    <parameter name="isContentBase64Encoded" description="Whether the file content is base64 encoded."/>
     <parameter name="acl"
                description="Canned ACL which defines the set of AWS accounts or groups are granted access and the type of access."/>
     <parameter name="cacheControl" description="Specifies caching behavior along the request/reply chain."/>
