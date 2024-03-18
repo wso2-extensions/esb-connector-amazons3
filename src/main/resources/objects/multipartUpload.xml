@@ -21,6 +21,7 @@
     <parameter name="partDetails" description="This contains all the parts."/>
     <parameter name="filePath" description="Path of the file to be uploaded."/>
     <parameter name="fileContent" description="Content of the file."/>
+    <parameter name="isContentBase64Encoded" description="Whether the file content is base64 encoded."/>
     <parameter name="requestPayer"
                description="Confirms that the requester knows that they will be charged for the request."/>
     <sequence>

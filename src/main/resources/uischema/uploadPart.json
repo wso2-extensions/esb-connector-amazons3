@@ -98,6 +98,17 @@
                 {
                   "type": "attribute",
                   "value": {
+                    "name": "isContentBase64Encoded",
+                    "displayName": "Is Content Base64 Encoded",
+                    "inputType": "booleanOrExpression",
+                    "defaultValue": "false",
+                    "required": "false",
+                    "helpTip": "Whether the file content is base64 encoded."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
                     "name": "filePath",
                     "displayName": "File Path",
                     "inputType": "stringOrExpression",

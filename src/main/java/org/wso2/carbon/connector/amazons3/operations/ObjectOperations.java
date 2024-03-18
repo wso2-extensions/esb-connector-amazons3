@@ -85,6 +85,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -113,7 +114,8 @@ public class ObjectOperations extends AbstractConnector {
                 storageClass, websiteRedirectLocation, ssekmsKeyId, ssekmsEncryptionContext, tagging, objectLockMode,
                 objectLockLegalHoldStatus, copySourceIfMatch, copySourceIfNoneMatch, metadataDirective,
                 taggingDirective, destinationKey, expires, copySourceIfModifiedSince, copySourceIfUnmodifiedSince,
-                objectLockRetainUntilDate, destinationFilePath, fileContent, signatureDurationInMins, isContentAsBase64;
+                objectLockRetainUntilDate, destinationFilePath, fileContent, isFileContentEncoded,
+                signatureDurationInMins, isContentAsBase64;
         Map<String, String> metadata;
         int maxParts, partNumberMarker;
         Integer partNumber = null;
@@ -231,8 +233,14 @@ public class ObjectOperations extends AbstractConnector {
                     lookupTemplateParamater(messageContext, "filePath");
             fileContent = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "fileContent");
+            isFileContentEncoded = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "isContentBase64Encoded");
             if (StringUtils.isNotEmpty(fileContent)) {
-                s3RequestBody = RequestBody.fromString(fileContent);
+                if (Boolean.parseBoolean(isFileContentEncoded)) {
+                    s3RequestBody = RequestBody.fromBytes(Base64.getDecoder().decode(fileContent));
+                } else {
+                    s3RequestBody = RequestBody.fromString(fileContent);
+                }
             }
             if (StringUtils.isNotEmpty(filePath)) {
                 s3RequestBody = RequestBody.fromFile(Paths.get(filePath));
