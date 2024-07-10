@@ -16,6 +16,14 @@
                 "EI 6.6.0"
             ],
             "isHidden": false
+        },
+        {
+            "tagName": "v1.1.0",
+            "products": [
+                "EI 7.0.x",
+                "EI 6.6.0"
+            ],
+            "isHidden": false
         }
     ]
 }
