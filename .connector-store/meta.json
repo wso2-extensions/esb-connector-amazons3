@@ -13,7 +13,8 @@
             "tagName": "v2.0.7",
             "products": [
                 "EI 7.0.x",
-                "EI 6.6.0"
+                "EI 6.6.0",
+                "MI 4.x.x"
             ],
             "isHidden": false
         },
