@@ -6,7 +6,8 @@
     "description": "The Amazon S3 connector allows you to access the Amazon Simple Storage Service (Amazon S3), which provides a simple web services interface that can be used to store and retrieve any amount of data, at any time, from anywhere on the web. It gives any developer access to the same highly scalable, reliable, secure, fast, inexpensive infrastructure that Amazon S3 uses to run its own global network of websites. The connector with WSO2 EI enables you to publish and manage your enterprise data at Amazon S3 service. ",
     "status": "Active",
     "labels": [
-        "storage"
+        "storage",
+        "AWS"
     ],
     "releases": [
         {
