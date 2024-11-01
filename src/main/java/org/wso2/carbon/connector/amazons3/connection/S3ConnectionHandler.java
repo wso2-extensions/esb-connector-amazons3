@@ -17,6 +17,7 @@ import java.net.URI;
 public class S3ConnectionHandler implements Connection {
 
     private ConnectionConfiguration connectionConfig;
+    private S3Client s3Client;
 
     public S3ConnectionHandler(ConnectionConfiguration fsConfig) {
             //need this to get region when performing operations
@@ -27,6 +28,15 @@ public class S3ConnectionHandler implements Connection {
      * @return an instance of S3Client
      */
     public S3Client getS3Client() {
+
+        if (s3Client == null) {
+            s3Client = createS3Client();
+        }
+        return s3Client;
+    }
+
+    private S3Client createS3Client() {
+
         String region = this.connectionConfig.getRegion();
         String awsAccessKeyId = this.connectionConfig.getAwsAccessKeyId();
         String awsSecretAccessKey = this.connectionConfig.getAwsSecretAccessKey();
