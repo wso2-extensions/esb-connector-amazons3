@@ -23,4 +23,5 @@
         <dependency component="objects"/>
         <description>amazon S3 connector libraries</description>
     </component>
+    <displayName>Amazon S3</displayName>
 </connector>
