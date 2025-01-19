@@ -1,0 +1,55 @@
+# Connector Descriptor File
+# Specifies the dependencies and repositories required for the connector.
+
+dependencies:
+  - groupId: software.amazon.awssdk
+    artifactId: auth
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: aws-core
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: aws-query-protocol
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: aws-xml-protocol
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: endpoints-spi
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: http-client-spi
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: json-utils
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: metrics-spi
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: profiles
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: protocol-core
+    version: 2.20.26
+  - groupId: org.reactivestreams
+    artifactId: reactive-streams
+    version: 1.0.0
+  - groupId: software.amazon.awssdk
+    artifactId: regions
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: s3
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: sdk-core
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: third-party-jackson-core
+    version: 2.20.26
+  - groupId: software.amazon.awssdk
+    artifactId: url-connection-client
+    version: 2.1.2
+  - groupId: software.amazon.awssdk
+    artifactId: utils
+    version: 2.20.26
