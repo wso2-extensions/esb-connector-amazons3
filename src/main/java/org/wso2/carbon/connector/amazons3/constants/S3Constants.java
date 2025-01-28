@@ -41,6 +41,10 @@ public class S3Constants {
 
     public static final String HOST = "host";
 
+    public static final String ROLE_ARN = "roleArn";
+
+    public static final String ROLE_SESSION_NAME = "roleSessionName";
+
     /**
      * Constant for connection name.
      */

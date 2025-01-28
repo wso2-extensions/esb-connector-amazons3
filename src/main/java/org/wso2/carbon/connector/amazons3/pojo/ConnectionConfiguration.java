@@ -34,6 +34,10 @@ public class ConnectionConfiguration {
 
     private String host;
 
+    private String roleArn;
+
+    private String roleSessionName;
+
     public String getConnectionName() {
         return connectionName;
     }
@@ -82,4 +86,20 @@ public class ConnectionConfiguration {
     public void setHost(String host) {
         this.host = host;
     }
+
+	public String getRoleArn() {
+		return roleArn;
+	}
+
+	public void setRoleArn(String roleArn) {
+		this.roleArn = roleArn;
+	}
+
+	public String getRoleSessionName() {
+		return roleSessionName;
+	}
+
+	public void setRoleSessionName(String roleSessionName) {
+		this.roleSessionName = roleSessionName;
+	}
 }
