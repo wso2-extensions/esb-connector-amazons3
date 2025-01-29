@@ -228,11 +228,11 @@
             <artifactId>url-connection-client</artifactId>
             <version>${software.amazon.awssdk.version}</version>
         </dependency>
-		<dependency>
-		    <groupId>software.amazon.awssdk</groupId>
-		    <artifactId>sts</artifactId>
-		    <version>${software.amazon.awssdk.version}</version>
-		</dependency>
+	<dependency>
+	    <groupId>software.amazon.awssdk</groupId>
+	    <artifactId>sts</artifactId>
+	    <version>${software.amazon.awssdk.version}</version>
+	</dependency>
         <dependency>
             <groupId>org.wso2.carbon.mediation</groupId>
             <artifactId>org.wso2.carbon.connector.core</artifactId>
