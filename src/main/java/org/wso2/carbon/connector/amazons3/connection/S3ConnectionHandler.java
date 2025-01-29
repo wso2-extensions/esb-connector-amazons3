@@ -39,7 +39,7 @@ public class S3ConnectionHandler implements Connection {
         String roleSessionName = this.connectionConfig.getRoleSessionName();
         S3ClientBuilder s3ClientBuilder = S3Client.builder();
         // This is used to access the buckets with a cross account role
-        if (StringUtils.isNotEmpty(roleArn) && StringUtils.isNotBlank(roleSessionName)) {
+        if (StringUtils.isNotBlank(roleArn) && StringUtils.isNotBlank(roleSessionName)) {
 		StsClient stsClient = StsClient.create();
             AssumeRoleRequest assumeRoleRequest = AssumeRoleRequest.builder()
                     .roleArn(roleArn)

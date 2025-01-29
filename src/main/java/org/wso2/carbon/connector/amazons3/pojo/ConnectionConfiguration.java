@@ -87,19 +87,19 @@ public class ConnectionConfiguration {
         this.host = host;
     }
 
-	public String getRoleArn() {
-		return roleArn;
-	}
+    public String getRoleArn() {
+        return roleArn;
+    }
 
-	public void setRoleArn(String roleArn) {
-		this.roleArn = roleArn;
-	}
+    public void setRoleArn(String roleArn) {
+        this.roleArn = roleArn;
+    }
 
-	public String getRoleSessionName() {
-		return roleSessionName;
-	}
+    public String getRoleSessionName() {
+        return roleSessionName;
+    }
 
-	public void setRoleSessionName(String roleSessionName) {
-		this.roleSessionName = roleSessionName;
-	}
+    public void setRoleSessionName(String roleSessionName) {
+        this.roleSessionName = roleSessionName;
+    }
 }
