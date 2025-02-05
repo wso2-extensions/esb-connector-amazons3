@@ -1,6 +1,8 @@
 package org.wso2.carbon.connector.amazons3.connection;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.connector.amazons3.pojo.ConnectionConfiguration;
 import org.wso2.carbon.connector.core.connection.Connection;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -17,11 +19,14 @@ import software.amazon.awssdk.services.sts.model.AssumeRoleRequest;
 import software.amazon.awssdk.services.sts.model.AssumeRoleResponse;
 
 import java.net.URI;
+import java.time.Instant;
 
 public class S3ConnectionHandler implements Connection {
 
     private ConnectionConfiguration connectionConfig;
-    private S3Client s3Client;
+    private S3Client s3Client = null;
+    private Instant temporaryCredentialsExpiration = null;
+    private static Log log = LogFactory.getLog(S3ConnectionHandler.class);
 
     public S3ConnectionHandler(ConnectionConfiguration fsConfig) {
             //need this to get region when performing operations
@@ -34,6 +39,10 @@ public class S3ConnectionHandler implements Connection {
     public S3Client getS3Client() {
 
         if (s3Client == null) {
+            log.debug("Creating a new S3 client");
+            s3Client = createS3Client();
+        } else if (temporaryCredentialsExpiration != null && temporaryCredentialsExpiration.isBefore(Instant.now())) {
+            log.debug("Temporary credentials have expired. Creating a new S3 client");
             s3Client = createS3Client();
         }
         return s3Client;
@@ -60,6 +69,8 @@ public class S3ConnectionHandler implements Connection {
                     response.credentials().accessKeyId(),
                     response.credentials().secretAccessKey(),
                     response.credentials().sessionToken());
+            temporaryCredentialsExpiration = response.credentials().expiration();
+            stsClient.close();
             return s3ClientBuilder.region(Region.of(region))
                     .credentialsProvider(StaticCredentialsProvider.create(temporaryCredentials))
                     .build();
