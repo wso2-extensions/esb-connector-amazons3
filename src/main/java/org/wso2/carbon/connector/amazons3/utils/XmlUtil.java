@@ -24,7 +24,7 @@ public class XmlUtil {
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty("omit-xml-declaration", "yes");
 
-            JAXBContext context = JAXBContext.newInstance(type);
+            JAXBContext context = JAXBContextProvider.getInstance().getJAXBContext(type);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
             marshaller.marshal(source, sw);
@@ -44,7 +44,7 @@ public class XmlUtil {
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty("omit-xml-declaration", "yes");
 
-            JAXBContext context = JAXBContext.newInstance(type);
+            JAXBContext context = JAXBContextProvider.getInstance().getJAXBContext(type);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 
