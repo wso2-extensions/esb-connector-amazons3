@@ -40,6 +40,8 @@
     <parameter name="partNumber" description="Part number of the object being read."/>
     <parameter name="destinationFilePath" description="Path to the file that response contents will be written to."/>
     <parameter name="getContentAsBase64" description="Get the response content as base64."/>
+    <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
+    <parameter name="overwriteBody" expression="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <property name="operationName" value="getObject"/>
         <class name="org.wso2.carbon.connector.amazons3.operations.ObjectOperations"/>

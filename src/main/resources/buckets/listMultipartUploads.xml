@@ -24,6 +24,8 @@
     <parameter name="prefix"
                description="Lists in-progress uploads only for those keys that begin with the specified prefix."/>
     <parameter name="uploadIdMarker" description="Specifies the multipart upload after which listing should begin."/>
+    <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
+    <parameter name="overwriteBody" expression="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <property name="operationName" value="listMultipartUploads"/>
         <class name="org.wso2.carbon.connector.amazons3.operations.BucketOperations"/>

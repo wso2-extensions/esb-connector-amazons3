@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for headBucket Operation",
+  "description": "Output schema for the headBucket operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the headBucket operation.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "The data returned from the operation."
+        }
+      }
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "additionalProperties": false
+}

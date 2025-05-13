@@ -75,6 +75,8 @@
                description="Specifies whether you want to apply a Legal Hold to the uploaded object."/>
     <parameter name="destinationBucket" description="Name of the destination bucket to copy the object."/>
     <parameter name="destinationKey" description="The name for the object to create after copying."/>
+    <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
+    <parameter name="overwriteBody" expression="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <property name="operationName" value="copyBucketObject"/>
         <class name="org.wso2.carbon.connector.amazons3.operations.ObjectOperations"/>

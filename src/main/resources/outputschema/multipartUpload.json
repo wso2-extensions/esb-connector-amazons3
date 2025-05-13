@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for multipartUpload Operation",
+  "description": "Output schema for the multipartUpload operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the multipartUpload operation.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "The data returned from the operation."
+        }
+      }
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "additionalProperties": false
+}

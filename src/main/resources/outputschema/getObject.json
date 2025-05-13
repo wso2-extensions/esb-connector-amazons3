@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for getObject Operation",
+  "description": "Output schema for the getObject operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the getObject operation.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "The data returned from the operation."
+        }
+      }
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "additionalProperties": false
+}

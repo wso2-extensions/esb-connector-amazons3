@@ -17,6 +17,8 @@
 -->
 <template name="getBucketPolicy" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="bucketName" description="Name of the bucket."/>
+    <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
+    <parameter name="overwriteBody" expression="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <property name="operationName" value="getBucketPolicy"/>
         <class name="org.wso2.carbon.connector.amazons3.operations.BucketOperations"/>
