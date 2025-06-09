@@ -137,7 +137,7 @@
               "name": "overwriteBody",
               "displayName": "Overwrite Message Body",
               "inputType": "checkbox",
-              "defaultValue": "true",
+              "defaultValue": "false",
               "helpTip": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored).",
               "required": "false"
             }

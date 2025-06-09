@@ -8,11 +8,83 @@
       "type": "object",
       "description": "The main response payload from the getObject operation.",
       "properties": {
-        "data": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates whether the operation was successful."
+        },
+        "result": {
           "type": "object",
-          "description": "The data returned from the operation."
+          "description": "The result object containing response data.",
+          "properties": {
+            "deleteMarker": {
+              "type": "boolean",
+              "description": "Specifies whether the object is a delete marker."
+            },
+            "acceptRanges": {
+              "type": "string",
+              "description": "Indicates that a range of bytes was specified."
+            },
+            "lastModified": {
+              "type": "object",
+              "description": "The date and time when the object was last modified.",
+              "properties": {
+                "seconds": {
+                  "type": "integer",
+                  "description": "The seconds since epoch."
+                },
+                "nanos": {
+                  "type": "integer",
+                  "description": "The nanoseconds component."
+                }
+              },
+              "additionalProperties": false
+            },
+            "contentLength": {
+              "type": "integer",
+              "description": "The size of the object in bytes."
+            },
+            "eTag": {
+              "type": "string",
+              "description": "The entity tag for the object."
+            },
+            "missingMeta": {
+              "type": "integer",
+              "description": "The count of missing metadata."
+            },
+            "contentType": {
+              "type": "string",
+              "description": "The MIME type of the object."
+            },
+            "serverSideEncryption": {
+              "type": "string",
+              "description": "The server-side encryption algorithm used when storing this object."
+            },
+            "metadata": {
+              "type": "object",
+              "description": "User-defined metadata for the object.",
+              "additionalProperties": true
+            },
+            "partsCount": {
+              "type": "integer",
+              "description": "The count of parts for multipart objects."
+            },
+            "tagCount": {
+              "type": "integer",
+              "description": "The count of tags associated with the object."
+            },
+            "content": {
+              "type": "string",
+              "description": "The object content data."
+            }
+          },
+          "additionalProperties": false
         }
-      }
+      },
+      "additionalProperties": false,
+      "required": [
+        "success",
+        "result"
+      ]
     }
   },
   "required": [

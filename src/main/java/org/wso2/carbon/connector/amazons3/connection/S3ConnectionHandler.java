@@ -4,7 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.connector.amazons3.pojo.ConnectionConfiguration;
-import org.wso2.carbon.connector.core.connection.Connection;
+import org.wso2.integration.connector.core.connection.Connection;
+import org.wso2.integration.connector.core.connection.ConnectionConfig;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
@@ -47,6 +48,13 @@ public class S3ConnectionHandler implements Connection {
         }
         return s3Client;
     }
+    @Override
+    public void connect(ConnectionConfig config) {
+        throw new UnsupportedOperationException("Nothing to do when connect");
+    }
+
+    @Override
+    public void close() {}
 
     private S3Client createS3Client() {
 

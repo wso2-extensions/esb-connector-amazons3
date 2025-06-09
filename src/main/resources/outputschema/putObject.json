@@ -8,11 +8,28 @@
       "type": "object",
       "description": "The main response payload from the putObject operation.",
       "properties": {
-        "data": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates whether the operation was successful."
+        },
+        "result": {
           "type": "object",
-          "description": "The data returned from the operation."
+          "description": "The result object containing the putObject response data.",
+          "properties": {
+            "eTag": {
+              "type": "string",
+              "description": "Entity tag for the uploaded object."
+            },
+            "serverSideEncryption": {
+              "type": "string",
+              "description": "The server-side encryption algorithm used when storing this object in Amazon S3."
+            }
+          },
+          "additionalProperties": false
         }
-      }
+      },
+      "required": ["success", "result"],
+      "additionalProperties": false
     }
   },
   "required": [

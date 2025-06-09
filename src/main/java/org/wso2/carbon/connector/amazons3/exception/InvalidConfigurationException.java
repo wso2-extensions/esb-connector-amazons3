@@ -18,7 +18,7 @@
 
 package org.wso2.carbon.connector.amazons3.exception;
 
-import org.wso2.carbon.connector.core.ConnectException;
+import org.wso2.integration.connector.core.ConnectException;
 
 /**
  * Exception thrown upon configuration error

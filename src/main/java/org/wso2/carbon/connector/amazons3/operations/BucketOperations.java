@@ -18,8 +18,8 @@
 
 package org.wso2.carbon.connector.amazons3.operations;
 
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.util.AXIOMUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.synapse.MessageContext;
 import org.wso2.carbon.connector.amazons3.connection.S3ConnectionHandler;
@@ -31,10 +31,10 @@ import org.wso2.carbon.connector.amazons3.pojo.ObjectVersionConfiguration;
 import org.wso2.carbon.connector.amazons3.pojo.S3OperationResult;
 import org.wso2.carbon.connector.amazons3.utils.Error;
 import org.wso2.carbon.connector.amazons3.utils.S3ConnectorUtils;
-import org.wso2.carbon.connector.core.AbstractConnector;
-import org.wso2.carbon.connector.core.ConnectException;
-import org.wso2.carbon.connector.core.connection.ConnectionHandler;
-import org.wso2.carbon.connector.core.util.ConnectorUtils;
+import org.wso2.integration.connector.core.AbstractConnectorOperation;
+import org.wso2.integration.connector.core.ConnectException;
+import org.wso2.integration.connector.core.connection.ConnectionHandler;
+import org.wso2.integration.connector.core.util.ConnectorUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.http.SdkHttpResponse;
@@ -64,7 +64,7 @@ import software.amazon.awssdk.services.s3.model.DeleteBucketCorsRequest;
 import software.amazon.awssdk.services.s3.model.DeleteBucketCorsResponse;
 import software.amazon.awssdk.services.s3.model.DeleteBucketRequest;
 import software.amazon.awssdk.services.s3.model.DeleteBucketResponse;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+
 import software.amazon.awssdk.services.s3.model.Grant;
 import software.amazon.awssdk.services.s3.model.GetBucketWebsiteRequest;
 import software.amazon.awssdk.services.s3.model.GetBucketWebsiteResponse;
@@ -125,15 +125,13 @@ import software.amazon.awssdk.services.s3.model.PutBucketWebsiteRequest;
 import software.amazon.awssdk.services.s3.model.PutBucketWebsiteResponse;
 import software.amazon.awssdk.services.s3.model.ReplicationConfiguration;
 import software.amazon.awssdk.services.s3.model.RequestPaymentConfiguration;
-import software.amazon.awssdk.services.s3.model.ReplicationRule;
+
 import software.amazon.awssdk.services.s3.model.S3Object;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.model.Tag;
 import software.amazon.awssdk.services.s3.model.Tagging;
 import software.amazon.awssdk.services.s3.model.VersioningConfiguration;
 import software.amazon.awssdk.services.s3.model.WebsiteConfiguration;
-import software.amazon.awssdk.services.s3.paginators.ListObjectVersionsIterable;
-import software.amazon.awssdk.services.s3.paginators.ListObjectsV2Iterable;
 import software.amazon.awssdk.services.s3.paginators.ListObjectVersionsIterable;
 import software.amazon.awssdk.services.s3.paginators.ListObjectsV2Iterable;
 
@@ -144,11 +142,12 @@ import java.util.List;
 /**
  * Implements bucket related operations
  */
-public class BucketOperations extends AbstractConnector {
+public class BucketOperations extends AbstractConnectorOperation {
     S3POJOHandler s3POJOHandler = new S3POJOHandler();
 
-    public final void connect(final MessageContext messageContext) throws ConnectException {
-
+    @Override
+    public void execute(MessageContext messageContext, String responseVariable, Boolean overwriteBody)
+            throws ConnectException {
         String operationName = (String) messageContext.getProperty(S3Constants.OPERATION_NAME);
         String errorMessage = "";
         String connectorName = S3Constants.CONNECTOR_NAME;
@@ -283,146 +282,146 @@ public class BucketOperations extends AbstractConnector {
                     errorMessage = "Error while performing bucket creation";
                     createBucket(operationName, s3Client, bucketName, Region.of(bucketRegion), acl, grantFullControl,
                             grantRead, grantReadACP, grantWrite, grantWriteACP, objectLockEnabledForBucketObj,
-                            messageContext);
+                            messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_DELETE_BUCKET:
                     errorMessage = "Error while deleting the bucket";
-                    deleteBucket(operationName, s3Client, bucketName, messageContext);
+                    deleteBucket(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_DELETE_BUCKET_CORS:
                     errorMessage = "Error while deleting the bucket CORS";
-                    deleteBucketCORS(operationName, s3Client, bucketName, messageContext);
+                    deleteBucketCORS(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_DELETE_BUCKET_LIFECYCLE:
                     errorMessage = "Error while deleting the bucket lifecycle";
-                    deleteBucketLifecycle(operationName, s3Client, bucketName, messageContext);
+                    deleteBucketLifecycle(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_DELETE_BUCKET_POLICY:
                     errorMessage = "Error while deleting the bucket policy";
-                    deleteBucketPolicy(operationName, s3Client, bucketName, messageContext);
+                    deleteBucketPolicy(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_DELETE_BUCKET_REPLICATION:
                     errorMessage = "Error while deleting the bucket replication";
-                    deleteBucketReplication(operationName, s3Client, bucketName, messageContext);
+                    deleteBucketReplication(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_DELETE_BUCKET_TAGGING:
                     errorMessage = "Error while deleting the bucket tagging";
-                    deleteBucketTagging(operationName, s3Client, bucketName, messageContext);
+                    deleteBucketTagging(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_DELETE_BUCKET_WEBSITE:
                     errorMessage = "Error while deleting the bucket website configuration";
-                    deleteBucketWebsite(operationName, s3Client, bucketName, messageContext);
+                    deleteBucketWebsite(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_ACL:
                     errorMessage = "Error while retrieving the bucket ACL";
-                    getBucketACL(operationName, s3Client, bucketName, messageContext);
+                    getBucketACL(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_CORS:
                     errorMessage = "Error while retrieving the bucket ACL";
-                    getBucketCORS(operationName, s3Client, bucketName, messageContext);
+                    getBucketCORS(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_LIFECYCLE_CONFIGURATION:
                     errorMessage = "Error while retrieving the bucket lifecycle configuration";
-                    getBucketLifecycleConfiguration(operationName, s3Client, bucketName, messageContext);
+                    getBucketLifecycleConfiguration(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_LOCATION:
                     errorMessage = "Error while retrieving the bucket location";
-                    getBucketLocation(operationName, s3Client, bucketName, messageContext);
+                    getBucketLocation(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_LOGGING:
                     errorMessage = "Error while retrieving the bucket logging";
-                    getBucketLogging(operationName, s3Client, bucketName, messageContext);
+                    getBucketLogging(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_NOTIFICATION_CONFIGURATION:
                     errorMessage = "Error while retrieving the bucket notification configuration";
-                    getBucketNotificationConfiguration(operationName, s3Client, bucketName, messageContext);
+                    getBucketNotificationConfiguration(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_POLICY:
                     errorMessage = "Error while retrieving the bucket policy";
-                    getBucketPolicy(operationName, s3Client, bucketName, messageContext);
+                    getBucketPolicy(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_REPLICATION:
                     errorMessage = "Error while retrieving the bucket replication";
-                    getBucketReplication(operationName, s3Client, bucketName, messageContext);
+                    getBucketReplication(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_REQUEST_PAYMENT:
                     errorMessage = "Error while retrieving the bucket request payment";
-                    getBucketRequestPayment(operationName, s3Client, bucketName, messageContext);
+                    getBucketRequestPayment(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_TAGGING:
                     errorMessage = "Error while retrieving the bucket tagging";
-                    getBucketTagging(operationName, s3Client, bucketName, messageContext);
+                    getBucketTagging(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_VERSIONING:
                     errorMessage = "Error while retrieving the bucket versioning";
-                    getBucketVersioning(operationName, s3Client, bucketName, messageContext);
+                    getBucketVersioning(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_GET_BUCKET_WEBSITE:
                     errorMessage = "Error while retrieving the bucket website configuration";
-                    getBucketWebsite(operationName, s3Client, bucketName, messageContext);
+                    getBucketWebsite(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_HEAD_BUCKET:
                     errorMessage = "Error while retrieving the user access permission of the bucket";
-                    headBucket(operationName, s3Client, bucketName, messageContext);
+                    headBucket(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_LIST_BUCKETS:
                     errorMessage = "Error while retrieving the list of buckets";
-                    listBuckets(operationName, s3Client, messageContext);
+                    listBuckets(operationName, s3Client, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_LIST_MULTIPART_UPLOADS:
                     errorMessage = "Error while retrieving the bucket website configuration";
                     listMultipartUploads(operationName, s3Client, bucketName, delimiter, encodingType, keyMarker,
-                            maxUploads, prefix, uploadIdMarker, messageContext);
+                            maxUploads, prefix, uploadIdMarker, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_LIST_OBJECTS://tested
                     errorMessage = "Error while listing the objects of the bucket";
                     listObjects(operationName, s3Client, bucketName, delimiter, encodingType,
-                            marker, maxKeys, prefix, requestPayer, messageContext);
+                            marker, maxKeys, prefix, requestPayer, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_LIST_OBJECT_VERSIONS:
                     errorMessage = "Error while retrieving the object Versioning";
                     listObjectVersions(operationName, s3Client, bucketName, delimiter, encodingType, keyMarker, maxKeys,
-                            prefix, versionIdMarker, messageContext);
+                            prefix, versionIdMarker, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_ACL:
                     errorMessage = "Error while creating the bucket ACL";
                     putBucketACL(operationName, s3Client, acl, s3AccessControlPolicy, bucketName, grantFullControl,
-                            grantRead, grantReadACP, grantWrite, grantWriteACP, messageContext);
+                            grantRead, grantReadACP, grantWrite, grantWriteACP, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_CORS:
                     errorMessage = "Error while creating the bucket CORS";
-                    putBucketCORS(operationName, s3Client, bucketName, s3CORSRules, messageContext);
+                    putBucketCORS(operationName, s3Client, bucketName, s3CORSRules, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_LIFECYCLE_CONFIGURATION:
                     errorMessage = "Error while creating the bucket lifecycle configuration";
                     putBucketLifecycleConfiguration(operationName, s3Client, bucketName, s3LifecycleRules,
-                            messageContext);
+                            messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_POLICY:
                     errorMessage = "Error while creating the bucket policy";
                     putBucketPolicy(operationName, s3Client, bucketName, policy, confirmRemoveSelfBucketAccessObj,
-                            messageContext);
+                            messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_REPLICATION:
                     errorMessage = "Error while creating the bucket replication";
                     putBucketReplication(operationName, s3Client, bucketName, s3ReplicationConfiguration, token,
-                            messageContext);
+                            messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_REQUEST_PAYMENT:
                     errorMessage = "Error while creating the bucket request payment";
-                    putBucketRequestPayment(operationName, s3Client, bucketName, payer, messageContext);
+                    putBucketRequestPayment(operationName, s3Client, bucketName, payer, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_TAGGING:
                     errorMessage = "Error while creating the bucket tagging";
-                    putBucketTagging(operationName, s3Client, bucketName, s3TagSet, messageContext);
+                    putBucketTagging(operationName, s3Client, bucketName, s3TagSet, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_VERSIONING:
                     errorMessage = "Error while creating the bucket versioning";
-                    putBucketVersioning(operationName, s3Client, bucketName, mfa, status, mfaDelete, messageContext);
+                    putBucketVersioning(operationName, s3Client, bucketName, mfa, status, mfaDelete, messageContext, responseVariable, overwriteBody);
                     break;
                 case S3Constants.OPERATION_PUT_BUCKET_WEBSITE:
                     errorMessage = "Error while creating the bucket website";
-                    putBucketWebsite(operationName, s3Client, bucketName, s3WebsiteConfiguration, messageContext);
+                    putBucketWebsite(operationName, s3Client, bucketName, s3WebsiteConfiguration, messageContext, responseVariable, overwriteBody);
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid operation: " + operationName);
@@ -434,14 +433,16 @@ public class BucketOperations extends AbstractConnector {
                     Error.INVALID_CONFIGURATION,
                     errorMessage);
 
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException(errorMessage, e, messageContext);
         }
     }
 
     public void createBucket(String operationName, S3Client s3Client, String bucketName, Region region, String acl,
                              String grantFullControl, String grantRead, String grantReadACP, String grantWrite,
-                             String grantWriteACP, Object objectLockEnabledForBucket, MessageContext messageContext) {
+                             String grantWriteACP, Object objectLockEnabledForBucket, MessageContext messageContext,
+                             String responseVariable, boolean overwriteBody) {
         S3OperationResult result;
         CreateBucketRequest request = CreateBucketRequest
                 .builder()
@@ -462,15 +463,16 @@ public class BucketOperations extends AbstractConnector {
         try {
             CreateBucketResponse createRes = s3Client.createBucket(request);
             SdkHttpResponse sdkHttpResponse = createRes.sdkHttpResponse();
-            OMElement responseElement = S3ConnectorUtils.createOMElement("Response", "");
-            responseElement.addChild(S3ConnectorUtils.createOMElement("Status",
-                    Integer.toString(sdkHttpResponse.statusCode())
-                    + ":" + sdkHttpResponse.statusText()));
-            responseElement.addChild(S3ConnectorUtils.createOMElement("Location", createRes.location()));
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "CreateBucketResult");
+            responseJson.addProperty("statusCode", sdkHttpResponse.statusCode());
+            responseJson.addProperty("statusText", sdkHttpResponse.statusText().orElse(""));
+            responseJson.addProperty("location", createRes.location());
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (BucketAlreadyExistsException | BucketAlreadyOwnedByYouException e) {
             Error error = Error.CONFLICT;
             result = new S3OperationResult(
@@ -478,26 +480,29 @@ public class BucketOperations extends AbstractConnector {
                     false,
                     error,
                     "Bucket already exists");
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (IllegalArgumentException e) {
             handleException("Error occurred while creating the bucket: " + e.getMessage(), e, messageContext);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service: " + e.getMessage(), e, messageContext);
         }
     }
 
     public void deleteBucket(String operationName, S3Client s3Client, String bucketName,
-                             MessageContext messageContext) {
+                             MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         ObjectOperations objectOperations = new ObjectOperations();
         try {
@@ -513,7 +518,8 @@ public class BucketOperations extends AbstractConnector {
                      */
                     for (S3Object s3Object : response.contents()) {
                         objectOperations.deleteObject(operationName + "/deleteObject", s3Client,
-                                bucketName, s3Object.key(), null, null, null, null, messageContext);
+                                bucketName, s3Object.key(), null, null, null, null,
+                                messageContext, responseVariable, overwriteBody);
                     }
                     isTruncated = response.isTruncated();
                 }
@@ -529,13 +535,13 @@ public class BucketOperations extends AbstractConnector {
                 for (ListObjectVersionsResponse response : versionList) {
                     for (ObjectVersion version : response.versions()) {
                         objectOperations.deleteObject(operationName + "/deleteObject", s3Client,
-                                bucketName, version.key(), null, version.versionId(), null, null, messageContext);
+                                bucketName, version.key(), null, version.versionId(), null, null, messageContext, responseVariable, overwriteBody);
                     }
                     isTruncated = response.isTruncated();
                 }
             }
 
-            deleteEmptyBucket(operationName, s3Client, bucketName, messageContext);
+            deleteEmptyBucket(operationName, s3Client, bucketName, messageContext, responseVariable, overwriteBody);
         } catch (NoSuchBucketException e) {
             Error error = Error.NOT_FOUND;
             result = new S3OperationResult(
@@ -543,34 +549,38 @@ public class BucketOperations extends AbstractConnector {
                     false,
                     error,
                     "Bucket is not found");
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void deleteEmptyBucket(String operationName, S3Client s3Client, String bucketName,
-                                  MessageContext messageContext) throws AwsServiceException, SdkClientException {
+                                  MessageContext messageContext, String responseVariable, Boolean overwriteBody) throws AwsServiceException, SdkClientException {
         S3OperationResult result;
         DeleteBucketRequest request = DeleteBucketRequest.builder().bucket(bucketName).build();
         DeleteBucketResponse delRes = s3Client.deleteBucket(request);
         SdkHttpResponse sdkHttpResponse = delRes.sdkHttpResponse();
         result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-        S3ConnectorUtils.setResultAsPayload(messageContext, result);
+        JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+        handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
     }
 
     public void deleteBucketCORS(String operationName, S3Client s3Client, String bucketName,
-                                 MessageContext messageContext) {
+                                 MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         DeleteBucketCorsRequest request = DeleteBucketCorsRequest.builder()
                 .bucket(bucketName)
@@ -579,24 +589,27 @@ public class BucketOperations extends AbstractConnector {
             DeleteBucketCorsResponse response = s3Client.deleteBucketCors(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void deleteBucketLifecycle(String operationName, S3Client s3Client, String bucketName,
-                                      MessageContext messageContext) {
+                                      MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         DeleteBucketLifecycleRequest request = DeleteBucketLifecycleRequest.builder()
                 .bucket(bucketName)
@@ -605,16 +618,18 @@ public class BucketOperations extends AbstractConnector {
             DeleteBucketLifecycleResponse response = s3Client.deleteBucketLifecycle(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         }
     }
 
     public void deleteBucketPolicy(String operationName, S3Client s3Client, String bucketName,
-                                   MessageContext messageContext) {
+                                   MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         DeleteBucketPolicyRequest request = DeleteBucketPolicyRequest.builder()
                 .bucket(bucketName)
@@ -623,24 +638,27 @@ public class BucketOperations extends AbstractConnector {
             DeleteBucketPolicyResponse response = s3Client.deleteBucketPolicy(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void deleteBucketReplication(String operationName, S3Client s3Client, String bucketName,
-                                        MessageContext messageContext) {
+                                        MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         DeleteBucketReplicationRequest request = DeleteBucketReplicationRequest.builder()
                 .bucket(bucketName)
@@ -649,24 +667,27 @@ public class BucketOperations extends AbstractConnector {
             DeleteBucketReplicationResponse response = s3Client.deleteBucketReplication(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void deleteBucketTagging(String operationName, S3Client s3Client, String bucketName,
-                                    MessageContext messageContext) {
+                                    MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         DeleteBucketTaggingRequest request = DeleteBucketTaggingRequest.builder()
                 .bucket(bucketName)
@@ -675,24 +696,27 @@ public class BucketOperations extends AbstractConnector {
             DeleteBucketTaggingResponse response = s3Client.deleteBucketTagging(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void deleteBucketWebsite(String operationName, S3Client s3Client, String bucketName,
-                                    MessageContext messageContext) {
+                                    MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         DeleteBucketWebsiteRequest request = DeleteBucketWebsiteRequest.builder()
                 .bucket(bucketName)
@@ -701,132 +725,129 @@ public class BucketOperations extends AbstractConnector {
             DeleteBucketWebsiteResponse delRes = s3Client.deleteBucketWebsite(request);
             SdkHttpResponse sdkHttpResponse = delRes.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketACL(String operationName, S3Client s3Client, String bucketName,
-                             MessageContext messageContext) {
+                             MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketAclRequest request = GetBucketAclRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketAclResponse response = s3Client.getBucketAcl(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("AccessControlPolicy", "");
-            List<Grant> grants = response.grants();
-            org.wso2.carbon.connector.amazons3.pojo.Owner owner = s3POJOHandler.castS3Owner(response.owner());
-            String ownerString =
-                    s3POJOHandler.getObjectAsXml(owner, org.wso2.carbon.connector.amazons3.pojo.Owner.class);
-            try {
-                responseElement.addChild(AXIOMUtil.stringToOM(ownerString));
-                for (Grant s3Grant : grants) {
-                    org.wso2.carbon.connector.amazons3.pojo.Grant grant = s3POJOHandler.castS3Grant(s3Grant);
-                    String xmlString =
-                            s3POJOHandler.getObjectAsXml(grant, org.wso2.carbon.connector.amazons3.pojo.Grant.class);
-                    responseElement.addChild(AXIOMUtil.stringToOM(xmlString));
-                }
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned lifecycle configuration: " + e.getMessage(), e,
-                        messageContext);
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "AccessControlPolicy");
+            responseJson.addProperty("owner", response.owner().toString());
+            responseJson.addProperty("grantsCount", response.grants().size());
+            // Add grant details as string representation for now
+            StringBuilder grantsInfo = new StringBuilder();
+            for (Grant grant : response.grants()) {
+                grantsInfo.append(grant.toString()).append(";");
             }
+            responseJson.addProperty("grants", grantsInfo.toString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketCORS(String operationName, S3Client s3Client, String bucketName,
-                              MessageContext messageContext) {
+                              MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketCorsRequest request = GetBucketCorsRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketCorsResponse response = s3Client.getBucketCors(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("CORSConfiguration", "");
-            List<CORSRule> corsRules = response.corsRules();
-            for (CORSRule corsRule : corsRules) {
-                org.wso2.carbon.connector.amazons3.pojo.CORSRule rule = s3POJOHandler.castS3CORSRule(corsRule);
-                String xmlString =
-                        s3POJOHandler.getObjectAsXml(rule, org.wso2.carbon.connector.amazons3.pojo.CORSRule.class);
-                try {
-                    responseElement.addChild(AXIOMUtil.stringToOM(xmlString));
-                } catch (XMLStreamException e) {
-                    handleException("Unable to process the returned CORS configuration: " + e.getMessage(), e,
-                            messageContext);
-                }
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "CORSConfiguration");
+            responseJson.addProperty("corsRulesCount", response.corsRules().size());
+            // Add CORS rules as string representation
+            StringBuilder corsInfo = new StringBuilder();
+            for (CORSRule corsRule : response.corsRules()) {
+                corsInfo.append(corsRule.toString()).append(";");
             }
+            responseJson.addProperty("corsRules", corsInfo.toString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketLifecycleConfiguration(String operationName, S3Client s3Client, String bucketName,
-                                                MessageContext messageContext) {
+                                                MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketLifecycleConfigurationRequest request = GetBucketLifecycleConfigurationRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketLifecycleConfigurationResponse response = s3Client.getBucketLifecycleConfiguration(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("LifecycleConfiguration", "");
-            List<LifecycleRule> lifecycleRules = response.rules();
-            for (LifecycleRule lifecycleRule : lifecycleRules) {
-                org.wso2.carbon.connector.amazons3.pojo.LifecycleRule rule =
-                        s3POJOHandler.castS3LifecycleRule(lifecycleRule);
-                String xmlString =
-                        s3POJOHandler.getObjectAsXml(rule, org.wso2.carbon.connector.amazons3.pojo.LifecycleRule.class);
-                try {
-                    responseElement.addChild(AXIOMUtil.stringToOM(xmlString));
-                } catch (XMLStreamException e) {
-                    handleException("Unable to process the returned lifecycle configuration: " + e.getMessage(), e,
-                            messageContext);
-                }
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "LifecycleConfiguration");
+            responseJson.addProperty("rulesCount", response.rules().size());
+            // Add lifecycle rules as string representation
+            StringBuilder rulesInfo = new StringBuilder();
+            for (LifecycleRule lifecycleRule : response.rules()) {
+                rulesInfo.append(lifecycleRule.toString()).append(";");
             }
+            responseJson.addProperty("lifecycleRules", rulesInfo.toString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             handleException(e.awsErrorDetails().errorMessage(), e, messageContext);
         } catch (AwsServiceException | SdkClientException e) {
@@ -835,331 +856,327 @@ public class BucketOperations extends AbstractConnector {
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketLocation(String operationName, S3Client s3Client, String bucketName,
-                                  MessageContext messageContext) {
+                                  MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketLocationRequest request = GetBucketLocationRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketLocationResponse response = s3Client.getBucketLocation(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("LocationConstraint",
-                    response.locationConstraintAsString());
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "LocationConstraint");
+            responseJson.addProperty("locationConstraint", response.locationConstraintAsString());
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketLogging(String operationName, S3Client s3Client, String bucketName,
-                                 MessageContext messageContext) {
+                                 MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketLoggingRequest request = GetBucketLoggingRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketLoggingResponse response = s3Client.getBucketLogging(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("BucketLoggingStatus", "");
-            org.wso2.carbon.connector.amazons3.pojo.LoggingEnabled loggingEnabled =
-                    s3POJOHandler.castS3LoggingEnabled(response.loggingEnabled());
-            String xmlString = s3POJOHandler.getObjectAsXml(loggingEnabled,
-                    org.wso2.carbon.connector.amazons3.pojo.LoggingEnabled.class);
-            try {
-                responseElement.addChild(AXIOMUtil.stringToOM(xmlString));
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned logging configuration: " + e.getMessage(), e,
-                        messageContext);
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "BucketLoggingStatus");
+            if (response.loggingEnabled() != null) {
+                responseJson.addProperty("loggingEnabled", response.loggingEnabled().toString());
             }
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketNotificationConfiguration(String operationName, S3Client s3Client, String bucketName,
-                                                   MessageContext messageContext) {
+                                                   MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketNotificationConfigurationRequest request = GetBucketNotificationConfigurationRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketNotificationConfigurationResponse response = s3Client.getBucketNotificationConfiguration(request);
-            OMElement responseElement =
-                    S3ConnectorUtils.createOMElement("NotificationConfiguration", "");
-            org.wso2.carbon.connector.amazons3.pojo.NotificationConfiguration config =
-                    s3POJOHandler.castS3NotificationConfiguration(response);
-            String xmlString = s3POJOHandler.getObjectAsXml(config,
-                    org.wso2.carbon.connector.amazons3.pojo.NotificationConfiguration.class);
-            try {
-                responseElement = AXIOMUtil.stringToOM(xmlString);
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned notification configuration: " + e.getMessage(), e,
-                        messageContext);
-            }
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "NotificationConfiguration");
+            responseJson.addProperty("data", response.toString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
                     operationName, Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketPolicy(String operationName, S3Client s3Client, String bucketName,
-                                MessageContext messageContext) {
+                                MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketPolicyRequest request = GetBucketPolicyRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketPolicyResponse response = s3Client.getBucketPolicy(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("PolicyConfiguration", "");
-            OMElement childElement = S3ConnectorUtils.createOMElement("Policy", response.policy());
-            responseElement.addChild(childElement);
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "PolicyConfiguration");
+            responseJson.addProperty("policy", response.policy());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
                     operationName, Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketReplication(String operationName, S3Client s3Client, String bucketName,
-                                     MessageContext messageContext) {
+                                     MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketReplicationRequest request = GetBucketReplicationRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketReplicationResponse response = s3Client.getBucketReplication(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("ReplicationConfiguration", "");
-            org.wso2.carbon.connector.amazons3.pojo.ReplicationConfiguration replicationConfiguration =
-                    s3POJOHandler.castS3ReplicationConfiguration(response.replicationConfiguration());
-            String xmlString = s3POJOHandler.getObjectAsXml(replicationConfiguration,
-                    org.wso2.carbon.connector.amazons3.pojo.ReplicationConfiguration.class);
-            try {
-                responseElement = AXIOMUtil.stringToOM(xmlString);
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned replication configuration: " + e.getMessage(), e,
-                        messageContext);
-            }
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "ReplicationConfiguration");
+            responseJson.addProperty("data", response.replicationConfiguration().toString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
                     operationName, Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketRequestPayment(String operationName, S3Client s3Client, String bucketName,
-                                        MessageContext messageContext) {
+                                        MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketRequestPaymentRequest request = GetBucketRequestPaymentRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketRequestPaymentResponse response = s3Client.getBucketRequestPayment(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("RequestPaymentConfiguration", "");
-            OMElement childElement = S3ConnectorUtils.createOMElement("Payer", response.payerAsString());
-            responseElement.addChild(childElement);
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "RequestPaymentConfiguration");
+            responseJson.addProperty("payer", response.payerAsString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
                     operationName, Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketTagging(String operationName, S3Client s3Client, String bucketName,
-                                 MessageContext messageContext) {
+                                 MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketTaggingRequest request = GetBucketTaggingRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketTaggingResponse response = s3Client.getBucketTagging(request);
-            OMElement childElement = S3ConnectorUtils.createOMElement("TagSet", "");
-            for (Tag s3Tag : response.tagSet()) {
-                org.wso2.carbon.connector.amazons3.pojo.Tag tag = s3POJOHandler.castS3Tag(s3Tag);
-                String xmlString = s3POJOHandler.getObjectAsXml(tag, org.wso2.carbon.connector.amazons3.pojo.Tag.class);
-                try {
-                    childElement.addChild(AXIOMUtil.stringToOM(xmlString));
-                } catch (XMLStreamException e) {
-                    handleException("Unable to process the returned tag configuration: " + e.getMessage(), e,
-                            messageContext);
-                }
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "Tagging");
+            responseJson.addProperty("tagSetCount", response.tagSet().size());
+            // Add tags as string representation  
+            StringBuilder tagsInfo = new StringBuilder();
+            for (Tag tag : response.tagSet()) {
+                tagsInfo.append(tag.toString()).append(";");
             }
-            OMElement responseElement = S3ConnectorUtils.createOMElement("Tagging", childElement);
+            responseJson.addProperty("tagSet", tagsInfo.toString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
                     operationName, Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketVersioning(String operationName, S3Client s3Client, String bucketName,
-                                    MessageContext messageContext) {
+                                    MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketVersioningRequest request = GetBucketVersioningRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketVersioningResponse response = s3Client.getBucketVersioning(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("VersioningConfiguration", "");
-            org.wso2.carbon.connector.amazons3.pojo.BucketVersioningConfiguration configuration =
-                    s3POJOHandler.castS3BucketVersioningConfiguration(response);
-            String xmlString = s3POJOHandler.getObjectAsXml(configuration,
-                    org.wso2.carbon.connector.amazons3.pojo.BucketVersioningConfiguration.class);
-            try {
-                responseElement = AXIOMUtil.stringToOM(xmlString);
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned bucket versioning configuration: " + e.getMessage(), e,
-                        messageContext);
-            }
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "VersioningConfiguration");
+            responseJson.addProperty("status", response.statusAsString());
+            responseJson.addProperty("mfaDelete", response.mfaDeleteAsString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
                     operationName, Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void getBucketWebsite(String operationName, S3Client s3Client, String bucketName,
-                                 MessageContext messageContext) {
+                                 MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         GetBucketWebsiteRequest request = GetBucketWebsiteRequest.builder()
                 .bucket(bucketName)
                 .build();
         try {
             GetBucketWebsiteResponse response = s3Client.getBucketWebsite(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("WebsiteConfiguration", "");
-            org.wso2.carbon.connector.amazons3.pojo.WebsiteConfiguration configuration =
-                    s3POJOHandler.castS3WebsiteConfiguration(response);
-            String xmlString = s3POJOHandler.getObjectAsXml(configuration,
-                    org.wso2.carbon.connector.amazons3.pojo.WebsiteConfiguration.class);
-            try {
-                responseElement = AXIOMUtil.stringToOM(xmlString);
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned website configuration: " + e.getMessage(), e,
-                        messageContext);
-            }
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("operation", "WebsiteConfiguration");
+            responseJson.addProperty("data", response.toString());
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
                     operationName, Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
-    public void headBucket(String operationName, S3Client s3Client, String bucketName, MessageContext messageContext) {
+    public void headBucket(String operationName, S3Client s3Client, String bucketName, MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         HeadBucketRequest request = HeadBucketRequest.builder()
                 .bucket(bucketName)
@@ -1168,7 +1185,8 @@ public class BucketOperations extends AbstractConnector {
             HeadBucketResponse response = s3Client.headBucket(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (NoSuchBucketException e) {
             Error error = Error.NOT_FOUND;
             result = new S3OperationResult(
@@ -1176,60 +1194,60 @@ public class BucketOperations extends AbstractConnector {
                     false,
                     error,
                     "Bucket is not found");
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
-    public void listBuckets(String operationName, S3Client s3Client, MessageContext messageContext) {
+    public void listBuckets(String operationName, S3Client s3Client, MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         ListBucketsRequest listBucketsRequest = ListBucketsRequest.builder().build();
         try {
             ListBucketsResponse response = s3Client.listBuckets(listBucketsRequest);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("ListAllMyBucketsResult", "");
             org.wso2.carbon.connector.amazons3.pojo.BucketsConfiguration bucketsConfiguration =
                     s3POJOHandler.castS3BucketsConfiguration(response);
-            String xmlString = s3POJOHandler.getObjectAsXml(bucketsConfiguration,
-                    org.wso2.carbon.connector.amazons3.pojo.BucketsConfiguration.class);
-            try {
-                responseElement = AXIOMUtil.stringToOM(xmlString);
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned buckets configuration: " + e.getMessage(), e,
-                        messageContext);
-            }
+            Gson gson = new Gson();
+            JsonObject responseJson = gson.toJsonTree(bucketsConfiguration).getAsJsonObject();
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void listMultipartUploads(String operationName, S3Client s3Client, String bucketName, String delimiter,
                                      String encodingType, String keyMarker, int maxUploads, String prefix,
-                                     String uploadIdMarker, MessageContext messageContext) {
+                                     String uploadIdMarker, MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         ListMultipartUploadsRequest request = ListMultipartUploadsRequest.builder()
                 .bucket(bucketName)
@@ -1242,39 +1260,36 @@ public class BucketOperations extends AbstractConnector {
                 .build();
         try {
             ListMultipartUploadsResponse response = s3Client.listMultipartUploads(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("ListMultipartUploadsResult", "");
             org.wso2.carbon.connector.amazons3.pojo.MultipartUploads multipartUpload =
                     s3POJOHandler.castS3MultipartUploads(response);
-            String xmlString = s3POJOHandler.getObjectAsXml(multipartUpload,
-                    org.wso2.carbon.connector.amazons3.pojo.MultipartUploads.class);
-            try {
-                responseElement.addChild(AXIOMUtil.stringToOM(xmlString));
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned multipart uploads: " + e.getMessage(), e,
-                        messageContext);
-            }
+            Gson gson = new Gson();
+            JsonObject responseJson = gson.toJsonTree(multipartUpload).getAsJsonObject();
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void listObjects(String operationName, S3Client s3Client, String bucketName, String delimiter,
                             String encodingType, String marker, int maxKeys, String prefix, String requestPayer,
-                            MessageContext messageContext) throws NoSuchBucketException {
+                            MessageContext messageContext, String responseVariable, Boolean overwriteBody) throws NoSuchBucketException {
         S3OperationResult result;
         ListObjectsRequest request = ListObjectsRequest
                 .builder()
@@ -1288,38 +1303,36 @@ public class BucketOperations extends AbstractConnector {
                 .build();
         try {
             ListObjectsResponse response = s3Client.listObjects(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("ListBucketResult", "");
             org.wso2.carbon.connector.amazons3.pojo.ObjectConfiguration configuration =
                     s3POJOHandler.castS3Objects(response);
-            String xmlString = s3POJOHandler.getObjectAsXml(configuration,
-                    org.wso2.carbon.connector.amazons3.pojo.ObjectConfiguration.class);
-            try {
-                responseElement = AXIOMUtil.stringToOM(xmlString);
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned bucket objects: " + e.getMessage(), e, messageContext);
-            }
+            Gson gson = new Gson();
+            JsonObject responseJson = gson.toJsonTree(configuration).getAsJsonObject();
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
                     operationName, Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void listObjectVersions(String operationName, S3Client s3Client, String bucketName, String delimiter,
                                    String encodingType, String keyMarker, int maxKeys, String prefix,
-                                   String versionIdMarker, MessageContext messageContext) {
+                                   String versionIdMarker, MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         ListObjectVersionsRequest request = ListObjectVersionsRequest.builder()
                 .bucket(bucketName)
@@ -1332,30 +1345,28 @@ public class BucketOperations extends AbstractConnector {
                 .build();
         try {
             ListObjectVersionsResponse response = s3Client.listObjectVersions(request);
-            OMElement responseElement = S3ConnectorUtils.createOMElement("ListVersionsResult", "");
             ObjectVersionConfiguration config = s3POJOHandler.castS3ObjectVersions(response);
-            String xmlString = s3POJOHandler.getObjectAsXml(config, ObjectVersionConfiguration.class);
-            try {
-                responseElement = AXIOMUtil.stringToOM(xmlString);
-            } catch (XMLStreamException e) {
-                handleException("Unable to process the returned object versions configuration: " + e.getMessage(), e,
-                        messageContext);
-            }
+            Gson gson = new Gson();
+            JsonObject responseJson = gson.toJsonTree(config).getAsJsonObject();
+            
             result = new S3OperationResult(
                     operationName,
-                    true, responseElement);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+                    true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
@@ -1363,7 +1374,7 @@ public class BucketOperations extends AbstractConnector {
     public void putBucketACL(String operationName, S3Client s3Client, String acl,
                              AccessControlPolicy accessControlPolicy, String bucketName, String grantFullControl,
                              String grantRead, String grantReadACP, String grantWrite, String grantWriteACP,
-                             MessageContext messageContext) {
+                             MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         PutBucketAclRequest request = PutBucketAclRequest.builder()
                 .acl(acl)
@@ -1379,24 +1390,27 @@ public class BucketOperations extends AbstractConnector {
             PutBucketAclResponse response = s3Client.putBucketAcl(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void putBucketCORS(String operationName, S3Client s3Client, String bucketName, List<CORSRule> corsRules,
-                              MessageContext messageContext) {
+                              MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
 
         S3OperationResult result;
         PutBucketCorsRequest request = PutBucketCorsRequest
@@ -1408,24 +1422,27 @@ public class BucketOperations extends AbstractConnector {
             PutBucketCorsResponse response = s3Client.putBucketCors(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void putBucketLifecycleConfiguration(String operationName, S3Client s3Client, String bucketName,
-                                                List<LifecycleRule> lifecycleRules, MessageContext messageContext) {
+                                                List<LifecycleRule> lifecycleRules, MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         PutBucketLifecycleConfigurationRequest request = PutBucketLifecycleConfigurationRequest.builder()
                 .bucket(bucketName)
@@ -1435,24 +1452,27 @@ public class BucketOperations extends AbstractConnector {
             PutBucketLifecycleConfigurationResponse response = s3Client.putBucketLifecycleConfiguration(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void putBucketPolicy(String operationName, S3Client s3Client, String bucketName, String policy,
-                                Object confirmRemoveSelfBucketAccessObj, MessageContext messageContext) {
+                                Object confirmRemoveSelfBucketAccessObj, MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         PutBucketPolicyRequest request = PutBucketPolicyRequest.builder()
                 .bucket(bucketName)
@@ -1464,25 +1484,28 @@ public class BucketOperations extends AbstractConnector {
             PutBucketPolicyResponse response = s3Client.putBucketPolicy(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void putBucketReplication(String operationName, S3Client s3Client, String bucketName,
                                      ReplicationConfiguration replicationConfiguration, String token,
-                                     MessageContext messageContext) {
+                                     MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         PutBucketReplicationRequest request = PutBucketReplicationRequest.builder()
                 .bucket(bucketName)
@@ -1493,24 +1516,27 @@ public class BucketOperations extends AbstractConnector {
             PutBucketReplicationResponse response = s3Client.putBucketReplication(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void putBucketRequestPayment(String operationName, S3Client s3Client, String bucketName, String payer,
-                                        MessageContext messageContext) {
+                                        MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         PutBucketRequestPaymentRequest request = PutBucketRequestPaymentRequest.builder()
                 .bucket(bucketName)
@@ -1522,24 +1548,27 @@ public class BucketOperations extends AbstractConnector {
             PutBucketRequestPaymentResponse response = s3Client.putBucketRequestPayment(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void putBucketTagging(String operationName, S3Client s3Client, String bucketName, List<Tag> tagSet,
-                                 MessageContext messageContext) {
+                                 MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         PutBucketTaggingRequest request = PutBucketTaggingRequest.builder()
                 .bucket(bucketName)
@@ -1549,16 +1578,18 @@ public class BucketOperations extends AbstractConnector {
             PutBucketTaggingResponse response = s3Client.putBucketTagging(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         }
     }
 
     public void putBucketVersioning(String operationName, S3Client s3Client, String bucketName, String mfa,
-                                    String status, String mfaDelete, MessageContext messageContext) {
+                                    String status, String mfaDelete, MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         PutBucketVersioningRequest request = PutBucketVersioningRequest.builder()
                 .bucket(bucketName)
@@ -1571,24 +1602,27 @@ public class BucketOperations extends AbstractConnector {
             PutBucketVersioningResponse response = s3Client.putBucketVersioning(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }
 
     public void putBucketWebsite(String operationName, S3Client s3Client, String bucketName,
-                                 WebsiteConfiguration websiteConfiguration, MessageContext messageContext) {
+                                 WebsiteConfiguration websiteConfiguration, MessageContext messageContext, String responseVariable, Boolean overwriteBody) {
         S3OperationResult result;
         PutBucketWebsiteRequest request = PutBucketWebsiteRequest.builder()
                 .bucket(bucketName)
@@ -1598,18 +1632,21 @@ public class BucketOperations extends AbstractConnector {
             PutBucketWebsiteResponse response = s3Client.putBucketWebsite(request);
             SdkHttpResponse sdkHttpResponse = response.sdkHttpResponse();
             result = S3ConnectorUtils.getSuccessResult(sdkHttpResponse, operationName);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (S3Exception e) {
             result = S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(), operationName,
                     Error.BAD_REQUEST);
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
         } catch (AwsServiceException | SdkClientException e) {
             result = new S3OperationResult(
                     operationName,
                     false,
                     Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage());
-            S3ConnectorUtils.setResultAsPayload(messageContext, result);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
     }

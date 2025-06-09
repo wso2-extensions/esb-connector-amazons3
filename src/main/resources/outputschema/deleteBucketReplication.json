@@ -8,11 +8,20 @@
       "type": "object",
       "description": "The main response payload from the deleteBucketReplication operation.",
       "properties": {
-        "data": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates whether the operation was successful."
+        },
+        "result": {
           "type": "object",
-          "description": "The data returned from the operation."
+          "description": "The result object containing response data."
         }
-      }
+      },
+      "additionalProperties": false,
+      "required": [
+        "success",
+        "result"
+      ]
     }
   },
   "required": [

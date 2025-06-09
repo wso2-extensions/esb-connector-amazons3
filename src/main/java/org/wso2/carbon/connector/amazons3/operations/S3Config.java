@@ -9,10 +9,10 @@ import org.wso2.carbon.connector.amazons3.exception.InvalidConfigurationExceptio
 import org.wso2.carbon.connector.amazons3.pojo.ConnectionConfiguration;
 import org.wso2.carbon.connector.amazons3.utils.Error;
 import org.wso2.carbon.connector.amazons3.utils.S3ConnectorUtils;
-import org.wso2.carbon.connector.core.AbstractConnector;
-import org.wso2.carbon.connector.core.ConnectException;
-import org.wso2.carbon.connector.core.connection.ConnectionHandler;
-import org.wso2.carbon.connector.core.util.ConnectorUtils;
+import org.wso2.integration.connector.core.AbstractConnector;
+import org.wso2.integration.connector.core.ConnectException;
+import org.wso2.integration.connector.core.connection.ConnectionHandler;
+import org.wso2.integration.connector.core.util.ConnectorUtils;
 
 public class S3Config extends AbstractConnector implements ManagedLifecycle {
 

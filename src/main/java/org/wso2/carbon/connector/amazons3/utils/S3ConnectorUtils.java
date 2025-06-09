@@ -1,22 +1,15 @@
 package org.wso2.carbon.connector.amazons3.utils;
 
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.OMException;
-import org.apache.axiom.om.util.AXIOMUtil;
-import org.apache.axiom.soap.SOAPBody;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.synapse.MessageContext;
-import org.apache.synapse.commons.json.JsonUtil;
 import org.apache.synapse.core.axis2.Axis2MessageContext;
-import org.apache.synapse.transport.passthru.PassThroughConstants;
 import org.wso2.carbon.connector.amazons3.constants.S3Constants;
 import org.wso2.carbon.connector.amazons3.exception.InvalidConfigurationException;
 import org.wso2.carbon.connector.amazons3.pojo.S3OperationResult;
 import software.amazon.awssdk.http.SdkHttpResponse;
-
-import javax.xml.stream.XMLStreamException;
 
 public class S3ConnectorUtils {
     private static Log log = LogFactory.getLog(S3ConnectorUtils.class);
@@ -52,79 +45,47 @@ public class S3ConnectorUtils {
         return connectionName;
     }
 
-    public static void setResultAsPayload(MessageContext msgContext, S3OperationResult result) {
+    public static JsonObject generateOperationResult(MessageContext msgContext, S3OperationResult result) {
+        //Create a new JSON result object
 
-        OMElement resultElement = generateOperationResult(msgContext,result);
-        if(result.getResultEle() != null) {
-            resultElement.addChild(result.getResultEle());
-        }
-        SOAPBody soapBody = msgContext.getEnvelope().getBody();
-        JsonUtil.removeJsonPayload(((Axis2MessageContext)msgContext).getAxis2MessageContext());
-        ((Axis2MessageContext)msgContext).getAxis2MessageContext().
-                removeProperty(PassThroughConstants.NO_ENTITY_BODY);
-        soapBody.addChild(resultElement);
-    }
-
-    private static OMElement generateOperationResult(MessageContext msgContext, S3OperationResult result) {
-        //Create a new payload body and add to context
-
-        String resultElementName = result.getOperation() + "Result";
-        OMElement resultElement = createOMElement(resultElementName, null);
-
-        OMElement statusCodeElement = createOMElement("success",
-                String.valueOf(result.isSuccessful()));
-        resultElement.addChild(statusCodeElement);
+        JsonObject resultJson = new JsonObject();
+        resultJson.addProperty("success", result.isSuccessful());
 
         if(result.getWrittenBytes() != 0) {
-            OMElement writtenBytesEle = createOMElement("writtenBytes",
-                    String.valueOf(result.getWrittenBytes()));
-            resultElement.addChild(writtenBytesEle);
+            resultJson.addProperty("writtenBytes", result.getWrittenBytes());
         }
 
-        if(result.getError() != null) {
+        if (result.getResultElement() != null) {
+            resultJson.add("result", result.getResultElement());
+        }
+
+        if (result.getError() != null) {
             setErrorPropertiesToMessage(msgContext, result.getError());
             //set error code and detail to the message
-            OMElement errorEle = createOMElement("error", result.getError().getErrorCode());
-            OMElement errorCodeEle = createOMElement("code", result.getError().getErrorCode());
-            OMElement errorMessageEle = createOMElement("message", result.getError().getErrorDetail());
-            errorEle.addChild(errorCodeEle);
-            errorEle.addChild(errorMessageEle);
-            resultElement.addChild(errorCodeEle);
+            JsonObject errorJson = new JsonObject();
+            errorJson.addProperty("code", result.getError().getErrorCode());
+            errorJson.addProperty("message", result.getError().getErrorDetail());
+            resultJson.add("error", errorJson);
+            
             //set error detail
             if(StringUtils.isNotEmpty(result.getErrorMessage())) {
-                OMElement errorDetailEle = createOMElement("detail", result.getErrorMessage());
-                resultElement.addChild(errorDetailEle);
+                resultJson.addProperty("detail", result.getErrorMessage());
             }
         }
 
-        return resultElement;
-    }
-
-    public static OMElement createOMElement(String elementName, Object value) {
-        OMElement resultElement = null;
-        try {
-            if (value != null) {
-                resultElement = AXIOMUtil.
-                        stringToOM("<" + elementName + ">" + value
-                                + "</" + elementName + ">");
-            } else {
-                resultElement = AXIOMUtil.
-                        stringToOM("<" + elementName
-                                + "></" + elementName + ">");
-            }
-        } catch (XMLStreamException | OMException e) {
-            log.error("Error while generating OMElement from element name" + elementName, e);
-        }
-        return resultElement;
+        return resultJson;
     }
 
     public static S3OperationResult getSuccessResult(SdkHttpResponse sdkHttpResponse, String operationName) {
-        OMElement responseElement = S3ConnectorUtils.
-                createOMElement("Response", Integer.toString(sdkHttpResponse.statusCode())
-                        + ":" + sdkHttpResponse.statusText());
+        JsonObject responseJson = new JsonObject();
+        responseJson.addProperty("statusCode", sdkHttpResponse.statusCode());
+        String statusText = sdkHttpResponse.statusText().orElse("");
+        responseJson.addProperty("statusText", statusText);
+        responseJson.addProperty("response", sdkHttpResponse.statusCode() + ":" + statusText);
+        
         return new S3OperationResult(
                 operationName,
-                true, responseElement);
+                true, responseJson);
     }
 
     public static S3OperationResult getFailureResult(String cause, String operationName, Error error) {
@@ -133,5 +94,41 @@ public class S3ConnectorUtils {
                 false,
                 error,
                 "Operation failed with: " + cause);
+    }
+
+    /**
+     * Creates a JSON response for operations that return complex response objects
+     * @param operationName The name of the operation
+     * @param responseData The response data object to be converted to JSON
+     * @return S3OperationResult with JSON response
+     */
+    public static S3OperationResult createJsonOperationResult(String operationName, Object responseData) {
+        JsonObject responseJson = new JsonObject();
+        responseJson.addProperty("operation", operationName);
+        
+        if (responseData != null) {
+            responseJson.addProperty("data", responseData.toString());
+        }
+        
+        return new S3OperationResult(operationName, true, responseJson);
+    }
+
+    /**
+     * Creates a simple JSON response with key-value pairs
+     * @param operationName The operation name
+     * @param properties The key-value pairs to include in the response
+     * @return S3OperationResult with JSON response
+     */
+    public static S3OperationResult createSimpleJsonResult(String operationName, String... properties) {
+        JsonObject responseJson = new JsonObject();
+        responseJson.addProperty("operation", operationName);
+        
+        for (int i = 0; i < properties.length; i += 2) {
+            if (i + 1 < properties.length) {
+                responseJson.addProperty(properties[i], properties[i + 1]);
+            }
+        }
+        
+        return new S3OperationResult(operationName, true, responseJson);
     }
 }
