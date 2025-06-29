@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for createBucket Operation",
+  "description": "Output schema for the createBucket operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the createBucket operation.",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates whether the operation was successful."
+        },
+        "result": {
+          "type": "object",
+          "description": "The result object containing response data.",
+          "properties": {
+            "location": {
+              "type": "string",
+              "description": "The location where the bucket was created."
+            },
+            "statusCode": {
+              "type": "integer",
+              "description": "HTTP status code of the response."
+            },
+            "statusText": {
+              "type": "string",
+              "description": "HTTP status text of the response."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "success",
+        "result"
+      ]
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "additionalProperties": false
+}

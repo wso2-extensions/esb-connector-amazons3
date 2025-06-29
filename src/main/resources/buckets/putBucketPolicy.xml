@@ -20,6 +20,8 @@
     <parameter name="bucketPolicy" description="The bucket policy as a JSON document to be created for the bucket."/>
     <parameter name="confirmRemoveSelfBucketAccess"
                description="Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future."/>
+    <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
+    <parameter name="overwriteBody" expression="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <property name="operationName" value="putBucketPolicy"/>
         <class name="org.wso2.carbon.connector.amazons3.operations.BucketOperations"/>

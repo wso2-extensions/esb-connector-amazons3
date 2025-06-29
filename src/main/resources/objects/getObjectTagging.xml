@@ -19,6 +19,8 @@
     <parameter name="bucketName" description="Name of the bucket."/>
     <parameter name="objectKey" description="The name to give the newly created object."/>
     <parameter name="versionId" description="The versionId of the object for which to get the tagging information."/>
+    <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
+    <parameter name="overwriteBody" expression="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <property name="operationName" value="getObjectTagging"/>
         <class name="org.wso2.carbon.connector.amazons3.operations.ObjectOperations"/>

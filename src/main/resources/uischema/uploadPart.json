@@ -119,6 +119,88 @@
                 }
               ]
             }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Advanced",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerAlgorithm",
+                    "displayName": "SSE Customer Algorithm",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The algorithm to use to when encrypting the object (for example, AES256)."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerKey",
+                    "displayName": "SSE Customer Key",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The customer-provided encryption key for Amazon S3 to use in encrypting data."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "sseCustomerKeyMD5",
+                    "displayName": "SSE Customer Key MD5",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "requestPayer",
+                    "displayName": "Request Payer",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Confirms that the requester knows that they will be charged for the request."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "Output",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "responseVariable",
+              "displayName": "Output Variable Name",
+              "inputType": "string",
+              "deriveResponseVariable": "true",
+              "required": "true",
+              "helpTip": "Name of the variable to which the output of the operation should be assigned"
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "overwriteBody",
+              "displayName": "Overwrite Message Body",
+              "inputType": "checkbox",
+              "defaultValue": "false",
+              "helpTip": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored).",
+              "required": "false"
+            }
           }
         ]
       }

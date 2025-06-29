@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for putBucketPolicy Operation",
+  "description": "Output schema for the putBucketPolicy operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the putBucketPolicy operation.",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates whether the operation was successful."
+        },
+        "result": {
+          "type": "object",
+          "description": "The result object containing response data."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "success",
+        "result"
+      ]
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for getBucketLifecycleConfiguration Operation",
+  "description": "Output schema for the getBucketLifecycleConfiguration operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the getBucketLifecycleConfiguration operation.",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates whether the operation was successful."
+        },
+        "result": {
+          "type": "object",
+          "description": "The result object containing response data."
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "additionalProperties": false
+}

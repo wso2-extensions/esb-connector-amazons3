@@ -1,6 +1,6 @@
 {
   "connectorName": "amazons3",
-  "operationName": "putObjectACL",
+  "operationName": "putObjectAcl",
   "title": "Put Object ACL",
   "help": "<h1>Put Object ACL</h1> <b>The putObjectACL operation sets the access control list (ACL) permissions for an object that already exists in a bucket.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/7.1.0/micro-integrator/references/connectors/amazons3-connector/amazons3-connector-reference/\"> More Help </a></li></ul>",
   "elements": [
@@ -163,6 +163,36 @@
                   }
                 }
               ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "Output",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "responseVariable",
+              "displayName": "Output Variable Name",
+              "inputType": "string",
+              "deriveResponseVariable": "true",
+              "required": "true",
+              "helpTip": "Name of the variable to which the output of the operation should be assigned"
+            }
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "name": "overwriteBody",
+              "displayName": "Overwrite Message Body",
+              "inputType": "checkbox",
+              "defaultValue": "false",
+              "helpTip": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored).",
+              "required": "false"
             }
           }
         ]

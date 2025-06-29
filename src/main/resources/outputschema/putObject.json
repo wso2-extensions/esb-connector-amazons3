@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for putObject Operation",
+  "description": "Output schema for the putObject operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the putObject operation.",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates whether the operation was successful."
+        },
+        "result": {
+          "type": "object",
+          "description": "The result object containing the putObject response data.",
+          "properties": {
+            "eTag": {
+              "type": "string",
+              "description": "Entity tag for the uploaded object."
+            },
+            "serverSideEncryption": {
+              "type": "string",
+              "description": "The server-side encryption algorithm used when storing this object in Amazon S3."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["success", "result"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "additionalProperties": false
+}
