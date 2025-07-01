@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.synapse.MessageContext;
 import org.wso2.carbon.connector.amazons3.connection.S3ConnectionHandler;
 import org.wso2.carbon.connector.amazons3.constants.S3Constants;
+import org.wso2.carbon.connector.amazons3.utils.GsonUtils;
 import org.wso2.carbon.connector.amazons3.convertors.S3POJOHandler;
 import org.wso2.carbon.connector.amazons3.exception.InvalidConfigurationException;
 import org.wso2.carbon.connector.amazons3.pojo.S3OperationResult;
@@ -552,7 +553,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             CompleteMultipartUploadResponse response = s3Client.completeMultipartUpload(request);
             org.wso2.carbon.connector.amazons3.pojo.CompleteMultipartUploadResponse uploadResponse =
                     s3POJOHandler.castS3CompleteMultipartUploadResponse(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(uploadResponse).getAsJsonObject();
             result = new S3OperationResult(
                     operationName,
@@ -638,7 +639,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             CopyObjectResponse response = s3Client.copyObject(request);
             org.wso2.carbon.connector.amazons3.pojo.CopyObjectResponse objectResponse =
                     s3POJOHandler.castS3CopyObjectResponse(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(objectResponse).getAsJsonObject();
             result = new S3OperationResult(
                     operationName,
@@ -711,7 +712,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             uploadId = response.uploadId();
             org.wso2.carbon.connector.amazons3.pojo.CreateMultipartUploadResponse uploadResponse =
                     s3POJOHandler.castS3CreateMultipartUploadResponse(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(uploadResponse).getAsJsonObject();
             result = new S3OperationResult(
                     operationName,
@@ -755,7 +756,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             DeleteObjectResponse response = s3Client.deleteObject(request);
             org.wso2.carbon.connector.amazons3.pojo.DeleteObjectResponse objectResponse =
                     s3POJOHandler.castS3DeleteObjectResponse(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(objectResponse).getAsJsonObject();
             result = new S3OperationResult(
                     operationName,
@@ -795,7 +796,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             DeleteObjectsResponse response = s3Client.deleteObjects(request);
             org.wso2.carbon.connector.amazons3.pojo.DeleteObjectsResponse objectResponse =
                     s3POJOHandler.castS3DeleteObjectsResponse(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(objectResponse).getAsJsonObject();
             result = new S3OperationResult(
                     operationName,
@@ -857,7 +858,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
                 ResponseBytes<GetObjectResponse> responseBytes = s3Client.getObjectAsBytes(request);
                 objectResponse = s3POJOHandler.castS3GetObjectResponseWithContent(responseBytes, isContentAsBase64);
             }
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(objectResponse).getAsJsonObject();
             result = new S3OperationResult(
                     operationName,
@@ -888,7 +889,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
         try {
             GetObjectAclResponse response = s3Client.getObjectAcl(request);
             // Convert the AWS SDK response directly to JSON
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(response).getAsJsonObject();
             result = new S3OperationResult(
                     operationName,
@@ -939,7 +940,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             }
             tagConfig.setTags(tags);
             
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(tagConfig).getAsJsonObject();
             
             result = new S3OperationResult(operationName, true, responseJson);
@@ -1021,7 +1022,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             org.wso2.carbon.connector.amazons3.pojo.HeadObjectResponse objectResponse =
                     s3POJOHandler.castS3HeadObjectResponse(response);
             
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(objectResponse).getAsJsonObject();
             
             result = new S3OperationResult(operationName, true, responseJson);
@@ -1059,7 +1060,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             org.wso2.carbon.connector.amazons3.pojo.PartsConfiguration configuration =
                     s3POJOHandler.castS3PartsConfiguration(response);
             
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(configuration).getAsJsonObject();
             
             result = new S3OperationResult(operationName, true, responseJson);
@@ -1168,7 +1169,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse uploadResponse =
                     s3POJOHandler.castS3PutObjectResponse(response);
             
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(uploadResponse).getAsJsonObject();
             
             result = new S3OperationResult(operationName, true, responseJson);
@@ -1290,7 +1291,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             // Convert to JSON using POJO and Gson
             org.wso2.carbon.connector.amazons3.pojo.UploadPartResponse uploadResponse =
                     s3POJOHandler.castS3UploadPartResponse(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(uploadResponse).getAsJsonObject();
             
             result = new S3OperationResult(operationName, true, responseJson);
@@ -1341,7 +1342,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             JsonObject responseJson;
             org.wso2.carbon.connector.amazons3.pojo.UploadPartCopyResponse uploadResponse =
                     s3POJOHandler.castS3UploadPartCopyResponse(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             String jsonString = gson.toJson(uploadResponse);
             responseJson = com.google.gson.JsonParser.parseString(jsonString).getAsJsonObject();
             result = new S3OperationResult(operationName, true, responseJson);
@@ -1393,7 +1394,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             org.wso2.carbon.connector.amazons3.pojo.PutObjectPresignedUrlResponse response =
                     s3POJOHandler.castS3PutObjectPresignedUrlRequest(presignedPutObjectRequest);
             
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(response).getAsJsonObject();
             
             result = new S3OperationResult(operationName, true, responseJson);
@@ -1433,7 +1434,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
             org.wso2.carbon.connector.amazons3.pojo.GetObjectPresignedUrlResponse response =
                     s3POJOHandler.castS3GetObjectPresignedUrlRequest(presignedGetObjectRequest);
             
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(response).getAsJsonObject();
             
             result = new S3OperationResult(operationName, true, responseJson);
