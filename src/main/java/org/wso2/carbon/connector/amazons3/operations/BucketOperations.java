@@ -28,6 +28,7 @@ import org.wso2.carbon.connector.amazons3.convertors.S3POJOHandler;
 import org.wso2.carbon.connector.amazons3.exception.InvalidConfigurationException;
 import org.wso2.carbon.connector.amazons3.pojo.LifecycleConfiguration;
 import org.wso2.carbon.connector.amazons3.pojo.ObjectVersionConfiguration;
+import org.wso2.carbon.connector.amazons3.utils.GsonUtils;
 import org.wso2.carbon.connector.amazons3.pojo.S3OperationResult;
 import org.wso2.carbon.connector.amazons3.utils.Error;
 import org.wso2.carbon.connector.amazons3.utils.S3ConnectorUtils;
@@ -1220,7 +1221,7 @@ public class BucketOperations extends AbstractConnectorOperation {
             ListBucketsResponse response = s3Client.listBuckets(listBucketsRequest);
             org.wso2.carbon.connector.amazons3.pojo.BucketsConfiguration bucketsConfiguration =
                     s3POJOHandler.castS3BucketsConfiguration(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(bucketsConfiguration).getAsJsonObject();
             
             result = new S3OperationResult(
@@ -1262,7 +1263,7 @@ public class BucketOperations extends AbstractConnectorOperation {
             ListMultipartUploadsResponse response = s3Client.listMultipartUploads(request);
             org.wso2.carbon.connector.amazons3.pojo.MultipartUploads multipartUpload =
                     s3POJOHandler.castS3MultipartUploads(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(multipartUpload).getAsJsonObject();
             
             result = new S3OperationResult(
@@ -1305,7 +1306,7 @@ public class BucketOperations extends AbstractConnectorOperation {
             ListObjectsResponse response = s3Client.listObjects(request);
             org.wso2.carbon.connector.amazons3.pojo.ObjectConfiguration configuration =
                     s3POJOHandler.castS3Objects(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(configuration).getAsJsonObject();
             
             result = new S3OperationResult(
@@ -1346,7 +1347,7 @@ public class BucketOperations extends AbstractConnectorOperation {
         try {
             ListObjectVersionsResponse response = s3Client.listObjectVersions(request);
             ObjectVersionConfiguration config = s3POJOHandler.castS3ObjectVersions(response);
-            Gson gson = new Gson();
+            Gson gson = GsonUtils.createGson();
             JsonObject responseJson = gson.toJsonTree(config).getAsJsonObject();
             
             result = new S3OperationResult(
