@@ -16,294 +16,3268 @@
     ],
     "releases": [
         {
-            "tagName": "v3.0.1",
+            "tagName": "v3.0.2",
             "products": [
                 "MI 4.4.0"
             ],
             "operations": [
                 {
-                    "name": "createBucket",
-                    "description": "Get details about payments that have not completed",
-                    "isHidden": false
-                },
-                {
                     "name": "deleteBucket",
-                    "description": "Deletes the bucket named in the URI. All objects (including all object versions and Delete Markers) in the bucket must be deleted before the bucket itself can be deleted",
-                    "isHidden": false
-                },
-                {
-                    "name": "deleteBucketCORS",
-                    "description": "Deletes the CORS configuration information set for the bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "deleteBucketLifecycle",
-                    "description": "Deletes the lifecycle configuration from the specified bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "deleteBucketPolicy",
-                    "description": "Delete the policy on a specified bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "deleteBucketReplication",
-                    "description": "Deletes the replication subresource associated with the specified bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "deleteBucketTagging",
-                    "description": "Removes a tags set from the specified bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "deleteBucketWebsiteConfiguration",
-                    "description": "Removes the website configuration for a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketACL",
-                    "description": "Return the access control list (ACL) of a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketCORS",
-                    "description": "Returns the CORS configuration information set for the bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketLifecycleConfiguration",
-                    "description": "Returns the lifecycle configuration information set on the bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketLocation",
-                    "description": "Returns a bucket's region",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketLogging",
-                    "description": "Returns the logging storageClass of a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketNotificationConfiguration",
-                    "description": "Returns the notification configuration of a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketPolicy",
-                    "description": "Return the policy of a specified bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketReplication",
-                    "description": "Returns replication configuration information set on the bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketRequestPayment",
-                    "description": "Return the request payment configuration of a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketTagging",
-                    "description": "Returns the tags set associated with the bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketVersioning",
-                    "description": "Returns the versioning state of a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "getBucketWebsite",
-                    "description": "Returns the website configuration associated with a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "headBucket",
-                    "description": "To determine if a bucket exists and you have permission to access it",
-                    "isHidden": false
-                },
-                {
-                    "name": "listBuckets",
-                    "description": "Return the request payment configuration of a bucket.",
-                    "isHidden": false
-                },
-                {
-                    "name": "listMultipartUploads",
-                    "description": "Lists in-progress multipart uploads",
-                    "isHidden": false
-                },
-                {
-                    "name": "listObjects",
-                    "description": "Returns some or all (up to 1000) of the objects in a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "listObjectVersions",
-                    "description": "List metadata about all of the versions of objects in a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "putBucketACL",
-                    "description": "Set the permissions on an existing bucket using access control lists",
-                    "isHidden": false
-                },
-                {
-                    "name": "putBucketCORS",
-                    "description": "Sets the CORS configuration for your bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "putBucketLifecycleConfiguration",
-                    "description": "Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration",
-                    "isHidden": false
-                },
-                {
-                    "name": "putBucketPolicy",
-                    "description": "Add to or replace a policy on a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "putBucketReplication",
-                    "description": "Creates a new replication configuration",
-                    "isHidden": false
-                },
-                {
-                    "name": "putBucketRequestPayment",
-                    "description": "Set the request payment configuration of a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "putBucketTagging",
-                    "description": "Adds a set of tags to an existing bucket",
+                    "description": "Delete Bucket",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "true",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
                     "isHidden": false
                 },
                 {
                     "name": "putBucketVersioning",
-                    "description": "Set the versioning state of an existing bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "putBucketWebsite",
-                    "description": "Sets the configuration of the website that is specified in the website subresource",
-                    "isHidden": false
-                },
-                {
-                    "name": "init",
-                    "description": "Configuration files.",
-                    "isHidden": true
-                },
-                {
-                    "name": "abortMultipartUpload",
-                    "description": "Abort a currently active multipart upload",
-                    "isHidden": false
-                },
-                {
-                    "name": "copyBucketObject",
-                    "description": "Creates a copy of an object that is already stored in Amazon S3",
-                    "isHidden": false
-                },
-                {
-                    "name": "deleteObject",
-                    "description": "Removes the null version (if there is one) of an object and inserts a delete marker, which becomes the latest version of the object",
-                    "isHidden": false
-                },
-                {
-                    "name": "deleteObjects",
-                    "description": "Delete multiple objects from a bucket using a single HTTP request",
-                    "isHidden": false
-                },
-                {
-                    "name": "getObject",
-                    "description": "Retrieves objects from Amazon S3",
-                    "isHidden": false
-                },
-                {
-                    "name": "getObjectACL",
-                    "description": "Returns the access control list (ACL) of an object",
-                    "isHidden": false
-                },
-                {
-                    "name": "getObjectTagging",
-                    "description": "Retrieve the list of tags associated with the object",
-                    "isHidden": false
-                },
-                {
-                    "name": "getObjectTorrent",
-                    "description": "Returns torrent files from a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "headObject",
-                    "description": "Retrieves metadata from an object without returning the object itself",
-                    "isHidden": false
-                },
-                {
-                    "name": "completeMultipartUpload",
-                    "description": "Complete the multipart upload",
-                    "isHidden": false
-                },
-                {
-                    "name": "createMultipartUpload",
-                    "description": "Create a multipart upload for Part uploads",
-                    "isHidden": false
-                },
-                {
-                    "name": "listParts",
-                    "description": "Retrieve list of uploaded parts",
-                    "isHidden": false
-                },
-                {
-                    "name": "multipartUpload",
-                    "description": "Complete a currently active multipart upload",
-                    "isHidden": false
-                },
-                {
-                    "name": "putObject",
-                    "description": "Create objects from Amazon S3 bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "putObjectAcl",
-                    "description": "Set the access control list (ACL) permissions for an object that already exists in a bucket",
-                    "isHidden": false
-                },
-                {
-                    "name": "restoreObject",
-                    "description": "Restores a temporary copy of an archived object",
-                    "isHidden": false
-                },
-                {
-                    "name": "uploadPart",
-                    "description": "Upload a tag for a current multipart upload",
+                    "description": "Put Bucket Versioning",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "mfa",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The concatenation of the authentication device's serial number, a space, and the value that is displayed on the authentication device."
+                        },
+                        {
+                            "name": "status",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Sets the versioning state of the bucket."
+                        },
+                        {
+                            "name": "mfaDelete",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies whether MFA Delete is enabled in the bucket versioning configuration."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
                     "isHidden": false
                 },
                 {
                     "name": "uploadPartCopy",
-                    "description": "Uploads a tag by copying data from an existing object as data source",
+                    "description": "Upload Part Copy",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to retrieve details for."
+                        },
+                        {
+                            "name": "uploadId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "This specifies the ID of the initiated multipart upload."
+                        },
+                        {
+                            "name": "partNumber",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "This specifies the number or the index of the uploaded part."
+                        },
+                        {
+                            "name": "copySourceRange",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The range of bytes to copy from the source object."
+                        },
+                        {
+                            "name": "ifModifiedSince",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if it has been modified."
+                        },
+                        {
+                            "name": "ifUnmodifiedSince",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if it has not been modified."
+                        },
+                        {
+                            "name": "ifMatch",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if its ETag is the same."
+                        },
+                        {
+                            "name": "ifNoneMatch",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if its ETag is not same."
+                        },
+                        {
+                            "name": "copySource",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the source bucket and the source object key, separated by a slash (/)"
+                        },
+                        {
+                            "name": "copySourceSSECustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use when decrypting the source object."
+                        },
+                        {
+                            "name": "copySourceSSECustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key for Amazon S3 to use to decrypt the source object."
+                        },
+                        {
+                            "name": "copySourceSSECustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "sseCustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use to when encrypting the object."
+                        },
+                        {
+                            "name": "sseCustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key to use in encrypting data."
+                        },
+                        {
+                            "name": "sseCustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
                     "isHidden": false
                 },
                 {
-                    "name": "generatePutObjectPresignedUrl",
-                    "description": "Generate a presigned URL to upload an object to Amazon S3",
+                    "name": "restoreObject",
+                    "description": "Restore Object",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object."
+                        },
+                        {
+                            "name": "restoreRequest",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Container for the RestoreRequest parameters (Days, Description, GlacierJobParameters, OutputLocation, SelectParameters, Tier and Type)."
+                        },
+                        {
+                            "name": "versionId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Version ID of an object to restore a specific object version."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "listMultipartUploads",
+                    "description": "List Multipart Uploads",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "delimiter",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "A delimiter is a character used to group keys."
+                        },
+                        {
+                            "name": "encodingType",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Requests Amazon S3 to encode the response and specifies the encoding method to use."
+                        },
+                        {
+                            "name": "maxUploads",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Sets the maximum number of multipart uploads."
+                        },
+                        {
+                            "name": "keyMarker",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies the key in the bucket that you want to start listing from."
+                        },
+                        {
+                            "name": "prefix",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Limits the response to keys that begin with the specified prefix."
+                        },
+                        {
+                            "name": "uploadIdMarker",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies the multipart upload after which listing should begin."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketLogging",
+                    "description": "Get Bucket Logging",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putBucketTagging",
+                    "description": "Put Bucket Tagging",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "tagSet",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Container for a set of tags."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketNotificationConfiguration",
+                    "description": "Get Bucket Notification Configuration",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putBucketWebsite",
+                    "description": "Put Bucket Website",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "websiteConfig",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Website configuration information."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketLocation",
+                    "description": "Get Bucket Location",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "listObjects",
+                    "description": "List Objects in Bucket",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "delimiter",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "A delimiter is a character used to group keys."
+                        },
+                        {
+                            "name": "encodingType",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Requests Amazon S3 to encode the response and specifies the encoding method to use."
+                        },
+                        {
+                            "name": "marker",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies the key to start with when listing objects in a bucket."
+                        },
+                        {
+                            "name": "maxKeys",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Sets the maximum number of keys returned in the response body."
+                        },
+                        {
+                            "name": "prefix",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Limits the response to keys that begin with the specified prefix."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "listParts",
+                    "description": "List Parts",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to retrieve details for."
+                        },
+                        {
+                            "name": "uploadId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "This specifies the ID of the current multipart upload."
+                        },
+                        {
+                            "name": "maxParts",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Sets the maximum number of parts to return in the response body."
+                        },
+                        {
+                            "name": "partNumberMarker",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies the part after which listing should begin."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
                     "isHidden": false
                 },
                 {
                     "name": "generateGetObjectPresignedUrl",
-                    "description": "Generate a presigned URL to download an object from Amazon S3",
+                    "description": "Generate Get Object Presigned URL",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to generate the presigned URL."
+                        },
+                        {
+                            "name": "signatureDurationInMins",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The time in minutes until the pre-signed URL expires.."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "headObject",
+                    "description": "Head Object",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name to give the newly created object."
+                        },
+                        {
+                            "name": "range",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The specified range bytes of an object to download."
+                        },
+                        {
+                            "name": "ifModifiedSince",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if it has been modified since the specified time."
+                        },
+                        {
+                            "name": "ifUnmodifiedSince",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if it has not been modified since the specified time."
+                        },
+                        {
+                            "name": "ifMatch",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if its entity tag (ETag) is the same as the one specified."
+                        },
+                        {
+                            "name": "ifNoneMatch",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if its entity tag (ETag) is different from the one specified."
+                        },
+                        {
+                            "name": "versionId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "VersionId used to reference a specific version of the object."
+                        },
+                        {
+                            "name": "sseCustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use to when encrypting the object."
+                        },
+                        {
+                            "name": "sseCustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key to use in encrypting data."
+                        },
+                        {
+                            "name": "sseCustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "partNumber",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Part number of the object being read."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putBucketReplication",
+                    "description": "Put Bucket Replication",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "replicationConfiguration",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Bucket replication configuration."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "completeMultipartUpload",
+                    "description": "Complete Multipart Upload",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name to give the newly created object."
+                        },
+                        {
+                            "name": "uploadId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "This specifies the ID of the current multipart upload."
+                        },
+                        {
+                            "name": "completedPartDetails",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "This contains all the part numbers and the corresponding ETags."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getObjectACL",
+                    "description": "Get Object ACL",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object."
+                        },
+                        {
+                            "name": "versionId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "VersionId used to reference a specific version of the object."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "createBucket",
+                    "description": "Create Bucket",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "bucketRegion",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "us-east-1",
+                            "description": "Region for the created bucket."
+                        },
+                        {
+                            "name": "acl",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The set of AWS accounts or groups are granted access and the type of access."
+                        },
+                        {
+                            "name": "grantFullControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ, READ_ACP, and WRITE_ACP permissions on the object."
+                        },
+                        {
+                            "name": "grantRead",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantReadACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantWrite",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantWriteACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "objectLockEnabledForBucket",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specify whether you want S3 Object Lock to be enabled for this bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putObjectAcl",
+                    "description": "Put Object ACL",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to retrieve details for."
+                        },
+                        {
+                            "name": "accessControlList",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Object ACL information."
+                        },
+                        {
+                            "name": "versionId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Version ID of an object to remove a specific object version."
+                        },
+                        {
+                            "name": "acl",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The set of AWS accounts or groups are granted access and the type of access."
+                        },
+                        {
+                            "name": "grantFullControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ, READ_ACP, and WRITE_ACP permissions on the object."
+                        },
+                        {
+                            "name": "grantRead",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantReadACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantWrite",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantWriteACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteBucketLifecycle",
+                    "description": "Delete Bucket Lifecycle",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketPolicy",
+                    "description": "Get Bucket Policy",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketACL",
+                    "description": "Get Bucket ACL",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getObjectTorrent",
+                    "description": "Get Object Torrent",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to retrieve torrents for."
+                        },
+                        {
+                            "name": "torrentFilePath",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The path of the torrent file to be created."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that the requester knows that they will be charged for the request."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketTagging",
+                    "description": "Get Bucket Tagging",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteObjects",
+                    "description": "Delete Multiple Objects",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "deleteConfig",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Contains the objects that are suppose to be deleted."
+                        },
+                        {
+                            "name": "bypassGovernanceRetention",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place."
+                        },
+                        {
+                            "name": "mfa",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The concatenation of the authentication device's serial number, a space, and the value that is displayed on the authentication device."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "generatePutObjectPresignedUrl",
+                    "description": "Generate Put Object Presigned URL",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to generate the presigned URL."
+                        },
+                        {
+                            "name": "contentType",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "A standard MIME type describing the format of the object data."
+                        },
+                        {
+                            "name": "signatureDurationInMins",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The time in minutes until the pre-signed URL expires.."
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "New metadata to be created. Comma separated key value pair. The key and value are separated by ':'."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteBucketWebsiteConfiguration",
+                    "description": "Delete Bucket Website Configuration",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketRequestPayment",
+                    "description": "Get Bucket Request Payment",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "listObjectVersions",
+                    "description": "Get Bucket Object Versions",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "delimiter",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "A delimiter is a character used to group keys."
+                        },
+                        {
+                            "name": "encodingType",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Requests Amazon S3 to encode the response and specifies the encoding method to use."
+                        },
+                        {
+                            "name": "keyMarker",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies the key in the bucket that you want to start listing from."
+                        },
+                        {
+                            "name": "maxKeys",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Sets the maximum number of keys returned in the response body."
+                        },
+                        {
+                            "name": "prefix",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Limits the response to keys that begin with the specified prefix."
+                        },
+                        {
+                            "name": "versionIdMarker",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies the object version you want to start listing from."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketCORS",
+                    "description": "Get Bucket CORS",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putBucketACL",
+                    "description": "Put Bucket ACL",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "accessControlList",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Bucket ACL information."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "copyBucketObject",
+                    "description": "Copy Bucket Object",
+                    "params": [
+                        {
+                            "name": "copySource",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the source bucket and the source object key, separated by a slash (/)"
+                        },
+                        {
+                            "name": "acl",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The set of AWS accounts or groups are granted access and the type of access."
+                        },
+                        {
+                            "name": "cacheControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This can be used to specify caching behavior along the request or reply chain."
+                        },
+                        {
+                            "name": "contentDisposition",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This specifies presentational information for the object."
+                        },
+                        {
+                            "name": "contentEncoding",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This specifies what content encodings have been applied to the object."
+                        },
+                        {
+                            "name": "contentLanguage",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The language the content is in."
+                        },
+                        {
+                            "name": "contentType",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "A standard MIME type describing the format of the object data."
+                        },
+                        {
+                            "name": "copySourceIfMatch",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The object will be copied if its entity tag (ETag) matches this."
+                        },
+                        {
+                            "name": "copySourceIfModifiedSince",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The object will be copied if it has been modified since the specified time."
+                        },
+                        {
+                            "name": "copySourceIfNoneMatch",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The object will be copied if its entity tag (ETag) is different than the specified ETag."
+                        },
+                        {
+                            "name": "copySourceIfUnmodifiedSince",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The object will be copied if it hasn't been modified since the specified time."
+                        },
+                        {
+                            "name": "expires",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The date and time at which the object is no longer cacheable."
+                        },
+                        {
+                            "name": "grantFullControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ, READ_ACP, and WRITE_ACP permissions on the object."
+                        },
+                        {
+                            "name": "grantRead",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantReadACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantWriteACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "metadataDirective",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specify whether the metadata is copied from the source object or replaced with metadata provided in the request."
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "New metadata to be replaced. Comma separated key value pair. The key and value are separated by ':'."
+                        },
+                        {
+                            "name": "taggingDirective",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request."
+                        },
+                        {
+                            "name": "serverSideEncryption",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The server-side encryption algorithm used for storing the object."
+                        },
+                        {
+                            "name": "storageClass",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The storage class."
+                        },
+                        {
+                            "name": "websiteRedirectLocation",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The redirect URL of the object if the bucket is configured as a website."
+                        },
+                        {
+                            "name": "sseCustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use to when encrypting the object."
+                        },
+                        {
+                            "name": "sseCustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key to use in encrypting data."
+                        },
+                        {
+                            "name": "sseCustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "ssekmsKeyId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The ID of the symmetric customer managed AWS KMS CMK to use for object encryption."
+                        },
+                        {
+                            "name": "ssekmsEncryptionContext",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The AWS KMS Encryption Context to use for object encryption."
+                        },
+                        {
+                            "name": "copySourceSSECustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use when decrypting the source object."
+                        },
+                        {
+                            "name": "copySourceSSECustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key for Amazon S3 to use to decrypt the source object."
+                        },
+                        {
+                            "name": "copySourceSSECustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "tagging",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The tag-set for the destination object. The tag-set must be encoded as URL Query parameters. (For example, Key1=Value1). This must be used in conjunction with the TaggingDirective."
+                        },
+                        {
+                            "name": "objectLockMode",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The object Lock mode that you want to apply to the uploaded object."
+                        },
+                        {
+                            "name": "objectLockRetainUntilDate",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The date and time when you want the Object Lock to expire."
+                        },
+                        {
+                            "name": "objectLockLegalHoldStatus",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specify whether apply a Legal Hold to the uploaded object or not."
+                        },
+                        {
+                            "name": "destinationBucket",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The destination bucket where the object will be copied."
+                        },
+                        {
+                            "name": "destinationKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name for the object to create after copying."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "multipartUpload",
+                    "description": "Multipart Upload",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object."
+                        },
+                        {
+                            "name": "partDetails",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Array of parts with part with the part number."
+                        },
+                        {
+                            "name": "fileContent",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The content of the file."
+                        },
+                        {
+                            "name": "isContentBase64Encoded",
+                            "type": "booleanOrExpression",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Whether the file content is base64 encoded."
+                        },
+                        {
+                            "name": "filePath",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The file path to upload it as the object content."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getObjectTagging",
+                    "description": "Get Object Tags",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object."
+                        },
+                        {
+                            "name": "versionId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The version id of the object."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteBucketCORS",
+                    "description": "Delete Bucket CORS",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "uploadPart",
+                    "description": "Upload Part",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to retrieve details for."
+                        },
+                        {
+                            "name": "contentMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The base64-encoded 128-bit MD5 digest of the message according to RFC 1864."
+                        },
+                        {
+                            "name": "uploadId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "This specifies the ID of the initiated multipart upload."
+                        },
+                        {
+                            "name": "partNumber",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "This specifies the number or the index of the uploaded part."
+                        },
+                        {
+                            "name": "fileContent",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The content of the file."
+                        },
+                        {
+                            "name": "isContentBase64Encoded",
+                            "type": "booleanOrExpression",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Whether the file content is base64 encoded."
+                        },
+                        {
+                            "name": "filePath",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Path of the file to be uploaded."
+                        },
+                        {
+                            "name": "sseCustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use to when encrypting the object (for example, AES256)."
+                        },
+                        {
+                            "name": "sseCustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key for Amazon S3 to use in encrypting data."
+                        },
+                        {
+                            "name": "sseCustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that the requester knows that they will be charged for the request."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "headBucket",
+                    "description": "Head Bucket",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putBucketLifecycleConfiguration",
+                    "description": "Put Bucket Lifecycle Configuration",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "lifecycleConfiguration",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Bucket lifecycle configuration."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteBucketPolicy",
+                    "description": "Delete Bucket Policy",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteBucketReplication",
+                    "description": "Delete Bucket Replication",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putBucketCORS",
+                    "description": "Put Bucket CORS",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "corsConfiguration",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Bucket CORS configuration."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "listBuckets",
+                    "description": "List Buckets",
+                    "params": [
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putBucketPolicy",
+                    "description": "Put Bucket Policy",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "bucketPolicy",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Bucket policy configuration information."
+                        },
+                        {
+                            "name": "confirmRemoveSelfBucketAccess",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in future."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketWebsite",
+                    "description": "Get Website Configuration",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketReplication",
+                    "description": "Get Bucket Replication",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketLifecycleConfiguration",
+                    "description": "Get Bucket Life Cycle Configuration",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "createMultipartUpload",
+                    "description": "Create Multipart Upload",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name to give the newly created object."
+                        },
+                        {
+                            "name": "acl",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The set of AWS accounts or groups are granted access and the type of access."
+                        },
+                        {
+                            "name": "cacheControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This can be used to specify caching behavior along the request or reply chain."
+                        },
+                        {
+                            "name": "contentDisposition",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This specifies presentational information for the object."
+                        },
+                        {
+                            "name": "contentEncoding",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This specifies what content encodings have been applied to the object."
+                        },
+                        {
+                            "name": "contentLanguage",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The language the content is in."
+                        },
+                        {
+                            "name": "contentType",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "A standard MIME type describing the format of the object data."
+                        },
+                        {
+                            "name": "expires",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The date and time at which the object is no longer cacheable."
+                        },
+                        {
+                            "name": "grantFullControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ, READ_ACP, and WRITE_ACP permissions on the object."
+                        },
+                        {
+                            "name": "grantRead",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantReadACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantWriteACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "New metadata to be created. Comma separated key value pair. The key and value are separated by ':'."
+                        },
+                        {
+                            "name": "serverSideEncryption",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The server-side encryption algorithm used for storing the object."
+                        },
+                        {
+                            "name": "storageClass",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The storage class."
+                        },
+                        {
+                            "name": "websiteRedirectLocation",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The redirect URL of the object if the bucket is configured as a website."
+                        },
+                        {
+                            "name": "sseCustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use to when encrypting the object."
+                        },
+                        {
+                            "name": "sseCustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key to use in encrypting data."
+                        },
+                        {
+                            "name": "sseCustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "ssekmsKeyId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The ID of the symmetric customer managed AWS KMS CMK to use for object encryption."
+                        },
+                        {
+                            "name": "ssekmsEncryptionContext",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The AWS KMS Encryption Context to use for object encryption."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "tagging",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, Key1=Value1). This must be used in conjunction with the TaggingDirective."
+                        },
+                        {
+                            "name": "objectLockMode",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The object Lock mode that you want to apply to the uploaded object."
+                        },
+                        {
+                            "name": "objectLockRetainUntilDate",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The date and time when you want the Object Lock to expire."
+                        },
+                        {
+                            "name": "objectLockLegalHoldStatus",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specify whether apply a Legal Hold to the uploaded object or not."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteObject",
+                    "description": "Delete Object",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to be deleted."
+                        },
+                        {
+                            "name": "versionId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Version ID of an object to remove a specific object version."
+                        },
+                        {
+                            "name": "bypassGovernanceRetention",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation."
+                        },
+                        {
+                            "name": "mfa",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The concatenation of the authentication device's serial number, a space, and the value that is displayed on the authentication device."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "abortMultipartUpload",
+                    "description": "Abort Multipart Upload",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to retrieve details for."
+                        },
+                        {
+                            "name": "uploadId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "This specifies the ID of the current multipart upload."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putBucketRequestPayment",
+                    "description": "Put Bucket Request Payment",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "payer",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Specifies who pays for the download and request fees."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getBucketVersioning",
+                    "description": "Get Bucket Versioning",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteBucketTagging",
+                    "description": "Delete Bucket Tagging",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getObject",
+                    "description": "Get Object",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the object to retrieve details for."
+                        },
+                        {
+                            "name": "responseContentType",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Content-Type header of the response."
+                        },
+                        {
+                            "name": "responseContentLanguage",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Content-Language header of the response."
+                        },
+                        {
+                            "name": "responseExpires",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Expires header of the response."
+                        },
+                        {
+                            "name": "responseCacheControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Cache-Control header of the response."
+                        },
+                        {
+                            "name": "responseContentDisposition",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Content-Disposition header of the response."
+                        },
+                        {
+                            "name": "responseContentEncoding",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Content-Encoding header of the response."
+                        },
+                        {
+                            "name": "range",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "HTTP range header."
+                        },
+                        {
+                            "name": "ifModifiedSince",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if it has been modified."
+                        },
+                        {
+                            "name": "ifUnmodifiedSince",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if it has not been modified."
+                        },
+                        {
+                            "name": "ifMatch",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if its ETag is the same."
+                        },
+                        {
+                            "name": "ifNoneMatch",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Return the object only if its ETag is not same."
+                        },
+                        {
+                            "name": "versionId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "VersionId used to reference a specific version of the object."
+                        },
+                        {
+                            "name": "sseCustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use to when encrypting the object."
+                        },
+                        {
+                            "name": "sseCustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key to use in encrypting data."
+                        },
+                        {
+                            "name": "sseCustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "partNumber",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Part number of the object being read."
+                        },
+                        {
+                            "name": "destinationFilePath",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Path to the file that response contents will be written to."
+                        },
+                        {
+                            "name": "getContentAsBase64",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Get Content As Base64."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "putObject",
+                    "description": "Put Object",
+                    "params": [
+                        {
+                            "name": "bucketName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the bucket."
+                        },
+                        {
+                            "name": "objectKey",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name to give the newly created object."
+                        },
+                        {
+                            "name": "fileContent",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The content of the file."
+                        },
+                        {
+                            "name": "isContentBase64Encoded",
+                            "type": "booleanOrExpression",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Whether the file content is base64 encoded."
+                        },
+                        {
+                            "name": "filePath",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The path of the file to be uploaded."
+                        },
+                        {
+                            "name": "acl",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The set of AWS accounts or groups are granted access and the type of access."
+                        },
+                        {
+                            "name": "cacheControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This can be used to specify caching behavior along the request or reply chain."
+                        },
+                        {
+                            "name": "contentDisposition",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This specifies presentational information for the object."
+                        },
+                        {
+                            "name": "contentEncoding",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "This specifies what content encodings have been applied to the object."
+                        },
+                        {
+                            "name": "contentLanguage",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The language the content is in."
+                        },
+                        {
+                            "name": "contentType",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "A standard MIME type describing the format of the object data."
+                        },
+                        {
+                            "name": "contentMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The base64-encoded 128-bit MD5 digest of the message according to RFC 1864."
+                        },
+                        {
+                            "name": "expires",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The date and time at which the object is no longer cacheable."
+                        },
+                        {
+                            "name": "grantFullControl",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ, READ_ACP, and WRITE_ACP permissions on the object."
+                        },
+                        {
+                            "name": "grantRead",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantReadACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant READ_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "grantWriteACP",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The comma separated type(id, uri, emailAddress)=value pair to grant WRITE_ACP objects permission to those accounts."
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "New metadata to be created. Comma separated key value pair. The key and value are separated by ':'."
+                        },
+                        {
+                            "name": "serverSideEncryption",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The server-side encryption algorithm used for storing the object."
+                        },
+                        {
+                            "name": "storageClass",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The storage class."
+                        },
+                        {
+                            "name": "websiteRedirectLocation",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The redirect URL of the object if the bucket is configured as a website."
+                        },
+                        {
+                            "name": "sseCustomerAlgorithm",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The algorithm to use to when encrypting the object."
+                        },
+                        {
+                            "name": "sseCustomerKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The customer-provided encryption key to use in encrypting data."
+                        },
+                        {
+                            "name": "sseCustomerKeyMD5",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The 128-bit MD5 digest of the encryption key according to RFC 1321."
+                        },
+                        {
+                            "name": "ssekmsKeyId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The ID of the symmetric customer managed AWS KMS CMK to use for object encryption."
+                        },
+                        {
+                            "name": "ssekmsEncryptionContext",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The AWS KMS Encryption Context to use for object encryption."
+                        },
+                        {
+                            "name": "requestPayer",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Confirms that this requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests."
+                        },
+                        {
+                            "name": "tagging",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, Key1=Value1). This must be used in conjunction with the TaggingDirective."
+                        },
+                        {
+                            "name": "objectLockMode",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The object Lock mode that you want to apply to the uploaded object."
+                        },
+                        {
+                            "name": "objectLockRetainUntilDate",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The date and time when you want the Object Lock to expire."
+                        },
+                        {
+                            "name": "objectLockLegalHoldStatus",
+                            "type": "comboOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Specify whether apply a Legal Hold to the uploaded object or not."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output payload of the operation (The above variable will be ignored)."
+                        }
+                    ],
                     "isHidden": false
                 }
             ],
             "connections": [
                 {
                     "name": "amazons3",
-                    "description": "Connection for accessing Amazon S3 storage."
+                    "description": "Amazon S3 Connection",
+                    "params": [
+                        {
+                            "name": "connectionName",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "AMAZON_S3_CONNECTION_1",
+                            "description": "The name for the AmazonS3 connection"
+                        },
+                        {
+                            "name": "awsAccessKeyId",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "AWS access key ID."
+                        },
+                        {
+                            "name": "awsSecretAccessKey",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "AWS secret access key."
+                        },
+                        {
+                            "name": "region",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Region which is used select a regional endpoint to make requests."
+                        },
+                        {
+                            "name": "host",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "For path-style requests, the value is s3.amazonaws.com. For virtual-style requests, the value is BucketName.s3.amazonaws.com."
+                        }
+                    ]
                 }
-            ],
-            "isHidden": false
+            ]
         },
         {
             "tagName": "v2.0.10",
