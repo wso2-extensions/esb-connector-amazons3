@@ -21,7 +21,7 @@ Please refer to documentation [here](https://ei.docs.wso2.com/en/latest/micro-in
 
 ## Building from the source
 
-Follow the steps given below to build the BigQuery connector from the source code.
+Follow the steps given below to build the AmazonS3 connector from the source code.
 
 1. Get a clone or download the source from [Github](https://github.com/wso2-extensions/esb-connector-amazons3).
 2. Run the following Maven command from the `esb-connector-amazons3` directory: `mvn clean install`.
