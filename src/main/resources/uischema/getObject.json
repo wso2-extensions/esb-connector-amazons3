@@ -266,6 +266,21 @@
                     "required": "false",
                     "helpTip": "Get Content As Base64."
                   }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "disableCharacterEscaping",
+                    "displayName": "Disable Character Escaping",
+                    "inputType": "comboOrExpression",
+                    "comboValues": [
+                      "true",
+                      "false"
+                    ],
+                    "defaultValue": "false",
+                    "required": "false",
+                    "helpTip": "Disable Character Escaping."
+                  }
                 }
               ]
             }
