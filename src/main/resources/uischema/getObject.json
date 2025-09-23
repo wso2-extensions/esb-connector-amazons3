@@ -270,8 +270,8 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "disableCharacterEscaping",
-                    "displayName": "Disable Character Escaping",
+                    "name": "escapeXmlCharacters",
+                    "displayName": "Escape XML Characters",
                     "inputType": "comboOrExpression",
                     "comboValues": [
                       "true",

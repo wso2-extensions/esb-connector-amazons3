@@ -53,7 +53,7 @@ public class XmlUtil {
         return result;
     }
 
-    public String convertToXml(Object source, String encoding, boolean disableCharacterEscaping, Class... type) {
+    public String convertToXml(Object source, String encoding, boolean escapeXmlCharacters, Class... type) {
         String result = "";
         StringWriter sw = new StringWriter();
         try {
@@ -66,10 +66,10 @@ public class XmlUtil {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 
-            // If character escaping is not disabled, the below code will take care of avoiding the conversion of < to &lt; and > to &gt; etc
+            // escapeXmlCharacters = false will avoid the conversion of < to &lt; and > to &gt; etc
             PrintWriter printWriter = new PrintWriter(sw);
             DataWriter dataWriter;
-            if (disableCharacterEscaping) {
+            if (escapeXmlCharacters) {
                 dataWriter = new DataWriter(printWriter, encoding);
             } else {
                 dataWriter = new DataWriter(printWriter, encoding, new JaxbCharacterEscapeHandler());

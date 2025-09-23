@@ -125,7 +125,7 @@ public class ObjectOperations extends AbstractConnector {
         AccessControlPolicy s3AccessControlPolicy = AccessControlPolicy.builder().build();
         RestoreRequest s3RestoreRequest = RestoreRequest.builder().build();
         Delete s3DeleteConfig = Delete.builder().build();
-        boolean disableCharacterEscaping;
+        boolean escapeXmlCharacters;
 
         try {
             String connectionName = S3ConnectorUtils.getConnectionName(messageContext);
@@ -333,8 +333,8 @@ public class ObjectOperations extends AbstractConnector {
                     lookupTemplateParamater(messageContext, "signatureDurationInMins");
             isContentAsBase64 = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "getContentAsBase64");
-            disableCharacterEscaping = Boolean.parseBoolean((String) ConnectorUtils.
-                    lookupTemplateParamater(messageContext, "disableCharacterEscaping"));
+            escapeXmlCharacters = Boolean.parseBoolean((String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "escapeXmlCharacters"));
 
             //call the operations
             switch (operationName) {
@@ -389,7 +389,7 @@ public class ObjectOperations extends AbstractConnector {
                             ifMatch, ifNoneMatch, responseCacheControl, responseContentType, responseContentLanguage,
                             responseContentDisposition, responseContentEncoding, responseExpires, versionId,
                             sseCustomerAlgorithm, sseCustomerKey, sseCustomerKeyMD5, requestPayer, partNumber,
-                            destinationFilePath, isContentAsBase64, disableCharacterEscaping, messageContext);
+                            destinationFilePath, isContentAsBase64, escapeXmlCharacters, messageContext);
                     break;
                 case S3Constants.OPERATION_GET_OBJECT_ACL:
                     errorMessage = "Error while retrieving the object ACL";
@@ -840,7 +840,7 @@ public class ObjectOperations extends AbstractConnector {
                           String responseContentDisposition, String responseContentEncoding, String responseExpires,
                           String versionId, String sseCustomerAlgorithm, String sseCustomerKey,
                           String sseCustomerKeyMD5, String requestPayer, Integer partNumber, String destinationFilePath,
-                          String isContentAsBase64, boolean disableCharacterEscaping, MessageContext messageContext) {
+                          String isContentAsBase64, boolean escapeXmlCharacters, MessageContext messageContext) {
         S3OperationResult result;
         GetObjectRequest request = GetObjectRequest.builder()
                 .bucket(bucketName)
@@ -878,7 +878,7 @@ public class ObjectOperations extends AbstractConnector {
             if (objectResponse.getContentEncoding() != null) {
                 encoding = objectResponse.getContentEncoding();
             }
-            String objString = xmlUtil.convertToXml(objectResponse, encoding, disableCharacterEscaping,
+            String objString = xmlUtil.convertToXml(objectResponse, encoding, escapeXmlCharacters,
                     org.wso2.carbon.connector.amazons3.pojo.GetObjectResponse.class);
             try {
                 responseElement = AXIOMUtil.stringToOM(objString);
