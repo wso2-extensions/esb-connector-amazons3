@@ -279,7 +279,7 @@
                     ],
                     "defaultValue": "false",
                     "required": "false",
-                    "helpTip": "Disable Character Escaping."
+                    "helpTip": "Escape XML Characters."
                   }
                 }
               ]
