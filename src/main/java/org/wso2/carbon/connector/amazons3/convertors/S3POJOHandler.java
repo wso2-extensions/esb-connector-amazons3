@@ -1824,6 +1824,7 @@ public class S3POJOHandler {
         obj1.setRequestCharged(obj.requestChargedAsString());
         obj1.setServerSideEncryption(obj.serverSideEncryptionAsString());
         obj1.setSsekmsKeyId(obj.ssekmsKeyId());
+        obj1.setVersionId(obj.versionId());
         return obj1;
     }
 }

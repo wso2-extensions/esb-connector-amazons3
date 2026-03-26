@@ -263,6 +263,10 @@ public class ObjectOperations extends AbstractConnector {
             enableStreaming = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "enableStreaming");
             if (Boolean.parseBoolean(enableStreaming) && s3RequestBody == null) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Streaming upload enabled. Attempting to read content from message body" +
+                            " for operation: " + operationName);
+                }
                 org.apache.axis2.context.MessageContext axis2MsgCtx =
                         ((org.apache.synapse.core.axis2.Axis2MessageContext) messageContext)
                                 .getAxis2MessageContext();
@@ -270,8 +274,15 @@ public class ObjectOperations extends AbstractConnector {
                 if (binaryElement != null) {
                     org.apache.axiom.om.OMNode firstChild = binaryElement.getFirstOMChild();
                     if (firstChild instanceof org.apache.axiom.om.OMText) {
+                        if (log.isDebugEnabled()) {
+                            log.debug("Found streaming content in message body for operation: " + operationName);
+                        }
                         org.apache.axiom.om.OMText omText = (org.apache.axiom.om.OMText) firstChild;
                         if (omText.isOptimized()) {
+                            if (log.isDebugEnabled()) {
+                                log.debug("Message body content is optimized for streaming " +
+                                        "for operation: " + operationName);
+                            }
                             javax.activation.DataHandler dataHandler =
                                     (javax.activation.DataHandler) omText.getDataHandler();
                             try {
@@ -279,9 +290,17 @@ public class ObjectOperations extends AbstractConnector {
                                 Object fileSizeObj = messageContext.getProperty("FILE_SIZE");
                                 long contentLength = fileSizeObj instanceof Long
                                         ? (Long) fileSizeObj : -1L;
+                                if (log.isDebugEnabled()) {
+                                    log.debug("Content length of the streaming data: " + contentLength +
+                                            " for operation: " + operationName);
+                                }
                                 if (StringUtils.isNotEmpty(streamingThreshold)) {
                                     try {
                                         streamingThresholdValue = Long.parseLong(streamingThreshold);
+                                        if (log.isDebugEnabled()) {
+                                            log.debug("Using custom streaming threshold value: " +
+                                                    streamingThresholdValue + " for operation: " + operationName);
+                                        }
                                     } catch (NumberFormatException e) {
                                         errorMessage = "Invalid streaming threshold value: " + streamingThreshold;
                                         throw new InvalidConfigurationException("Invalid streaming threshold value: "
@@ -289,11 +308,19 @@ public class ObjectOperations extends AbstractConnector {
                                     }
                                 }
                                 if (contentLength < 0 || contentLength >= streamingThresholdValue) {
+                                    if (log.isDebugEnabled()) {
+                                        log.debug("Content length is above the streaming threshold. " +
+                                                "Using streaming multipart upload for operation: " + operationName);
+                                    }
                                     useStreamingMultipart = true;
                                     streamInputStream = inputStream;
                                     if (StringUtils.isNotEmpty(streamingPartSize)) {
                                         try {
                                             streamingPartSizeValue = Integer.parseInt(streamingPartSize);
+                                            if (log.isDebugEnabled()) {
+                                                log.debug("Using custom streaming part size value: " +
+                                                        streamingPartSizeValue + " for operation: " + operationName);
+                                            }
                                         } catch (NumberFormatException e) {
                                             errorMessage = "Invalid streaming part size value: " + streamingPartSize;
                                             throw new InvalidConfigurationException("Invalid streaming part size value: "
@@ -301,6 +328,10 @@ public class ObjectOperations extends AbstractConnector {
                                         }
                                     }
                                 } else {
+                                    if (log.isDebugEnabled()) {
+                                        log.debug("Content length is below the streaming threshold. " +
+                                                "Using single-part upload for operation: " + operationName);
+                                    }
                                     s3RequestBody = RequestBody.fromInputStream(inputStream, contentLength);
                                 }
                             } catch (IOException e) {
@@ -309,10 +340,21 @@ public class ObjectOperations extends AbstractConnector {
                             }
                         } else {
                             errorMessage = "The content of the message body should be optimized for streaming: " + operationName;
+                            log.error(errorMessage);
                             throw new InvalidConfigurationException("The content of the message body should be optimized for streaming: "
                                     + operationName);
                         }
+                    } else {
+                        errorMessage = "No valid content found in the message body for streaming: " + operationName;
+                        log.error(errorMessage);
+                        throw new InvalidConfigurationException("No valid content found in the message body for streaming: "
+                                + operationName);
                     }
+                } else {
+                    errorMessage = "No content found in the message body for streaming: " + operationName;
+                    log.error(errorMessage);
+                    throw new InvalidConfigurationException("No content found in the message body for streaming: "
+                            + operationName);
                 }
             }
             destinationFilePath = (String) ConnectorUtils.
@@ -1252,6 +1294,10 @@ public class ObjectOperations extends AbstractConnector {
                             .build()
             ).uploadId();
 
+            if (log.isDebugEnabled()) {
+                log.debug("Initiated multipart upload with uploadId: " + uploadId);
+            }
+
             List<CompletedPart> completedParts = new ArrayList<>();
             byte[] buffer = new byte[streamingPartSizeValue];
             int partNumber = 1;
@@ -1272,6 +1318,9 @@ public class ObjectOperations extends AbstractConnector {
                         .partNumber(partNumber)
                         .eTag(partResponse.eTag())
                         .build());
+                if (log.isDebugEnabled()) {
+                    log.debug("Uploaded part " + partNumber + " with ETag: " + partResponse.eTag());
+                }
                 partNumber++;
             }
 
@@ -1279,6 +1328,9 @@ public class ObjectOperations extends AbstractConnector {
             // Multipart upload requires at least one part, so abort it and
             // fall back to a zero-byte PutObject instead.
             if (completedParts.isEmpty()) {
+                if  (log.isDebugEnabled()) {
+                    log.debug("Input stream was empty, aborting multipart upload and uploading zero-byte object");
+                }
                 abortSilently(s3Client, bucketName, objectKey, uploadId, requestPayer);
                 uploadId = null; // prevent a second abort in the catch blocks
                 s3Client.putObject(
@@ -1319,6 +1371,9 @@ public class ObjectOperations extends AbstractConnector {
                         true,
                         null,
                         "Successfully uploaded empty object: " + objectKey));
+                if (log.isDebugEnabled()) {
+                    log.debug("Successfully uploaded empty object: " + objectKey);
+                }
                 return;
             }
 
@@ -1332,6 +1387,10 @@ public class ObjectOperations extends AbstractConnector {
                                     .build())
                             .requestPayer(requestPayer)
                             .build());
+
+            if (log.isDebugEnabled()) {
+                log.debug("Completed multipart upload with uploadId: " + uploadId);
+            }
 
             OMElement responseElement = S3ConnectorUtils.createOMElement("PutObjectResponse", "");
             org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse uploadResponse =
@@ -1347,6 +1406,10 @@ public class ObjectOperations extends AbstractConnector {
             S3ConnectorUtils.setResultAsPayload(messageContext, new S3OperationResult(
                     operationName,
                     true, responseElement));
+            if  (log.isDebugEnabled()) {
+                log.debug("Successfully uploaded object: " + objectKey +
+                        " using multipart upload with uploadId: " + uploadId);
+            }
 
         } catch (IOException e) {
             abortSilently(s3Client, bucketName, objectKey, uploadId, requestPayer);
@@ -1372,6 +1435,9 @@ public class ObjectOperations extends AbstractConnector {
      */
     private void abortSilently(S3Client s3Client, String bucketName, String objectKey,
                                String uploadId, String requestPayer) {
+        if (log.isDebugEnabled()) {
+            log.debug("Aborting multipart upload with uploadId: " + uploadId);
+        }
         if (uploadId == null) {
             return;
         }
@@ -1382,6 +1448,9 @@ public class ObjectOperations extends AbstractConnector {
                     .uploadId(uploadId)
                     .requestPayer(requestPayer)
                     .build());
+            if (log.isDebugEnabled()) {
+                log.debug("Successfully aborted multipart upload with uploadId: " + uploadId);
+            }
         } catch (Exception e) {
             log.warn("Failed to abort multipart upload " + uploadId + ": " + e.getMessage());
         }
@@ -1485,6 +1554,9 @@ public class ObjectOperations extends AbstractConnector {
                 .build();
         try {
             PutObjectResponse response = s3Client.putObject(request, requestBody);
+            if (log.isDebugEnabled()) {
+                log.debug("Successfully uploaded object: " + objectKey);
+            }
             OMElement responseElement = S3ConnectorUtils.createOMElement("PutObjectResponse", "");
             org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse uploadResponse =
                     s3POJOHandler.castS3PutObjectResponse(response);

@@ -200,7 +200,7 @@
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "false",
-                    "helpTip": "The part size in bytes to use when performing multipart upload for streaming upload. Minimum value should be 5MB. Default is 100MB. This requires the file content to be provided in the message body as binary and the file path / file Content attribute to be left empty."
+                    "helpTip": "The part size in bytes to use when performing multipart upload for streaming upload. Minimum value should be 5MB. Default is 100MB. This requires the file content to be provided in the message body as binary and the filePath / fileContent attribute to be left empty."
                   }
                 },
                 {
