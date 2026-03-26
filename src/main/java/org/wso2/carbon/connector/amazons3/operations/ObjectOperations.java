@@ -79,6 +79,7 @@ import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -96,6 +97,11 @@ import java.util.stream.Collectors;
 public class ObjectOperations extends AbstractConnector {
     private static Log log = LogFactory.getLog(ObjectOperations.class);
     S3POJOHandler s3POJOHandler = new S3POJOHandler();
+
+    /** Files at or above this size (in bytes) use streaming multipart upload. */
+    private static final long STREAMING_MULTIPART_THRESHOLD = 100L * 1024 * 1024; // 100 MB
+    /** Each part sent to S3 during streaming multipart upload is at most this many bytes. */
+    private static final int STREAMING_PART_SIZE = 100 * 1024 * 1024; // 100 MB
 
     public final void connect(final MessageContext messageContext) throws ConnectException {
 
@@ -115,11 +121,15 @@ public class ObjectOperations extends AbstractConnector {
                 objectLockLegalHoldStatus, copySourceIfMatch, copySourceIfNoneMatch, metadataDirective,
                 taggingDirective, destinationKey, expires, copySourceIfModifiedSince, copySourceIfUnmodifiedSince,
                 objectLockRetainUntilDate, destinationFilePath, fileContent, isFileContentEncoded,
-                signatureDurationInMins, isContentAsBase64;
+                signatureDurationInMins, isContentAsBase64, enableStreaming, streamingThreshold, streamingPartSize;
         Map<String, String> metadata;
         int maxParts, partNumberMarker;
         Integer partNumber = null;
         RequestBody s3RequestBody = null;
+        boolean useStreamingMultipart = false;
+        InputStream streamInputStream = null;
+        long streamingThresholdValue = STREAMING_MULTIPART_THRESHOLD;
+        int streamingPartSizeValue = STREAMING_PART_SIZE;
         List<Part> s3PartDetails = new ArrayList<>();
         List<CompletedPart> s3CompletedParts = new ArrayList<>();
         AccessControlPolicy s3AccessControlPolicy = AccessControlPolicy.builder().build();
@@ -213,6 +223,10 @@ public class ObjectOperations extends AbstractConnector {
                     lookupTemplateParamater(messageContext, "objectLockLegalHoldStatus");
             Object maxPartsObj = ConnectorUtils.
                     lookupTemplateParamater(messageContext, "maxParts");
+            streamingThreshold = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "streamingThreshold");
+            streamingPartSize = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "streamingPartSize");
             maxParts = maxPartsObj != null ? Integer.valueOf((String) maxPartsObj) : 1000;
             Object partNumberMarkerObj = ConnectorUtils.
                     lookupTemplateParamater(messageContext, "partNumberMarker");
@@ -245,6 +259,61 @@ public class ObjectOperations extends AbstractConnector {
             }
             if (StringUtils.isNotEmpty(filePath)) {
                 s3RequestBody = RequestBody.fromFile(Paths.get(filePath));
+            }
+            enableStreaming = (String) ConnectorUtils.
+                    lookupTemplateParamater(messageContext, "enableStreaming");
+            if (Boolean.parseBoolean(enableStreaming) && s3RequestBody == null) {
+                org.apache.axis2.context.MessageContext axis2MsgCtx =
+                        ((org.apache.synapse.core.axis2.Axis2MessageContext) messageContext)
+                                .getAxis2MessageContext();
+                OMElement binaryElement = axis2MsgCtx.getEnvelope().getBody().getFirstElement();
+                if (binaryElement != null) {
+                    org.apache.axiom.om.OMNode firstChild = binaryElement.getFirstOMChild();
+                    if (firstChild instanceof org.apache.axiom.om.OMText) {
+                        org.apache.axiom.om.OMText omText = (org.apache.axiom.om.OMText) firstChild;
+                        if (omText.isOptimized()) {
+                            javax.activation.DataHandler dataHandler =
+                                    (javax.activation.DataHandler) omText.getDataHandler();
+                            try {
+                                InputStream inputStream = dataHandler.getInputStream();
+                                Object fileSizeObj = messageContext.getProperty("FILE_SIZE");
+                                long contentLength = fileSizeObj instanceof Long
+                                        ? (Long) fileSizeObj : -1L;
+                                if (StringUtils.isNotEmpty(streamingThreshold)) {
+                                    try {
+                                        streamingThresholdValue = Long.parseLong(streamingThreshold);
+                                    } catch (NumberFormatException e) {
+                                        errorMessage = "Invalid streaming threshold value: " + streamingThreshold;
+                                        throw new InvalidConfigurationException("Invalid streaming threshold value: "
+                                                + streamingThreshold, e);
+                                    }
+                                }
+                                if (contentLength < 0 || contentLength >= streamingThresholdValue) {
+                                    useStreamingMultipart = true;
+                                    streamInputStream = inputStream;
+                                    if (StringUtils.isNotEmpty(streamingPartSize)) {
+                                        try {
+                                            streamingPartSizeValue = Integer.parseInt(streamingPartSize);
+                                        } catch (NumberFormatException e) {
+                                            errorMessage = "Invalid streaming part size value: " + streamingPartSize;
+                                            throw new InvalidConfigurationException("Invalid streaming part size value: "
+                                                    + streamingPartSize, e);
+                                        }
+                                    }
+                                } else {
+                                    s3RequestBody = RequestBody.fromInputStream(inputStream, contentLength);
+                                }
+                            } catch (IOException e) {
+                                handleException("Failed to read input stream from message body: "
+                                        + e.getMessage(), e, messageContext);
+                            }
+                        } else {
+                            errorMessage = "The content of the message body should be optimized for streaming: " + operationName;
+                            throw new InvalidConfigurationException("The content of the message body should be optimized for streaming: "
+                                    + operationName);
+                        }
+                    }
+                }
             }
             destinationFilePath = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "destinationFilePath");
@@ -427,13 +496,24 @@ public class ObjectOperations extends AbstractConnector {
                     break;
                 case S3Constants.OPERATION_PUT_OBJECT:
                     errorMessage = "Error while creating the object";
-                    putObject(operationName, s3Client, acl, bucketName, cacheControl, contentDisposition,
-                            contentEncoding, contentLanguage, contentType, contentMD5, expires, grantFullControl,
-                            grantRead, grantReadACP, grantWriteACP, objectKey, metadata, serverSideEncryption,
-                            storageClass, websiteRedirectLocation, sseCustomerAlgorithm, sseCustomerKey,
-                            sseCustomerKeyMD5, ssekmsKeyId, ssekmsEncryptionContext, requestPayer, tagging,
-                            objectLockMode, objectLockRetainUntilDate, objectLockLegalHoldStatus, s3RequestBody,
-                            messageContext);
+                    if (useStreamingMultipart) {
+                        streamingMultipartUpload(operationName, s3Client, acl, bucketName, cacheControl,
+                                contentDisposition, contentEncoding, contentLanguage, contentType, contentMD5,
+                                expires, grantFullControl, grantRead, grantReadACP, grantWriteACP, objectKey,
+                                metadata, serverSideEncryption, storageClass, websiteRedirectLocation,
+                                sseCustomerAlgorithm, sseCustomerKey, sseCustomerKeyMD5, ssekmsKeyId,
+                                ssekmsEncryptionContext, requestPayer, tagging, objectLockMode,
+                                objectLockRetainUntilDate, objectLockLegalHoldStatus,
+                                streamInputStream, messageContext, streamingPartSizeValue);
+                    } else {
+                        putObject(operationName, s3Client, acl, bucketName, cacheControl, contentDisposition,
+                                contentEncoding, contentLanguage, contentType, contentMD5, expires, grantFullControl,
+                                grantRead, grantReadACP, grantWriteACP, objectKey, metadata, serverSideEncryption,
+                                storageClass, websiteRedirectLocation, sseCustomerAlgorithm, sseCustomerKey,
+                                sseCustomerKeyMD5, ssekmsKeyId, ssekmsEncryptionContext, requestPayer, tagging,
+                                objectLockMode, objectLockRetainUntilDate, objectLockLegalHoldStatus, s3RequestBody,
+                                messageContext);
+                    }
                     break;
                 case S3Constants.OPERATION_PUT_OBJECT_ACL:
                     errorMessage = "Error while creating the object ACL";
@@ -1118,6 +1198,209 @@ public class ObjectOperations extends AbstractConnector {
             S3ConnectorUtils.setResultAsPayload(messageContext, result);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
         }
+    }
+
+    /**
+     * Uploads an InputStream to S3 using the multipart upload API, reading the stream in
+     * {@link #STREAMING_PART_SIZE} chunks. This keeps heap usage bounded to O(STREAMING_PART_SIZE)
+     * regardless of total file size, and supports files larger than the 5 GB PutObject limit.
+     * The multipart upload is aborted automatically if any part fails.
+     * All object-level metadata parameters are forwarded to the CreateMultipartUpload request
+     * so that nothing is lost compared with a regular putObject call.
+     */
+    private void streamingMultipartUpload(String operationName, S3Client s3Client, String acl, String bucketName,
+            String cacheControl, String contentDisposition, String contentEncoding, String contentLanguage,
+            String contentType, String contentMD5, String expires, String grantFullControl, String grantRead,
+            String grantReadACP, String grantWriteACP, String objectKey, Map<String, String> metadata,
+            String serverSideEncryption, String storageClass, String websiteRedirectLocation,
+            String sseCustomerAlgorithm, String sseCustomerKey, String sseCustomerKeyMD5, String ssekmsKeyId,
+            String ssekmsEncryptionContext, String requestPayer, String tagging, String objectLockMode,
+            String objectLockRetainUntilDate, String objectLockLegalHoldStatus,
+            InputStream inputStream, MessageContext messageContext, int streamingPartSizeValue) {
+        String uploadId = null;
+        try {
+            uploadId = s3Client.createMultipartUpload(
+                    CreateMultipartUploadRequest.builder()
+                            .acl(acl)
+                            .bucket(bucketName)
+                            .cacheControl(cacheControl)
+                            .contentDisposition(contentDisposition)
+                            .contentEncoding(contentEncoding)
+                            .contentLanguage(contentLanguage)
+                            .contentType(contentType)
+                            .expires(expires != null ? Instant.parse(expires) : null)
+                            .grantFullControl(grantFullControl)
+                            .grantRead(grantRead)
+                            .grantReadACP(grantReadACP)
+                            .grantWriteACP(grantWriteACP)
+                            .key(objectKey)
+                            .metadata(metadata)
+                            .serverSideEncryption(serverSideEncryption)
+                            .storageClass(storageClass)
+                            .websiteRedirectLocation(websiteRedirectLocation)
+                            .sseCustomerAlgorithm(sseCustomerAlgorithm)
+                            .sseCustomerKey(sseCustomerKey)
+                            .sseCustomerKeyMD5(sseCustomerKeyMD5)
+                            .ssekmsKeyId(ssekmsKeyId)
+                            .ssekmsEncryptionContext(ssekmsEncryptionContext)
+                            .requestPayer(requestPayer)
+                            .tagging(tagging)
+                            .objectLockMode(objectLockMode)
+                            .objectLockRetainUntilDate(objectLockRetainUntilDate != null ?
+                                    Instant.parse(objectLockRetainUntilDate) : null)
+                            .objectLockLegalHoldStatus(objectLockLegalHoldStatus)
+                            .build()
+            ).uploadId();
+
+            List<CompletedPart> completedParts = new ArrayList<>();
+            byte[] buffer = new byte[streamingPartSizeValue];
+            int partNumber = 1;
+            int bytesRead;
+
+            while ((bytesRead = readFully(inputStream, buffer, streamingPartSizeValue)) > 0) {
+                UploadPartResponse partResponse = s3Client.uploadPart(
+                        UploadPartRequest.builder()
+                                .bucket(bucketName)
+                                .key(objectKey)
+                                .uploadId(uploadId)
+                                .partNumber(partNumber)
+                                .requestPayer(requestPayer)
+                                .build(),
+                        RequestBody.fromInputStream(
+                                new java.io.ByteArrayInputStream(buffer, 0, bytesRead), bytesRead));
+                completedParts.add(CompletedPart.builder()
+                        .partNumber(partNumber)
+                        .eTag(partResponse.eTag())
+                        .build());
+                partNumber++;
+            }
+
+            // If the input stream was empty, no parts were uploaded.
+            // Multipart upload requires at least one part, so abort it and
+            // fall back to a zero-byte PutObject instead.
+            if (completedParts.isEmpty()) {
+                abortSilently(s3Client, bucketName, objectKey, uploadId, requestPayer);
+                uploadId = null; // prevent a second abort in the catch blocks
+                s3Client.putObject(
+                        PutObjectRequest.builder()
+                                .acl(acl)
+                                .bucket(bucketName)
+                                .cacheControl(cacheControl)
+                                .contentDisposition(contentDisposition)
+                                .contentEncoding(contentEncoding)
+                                .contentLanguage(contentLanguage)
+                                .contentMD5(contentMD5)
+                                .contentType(contentType)
+                                .expires(expires != null ? Instant.parse(expires) : null)
+                                .grantFullControl(grantFullControl)
+                                .grantRead(grantRead)
+                                .grantReadACP(grantReadACP)
+                                .grantWriteACP(grantWriteACP)
+                                .key(objectKey)
+                                .metadata(metadata)
+                                .serverSideEncryption(serverSideEncryption)
+                                .storageClass(storageClass)
+                                .websiteRedirectLocation(websiteRedirectLocation)
+                                .sseCustomerAlgorithm(sseCustomerAlgorithm)
+                                .sseCustomerKey(sseCustomerKey)
+                                .sseCustomerKeyMD5(sseCustomerKeyMD5)
+                                .ssekmsKeyId(ssekmsKeyId)
+                                .ssekmsEncryptionContext(ssekmsEncryptionContext)
+                                .requestPayer(requestPayer)
+                                .tagging(tagging)
+                                .objectLockMode(objectLockMode)
+                                .objectLockRetainUntilDate(objectLockRetainUntilDate != null ?
+                                        Instant.parse(objectLockRetainUntilDate) : null)
+                                .objectLockLegalHoldStatus(objectLockLegalHoldStatus)
+                                .build(),
+                        RequestBody.empty());
+                S3ConnectorUtils.setResultAsPayload(messageContext, new S3OperationResult(
+                        operationName,
+                        true,
+                        null,
+                        "Successfully uploaded empty object: " + objectKey));
+                return;
+            }
+
+            CompleteMultipartUploadResponse completeMultipartUploadResponse =
+                    s3Client.completeMultipartUpload(CompleteMultipartUploadRequest.builder()
+                            .bucket(bucketName)
+                            .key(objectKey)
+                            .uploadId(uploadId)
+                            .multipartUpload(CompletedMultipartUpload.builder()
+                                    .parts(completedParts)
+                                    .build())
+                            .requestPayer(requestPayer)
+                            .build());
+
+            OMElement responseElement = S3ConnectorUtils.createOMElement("PutObjectResponse", "");
+            org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse uploadResponse =
+                    s3POJOHandler.castS3CompleteMultipartUploadResponseToPutObjectResponse(
+                            completeMultipartUploadResponse);
+            String responseString = s3POJOHandler.getObjectAsXml(uploadResponse,
+                    org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse.class);
+            try {
+                responseElement = AXIOMUtil.stringToOM(responseString);
+            } catch (XMLStreamException e) {
+                handleException("Unable to process the response: " + e.getMessage(), e, messageContext);
+            }
+            S3ConnectorUtils.setResultAsPayload(messageContext, new S3OperationResult(
+                    operationName,
+                    true, responseElement));
+
+        } catch (IOException e) {
+            abortSilently(s3Client, bucketName, objectKey, uploadId, requestPayer);
+            handleException("Failed to stream content for multipart upload: " + e.getMessage(),
+                    e, messageContext);
+        } catch (S3Exception e) {
+            abortSilently(s3Client, bucketName, objectKey, uploadId, requestPayer);
+            S3ConnectorUtils.setResultAsPayload(messageContext,
+                    S3ConnectorUtils.getFailureResult(e.awsErrorDetails().errorMessage(),
+                            operationName, Error.BAD_REQUEST));
+        } catch (AwsServiceException | SdkClientException e) {
+            abortSilently(s3Client, bucketName, objectKey, uploadId, requestPayer);
+            S3ConnectorUtils.setResultAsPayload(messageContext, new S3OperationResult(
+                    operationName, false, Error.CONNECTION_ERROR,
+                    "Error occurred while accessing the AWS SDK service: " + e.getMessage()));
+            handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
+        }
+    }
+
+    /**
+     * Aborts a multipart upload, suppressing any exception so it can be used safely inside
+     * error-handling paths without masking the original failure.
+     */
+    private void abortSilently(S3Client s3Client, String bucketName, String objectKey,
+                               String uploadId, String requestPayer) {
+        if (uploadId == null) {
+            return;
+        }
+        try {
+            s3Client.abortMultipartUpload(AbortMultipartUploadRequest.builder()
+                    .bucket(bucketName)
+                    .key(objectKey)
+                    .uploadId(uploadId)
+                    .requestPayer(requestPayer)
+                    .build());
+        } catch (Exception e) {
+            log.warn("Failed to abort multipart upload " + uploadId + ": " + e.getMessage());
+        }
+    }
+
+    /**
+     * Fills {@code buf[0..len-1]} from {@code in}, looping until exactly {@code len} bytes have
+     * been read or the stream is exhausted. Returns the number of bytes actually read.
+     */
+    private static int readFully(InputStream in, byte[] buf, int len) throws IOException {
+        int total = 0;
+        while (total < len) {
+            int n = in.read(buf, total, len - total);
+            if (n == -1) {
+                break;
+            }
+            total += n;
+        }
+        return total;
     }
 
     private void multipartUpload(String operationName, S3Client s3Client, String bucketName, String objectKey,

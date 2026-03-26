@@ -1813,4 +1813,17 @@ public class S3POJOHandler {
         obj1.setExpiration(obj.expiration().toString());
         return obj1;
     }
+
+    public org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse castS3CompleteMultipartUploadResponseToPutObjectResponse(
+            CompleteMultipartUploadResponse obj) {
+
+        org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse obj1 =
+                new org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse();
+        obj1.setETag(obj.eTag());
+        obj1.setExpiration(obj.expiration());
+        obj1.setRequestCharged(obj.requestChargedAsString());
+        obj1.setServerSideEncryption(obj.serverSideEncryptionAsString());
+        obj1.setSsekmsKeyId(obj.ssekmsKeyId());
+        return obj1;
+    }
 }

@@ -173,6 +173,39 @@
                 {
                   "type": "attribute",
                   "value": {
+                    "name": "enableStreaming",
+                    "displayName": "Streaming Enabled",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Whether to enable streaming upload. This requires the file content to be provided in the message body as binary and the filePath / fileContent attribute to be left empty."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "streamingThreshold",
+                    "displayName": "Streaming Threshold (Bytes)",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The threshold size in bytes for enabling streaming upload. If the file size is larger than the specified threshold, the file will be uploaded using multipart upload. Default is 100MB. This requires the file content to be provided in the message body as binary and the filePath / fileContent attribute to be left empty."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "streamingPartSize",
+                    "displayName": "Streaming Part Size (Bytes)",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The part size in bytes to use when performing multipart upload for streaming upload. Minimum value should be 5MB. Default is 100MB. This requires the file content to be provided in the message body as binary and the file path / file Content attribute to be left empty."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
                     "name": "expires",
                     "displayName": "Expires",
                     "inputType": "stringOrExpression",
