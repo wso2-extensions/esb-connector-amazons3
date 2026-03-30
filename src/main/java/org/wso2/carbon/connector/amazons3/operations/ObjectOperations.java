@@ -102,6 +102,17 @@ public class ObjectOperations extends AbstractConnector {
     private static final long STREAMING_MULTIPART_THRESHOLD = 100L * 1024 * 1024; // 100 MB
     /** Each part sent to S3 during streaming multipart upload is at most this many bytes. */
     private static final int STREAMING_PART_SIZE = 100 * 1024 * 1024; // 100 MB
+    /**
+     * S3 requires every part except the last to be at least 5 MB.
+     * Using this as the minimum for all parts keeps the configuration valid.
+     */
+    private static final int MIN_STREAMING_PART_SIZE = 5 * 1024 * 1024; // 5 MB
+    /**
+     * Hard upper bound for the per-part buffer to prevent OutOfMemoryError.
+     * 5 GB is the S3 maximum single-part size; Integer.MAX_VALUE (~2 GB) is used
+     * here so the value fits safely in a signed 32-bit int and leaves headroom for the JVM.
+     */
+    private static final int MAX_STREAMING_PART_SIZE = Integer.MAX_VALUE; // ~2 GB
 
     public final void connect(final MessageContext messageContext) throws ConnectException {
 
@@ -319,6 +330,14 @@ public class ObjectOperations extends AbstractConnector {
                                     if (StringUtils.isNotEmpty(streamingPartSize)) {
                                         try {
                                             streamingPartSizeValue = Integer.parseInt(streamingPartSize);
+                                            if (streamingPartSizeValue < MIN_STREAMING_PART_SIZE
+                                                    || streamingPartSizeValue > MAX_STREAMING_PART_SIZE) {
+                                                errorMessage = "Streaming part size must be between "
+                                                        + MIN_STREAMING_PART_SIZE + " bytes (5 MB) and "
+                                                        + MAX_STREAMING_PART_SIZE + " bytes (~2 GB), but was: "
+                                                        + streamingPartSizeValue;
+                                                throw new InvalidConfigurationException(errorMessage);
+                                            }
                                             if (log.isDebugEnabled()) {
                                                 log.debug("Using custom streaming part size value: " +
                                                         streamingPartSizeValue + " for operation: " + operationName);
