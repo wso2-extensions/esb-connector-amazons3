@@ -128,6 +128,7 @@ public class ObjectOperations extends AbstractConnector {
         RequestBody s3RequestBody = null;
         boolean useStreamingMultipart = false;
         InputStream streamInputStream = null;
+        InputStream dataHandlerInputStream = null;
         long streamingThresholdValue = STREAMING_MULTIPART_THRESHOLD;
         int streamingPartSizeValue = STREAMING_PART_SIZE;
         List<Part> s3PartDetails = new ArrayList<>();
@@ -287,6 +288,7 @@ public class ObjectOperations extends AbstractConnector {
                                     (javax.activation.DataHandler) omText.getDataHandler();
                             try {
                                 InputStream inputStream = dataHandler.getInputStream();
+                                dataHandlerInputStream = inputStream;
                                 Object fileSizeObj = messageContext.getProperty("FILE_SIZE");
                                 long contentLength = fileSizeObj instanceof Long
                                         ? (Long) fileSizeObj : -1L;
@@ -617,6 +619,14 @@ public class ObjectOperations extends AbstractConnector {
 
             S3ConnectorUtils.setResultAsPayload(messageContext, result);
             handleException(errorMessage, e, messageContext);
+        } finally {
+            if (dataHandlerInputStream != null) {
+                try {
+                    dataHandlerInputStream.close();
+                } catch (IOException e) {
+                    log.warn("Failed to close DataHandler InputStream: " + e.getMessage());
+                }
+            }
         }
     }
 
@@ -1426,6 +1436,12 @@ public class ObjectOperations extends AbstractConnector {
                     operationName, false, Error.CONNECTION_ERROR,
                     "Error occurred while accessing the AWS SDK service: " + e.getMessage()));
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                log.warn("Failed to close InputStream after streaming multipart upload: " + e.getMessage());
+            }
         }
     }
 
