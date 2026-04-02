@@ -21,6 +21,20 @@
     <parameter name="filePath" description="The path of the source file to be uploaded."/>
     <parameter name="fileContent" description="Content of the file."/>
     <parameter name="isContentBase64Encoded" description="Whether the file content is base64 encoded."/>
+    <parameter name="enableStreaming"
+               description="When true, reads the upload content directly from the binary payload in the message body
+               as a streaming InputStream, avoiding full in-memory buffering. Requires the FILE_SIZE property to be
+               set in the message context (automatically provided by the File connector's read operation with
+               enableStreaming=true). Files at or above the streamingThreshold (default 100 MB) or with unknown size
+               are automatically uploaded using multipart upload. Use this for large file passthrough transfers,
+               e.g. SFTP to S3, to prevent OutOfMemory errors."/>
+    <parameter name="streamingThreshold"
+               description="The file size threshold in bytes above which streaming multipart upload is used instead
+               of single-part PutObject. Defaults to 104857600 (100 MB). Only applies when enableStreaming is true."/>
+    <parameter name="streamingPartSize"
+               description="The size in bytes of each part when performing a streaming multipart upload. Must be
+               between 5242880 (5 MB) and 2147483647 (~2 GB). Defaults to 104857600 (100 MB). Only applies when
+               enableStreaming is true."/>
     <parameter name="acl"
                description="Canned ACL which defines the set of AWS accounts or groups are granted access and the type of access."/>
     <parameter name="cacheControl" description="Specifies caching behavior along the request/reply chain."/>

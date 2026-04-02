@@ -87,6 +87,39 @@
                 {
                   "type": "attribute",
                   "value": {
+                    "name": "enableStreaming",
+                    "displayName": "Enable Streaming",
+                    "inputType": "booleanOrExpression",
+                    "defaultValue": "false",
+                    "required": "false",
+                    "helpTip": "When true, reads the upload content directly from the binary payload in the message body as a streaming InputStream, avoiding full in-memory buffering. Requires the FILE_SIZE property to be set in the message context (automatically provided by the File connector's read operation with enableStreaming=true). Files at or above the Streaming Threshold (default 100 MB) or with unknown size are automatically uploaded using multipart upload."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "streamingThreshold",
+                    "displayName": "Streaming Threshold",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The file size threshold in bytes above which streaming multipart upload is used instead of single-part PutObject. Defaults to 104857600 (100 MB). Only applies when Enable Streaming is true."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "streamingPartSize",
+                    "displayName": "Streaming Part Size",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "The size in bytes of each part when performing a streaming multipart upload. Must be between 5242880 (5 MB) and 2147483647 (~2 GB). Defaults to 104857600 (100 MB). Only applies when Enable Streaming is true."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
                     "name": "acl",
                     "displayName": "Canned ACL",
                     "inputType": "comboOrExpression",
