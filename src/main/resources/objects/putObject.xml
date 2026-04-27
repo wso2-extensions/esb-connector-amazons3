@@ -23,18 +23,8 @@
     <parameter name="isContentBase64Encoded" description="Whether the file content is base64 encoded."/>
     <parameter name="enableStreaming"
                description="When true, reads the upload content directly from the binary payload in the message body
-               as a streaming InputStream, avoiding full in-memory buffering. Requires the FILE_SIZE property to be
-               set in the message context (automatically provided by the File connector's read operation with
-               enableStreaming=true). Files at or above the streamingThreshold (default 100 MB) or with unknown size
-               are automatically uploaded using multipart upload. Use this for large file passthrough transfers,
-               e.g. SFTP to S3, to prevent OutOfMemory errors."/>
-    <parameter name="streamingThreshold"
-               description="The file size threshold in bytes above which streaming multipart upload is used instead
-               of single-part PutObject. Defaults to 104857600 (100 MB). Only applies when enableStreaming is true."/>
-    <parameter name="streamingPartSize"
-               description="The size in bytes of each part when performing a streaming multipart upload. Must be
-               between 5242880 (5 MB) and 2147483647 (~2 GB). Defaults to 104857600 (100 MB). Only applies when
-               enableStreaming is true."/>
+               as a streaming InputStream, avoiding full in-memory buffering. Use this for large file passthrough transfers, e.g. SFTP to S3, to prevent
+               OutOfMemory errors."/>
     <parameter name="acl"
                description="Canned ACL which defines the set of AWS accounts or groups are granted access and the type of access."/>
     <parameter name="cacheControl" description="Specifies caching behavior along the request/reply chain."/>
@@ -75,6 +65,8 @@
                description="Specifies the date and time when you want the Object Lock to expire."/>
     <parameter name="objectLockLegalHoldStatus"
                description="Specifies whether you want to apply a Legal Hold to the uploaded object."/>
+    <parameter name="streamingThreshold" description="The threshold in bytes for when to switch to multipart Upload. If the content size exceeds this threshold, the connector will automatically switch to multipart Upload. Requires enableStreaming=true."/>
+    <parameter name="streamingPartSize" description="The part size in bytes to use when performing a multipart Upload. Must be at least 5 MB. Requires enableStreaming=true."/>
     <parameter name="responseVariable" description="The name of the variable to which the output should be stored."/>
     <parameter name="overwriteBody" expression="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>

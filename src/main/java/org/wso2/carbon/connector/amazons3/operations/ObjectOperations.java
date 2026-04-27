@@ -268,6 +268,10 @@ public class ObjectOperations extends AbstractConnectorOperation {
             enableStreaming = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, "enableStreaming");
             if (Boolean.parseBoolean(enableStreaming) && s3RequestBody == null) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Streaming upload enabled. Attempting to read content from message body"
+                            + " for operation: " + operationName);
+                }
                 org.apache.axis2.context.MessageContext axis2MsgCtx =
                         ((org.apache.synapse.core.axis2.Axis2MessageContext) messageContext)
                                 .getAxis2MessageContext();
@@ -275,6 +279,10 @@ public class ObjectOperations extends AbstractConnectorOperation {
                 if (binaryElement != null) {
                     org.apache.axiom.om.OMNode firstChild = binaryElement.getFirstOMChild();
                     if (firstChild instanceof org.apache.axiom.om.OMText) {
+                        if (log.isDebugEnabled()) {
+                            log.debug("Found streaming content in message body for operation: "
+                                    + operationName);
+                        }
                         org.apache.axiom.om.OMText omText = (org.apache.axiom.om.OMText) firstChild;
                         if (omText.isOptimized()) {
                             if (log.isDebugEnabled()) {
@@ -1223,6 +1231,7 @@ public class ObjectOperations extends AbstractConnectorOperation {
      * The multipart upload is aborted automatically if any part fails.
      * If the stream is empty, the multipart upload is aborted and a zero-byte PutObject is issued
      * instead (multipart upload requires at least one part).
+     * The success response is shaped as PutObjectResponse to match the regular putObject operation.
      */
     private void streamingMultipartUpload(String operationName, S3Client s3Client, String acl, String bucketName,
             String cacheControl, String contentDisposition, String contentEncoding, String contentLanguage,
@@ -1268,6 +1277,10 @@ public class ObjectOperations extends AbstractConnectorOperation {
                             .build()
             ).uploadId();
 
+            if (log.isDebugEnabled()) {
+                log.debug("Initiated multipart upload with uploadId: " + uploadId);
+            }
+
             List<CompletedPart> completedParts = new ArrayList<>();
             byte[] buffer = new byte[partSize];
             int partNumber = 1;
@@ -1288,11 +1301,17 @@ public class ObjectOperations extends AbstractConnectorOperation {
                         .partNumber(partNumber)
                         .eTag(partResponse.eTag())
                         .build());
+                if (log.isDebugEnabled()) {
+                    log.debug("Uploaded part " + partNumber + " with ETag: " + partResponse.eTag());
+                }
                 partNumber++;
             }
 
             if (completedParts.isEmpty()) {
                 // S3 multipart upload requires at least one part; fall back to zero-byte PutObject.
+                if (log.isDebugEnabled()) {
+                    log.debug("Input stream was empty, aborting multipart upload and uploading zero-byte object");
+                }
                 abortSilently(s3Client, bucketName, objectKey, uploadId, requestPayer);
                 uploadId = null;
                 putObject(operationName, s3Client, acl, bucketName, cacheControl, contentDisposition,
@@ -1305,9 +1324,26 @@ public class ObjectOperations extends AbstractConnectorOperation {
                 return;
             }
 
-            completeMultipartUpload(operationName, s3Client, bucketName, objectKey, uploadId,
-                    CompletedMultipartUpload.builder().parts(completedParts).build(),
-                    requestPayer, messageContext, responseVariable, overwriteBody);
+            CompleteMultipartUploadResponse completeResponse = s3Client.completeMultipartUpload(
+                    CompleteMultipartUploadRequest.builder()
+                            .bucket(bucketName)
+                            .key(objectKey)
+                            .uploadId(uploadId)
+                            .multipartUpload(CompletedMultipartUpload.builder().parts(completedParts).build())
+                            .requestPayer(requestPayer)
+                            .build());
+
+            if (log.isDebugEnabled()) {
+                log.debug("Completed multipart upload with uploadId: " + uploadId);
+            }
+
+            org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse uploadResponse =
+                    s3POJOHandler.castS3CompleteMultipartUploadResponseToPutObjectResponse(completeResponse);
+            Gson gson = GsonUtils.createGson();
+            JsonObject responseJson = gson.toJsonTree(uploadResponse).getAsJsonObject();
+            S3OperationResult result = new S3OperationResult(operationName, true, responseJson);
+            JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
+            handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
 
         } catch (IOException e) {
             abortSilently(s3Client, bucketName, objectKey, uploadId, requestPayer);
@@ -1326,6 +1362,12 @@ public class ObjectOperations extends AbstractConnectorOperation {
             JsonObject resultJSON = S3ConnectorUtils.generateOperationResult(messageContext, result);
             handleConnectorResponse(messageContext, responseVariable, overwriteBody, resultJSON, null, null);
             handleException("Error occurred while accessing the AWS SDK service", e, messageContext);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                log.warn("Failed to close InputStream after streaming multipart upload: " + e.getMessage());
+            }
         }
     }
 
@@ -1335,6 +1377,9 @@ public class ObjectOperations extends AbstractConnectorOperation {
      */
     private void abortSilently(S3Client s3Client, String bucketName, String objectKey, String uploadId,
                                String requestPayer) {
+        if (log.isDebugEnabled()) {
+            log.debug("Aborting multipart upload with uploadId: " + uploadId);
+        }
         if (uploadId == null) {
             return;
         }
@@ -1345,6 +1390,9 @@ public class ObjectOperations extends AbstractConnectorOperation {
                     .uploadId(uploadId)
                     .requestPayer(requestPayer)
                     .build());
+            if (log.isDebugEnabled()) {
+                log.debug("Successfully aborted multipart upload with uploadId: " + uploadId);
+            }
         } catch (Exception e) {
             log.warn("Failed to abort multipart upload " + uploadId + ": " + e.getMessage());
         }
@@ -1451,7 +1499,9 @@ public class ObjectOperations extends AbstractConnectorOperation {
                 .build();
         try {
             PutObjectResponse response = s3Client.putObject(request, requestBody);
-            
+            if (log.isDebugEnabled()) {
+                log.debug("Successfully uploaded object: " + objectKey);
+            }
             // Convert to POJO and then to JSON
             org.wso2.carbon.connector.amazons3.pojo.PutObjectResponse uploadResponse =
                     s3POJOHandler.castS3PutObjectResponse(response);
