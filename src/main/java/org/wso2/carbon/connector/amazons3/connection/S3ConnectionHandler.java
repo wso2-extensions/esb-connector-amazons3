@@ -62,6 +62,7 @@ public class S3ConnectionHandler implements Connection {
         String awsAccessKeyId = this.connectionConfig.getAwsAccessKeyId();
         String awsSecretAccessKey = this.connectionConfig.getAwsSecretAccessKey();
         String host = this.connectionConfig.getHost();
+        boolean forcePathStyle = this.connectionConfig.isForcePathStyle();
         String roleArn = this.connectionConfig.getRoleArn();
         String roleSessionName = this.connectionConfig.getRoleSessionName();
         S3ClientBuilder s3ClientBuilder = S3Client.builder();
@@ -92,6 +93,9 @@ public class S3ConnectionHandler implements Connection {
 
 		if (StringUtils.isNotEmpty(host)) {
 			s3ClientBuilder.endpointOverride(URI.create(host));
+			if (forcePathStyle) {
+				s3ClientBuilder.forcePathStyle(true);
+			}
 		}
 
 		return s3ClientBuilder.region(Region.of(region))

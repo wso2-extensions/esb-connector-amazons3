@@ -64,6 +64,7 @@ public class S3Config extends AbstractConnector implements ManagedLifecycle {
         String awsSecretAccessKey = (String) ConnectorUtils.
                 lookupTemplateParamater(msgContext, S3Constants.AWS_SECRET_ACCESS_KEY);
         String host = (String) ConnectorUtils.lookupTemplateParamater(msgContext, S3Constants.HOST);
+        String forcePathStyleStr = (String) ConnectorUtils.lookupTemplateParamater(msgContext, S3Constants.FORCE_PATH_STYLE);
         String roleArn = (String) ConnectorUtils.lookupTemplateParamater(msgContext, S3Constants.ROLE_ARN);
         String roleSessionName = (String) ConnectorUtils.lookupTemplateParamater(msgContext, S3Constants.ROLE_SESSION_NAME);
 
@@ -73,6 +74,7 @@ public class S3Config extends AbstractConnector implements ManagedLifecycle {
         connectionConfig.setAwsAccessKeyId(awsAccessKeyId);
         connectionConfig.setAwsSecretAccessKey(awsSecretAccessKey);
         connectionConfig.setHost(host);
+        connectionConfig.setForcePathStyle(Boolean.parseBoolean(forcePathStyleStr));
         connectionConfig.setRoleArn(roleArn);
         connectionConfig.setRoleSessionName(roleSessionName);
         return connectionConfig;

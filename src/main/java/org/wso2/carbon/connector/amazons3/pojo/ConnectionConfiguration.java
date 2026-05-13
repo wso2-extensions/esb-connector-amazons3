@@ -33,6 +33,7 @@ public class ConnectionConfiguration {
     private String awsSecretAccessKey;
 
     private String host;
+    private boolean forcePathStyle;
 
     private String roleArn;
 
@@ -101,5 +102,13 @@ public class ConnectionConfiguration {
 
     public void setRoleSessionName(String roleSessionName) {
         this.roleSessionName = roleSessionName;
+    }
+
+    public boolean isForcePathStyle() {
+        return forcePathStyle;
+    }
+
+    public void setForcePathStyle(boolean forcePathStyle) {
+        this.forcePathStyle = forcePathStyle;
     }
 }
