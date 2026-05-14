@@ -16,7 +16,7 @@
     ],
     "releases": [
         {
-            "tagName": "v3.0.4",
+            "tagName": "v3.0.5",
             "products": [
                 "MI 4.4.0",
                 "MI 4.5.0",
@@ -3297,6 +3297,13 @@
                             "required": false,
                             "defaultValue": "",
                             "description": "For path-style requests, the value is s3.amazonaws.com. For virtual-style requests, the value is BucketName.s3.amazonaws.com."
+                        },
+                        {
+                            "name": "forcePathStyle",
+                            "type": "booleanOrExpression",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Whether to force path style addressing for S3 objects when defining a custom host."
                         }
                     ]
                 }
