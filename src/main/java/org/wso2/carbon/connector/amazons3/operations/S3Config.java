@@ -37,7 +37,11 @@ public class S3Config extends AbstractConnector implements ManagedLifecycle {
             ConnectionHandler handler = ConnectionHandler.getConnectionHandler();
             if (!handler.checkIfConnectionExists(connectorName, connectionName)) {
                 S3ConnectionHandler s3ConnectionHandler = new S3ConnectionHandler(configuration);
-                handler.createConnection(S3Constants.CONNECTOR_NAME, connectionName, s3ConnectionHandler);
+                try {
+                    handler.createConnection(S3Constants.CONNECTOR_NAME, connectionName, s3ConnectionHandler, messageContext);
+                } catch (NoSuchMethodError e) {
+                    handler.createConnection(S3Constants.CONNECTOR_NAME, connectionName, s3ConnectionHandler);
+                }
             } else {
                 S3ConnectionHandler connectionHandler = (S3ConnectionHandler) handler
                         .getConnection(connectorName, connectionName);
