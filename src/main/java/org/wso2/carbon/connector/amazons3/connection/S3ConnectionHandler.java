@@ -4,7 +4,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.connector.amazons3.pojo.ConnectionConfiguration;
+import org.wso2.carbon.connector.core.ConnectException;
 import org.wso2.carbon.connector.core.connection.Connection;
+import org.wso2.carbon.connector.core.connection.ConnectionConfig;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
@@ -119,5 +121,19 @@ public class S3ConnectionHandler implements Connection {
             s3PresignerBuilder.endpointOverride(URI.create(host));
         }
         return s3PresignerBuilder.region(Region.of(region)).build();
+    }
+
+    @Override
+    public void connect(ConnectionConfig connectionConfig) throws ConnectException {
+        // No implementation needed as the connection is established when the S3Client is created
+    }
+
+    @Override
+    public void close() throws ConnectException {
+        if (s3Client != null) {
+            log.debug("Closing the S3 client");
+            s3Client.close();
+            s3Client = null;
+        }
     }
 }
