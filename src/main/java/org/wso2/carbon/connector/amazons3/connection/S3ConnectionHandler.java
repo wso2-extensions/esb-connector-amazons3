@@ -54,7 +54,13 @@ public class S3ConnectionHandler implements Connection {
     }
 
     @Override
-    public void close() {}
+    public void close() {
+        if (s3Client != null) {
+            log.debug("Closing the S3 client");
+            s3Client.close();
+            s3Client = null;
+        }
+    }
 
     private S3Client createS3Client() {
 
