@@ -16,6 +16,7 @@ import org.wso2.carbon.connector.amazons3.pojo.S3OperationResult;
 import org.wso2.carbon.connector.amazons3.pojo.TagConfiguration;
 import org.wso2.carbon.connector.amazons3.utils.Error;
 import org.wso2.carbon.connector.amazons3.utils.S3ConnectorUtils;
+import org.wso2.carbon.relay.StreamingOnRequestDataSource;
 import org.wso2.integration.connector.core.AbstractConnectorOperation;
 import org.wso2.integration.connector.core.ConnectException;
 import org.wso2.integration.connector.core.connection.ConnectionHandler;
@@ -90,6 +91,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.activation.DataSource;
 
 /**
  * Implements object related operations
@@ -292,6 +294,19 @@ public class ObjectOperations extends AbstractConnectorOperation {
                             javax.activation.DataHandler dataHandler =
                                     (javax.activation.DataHandler) omText.getDataHandler();
                             try {
+                                // Mark this as the last read of the inbound stream. Without it
+                                // StreamingOnRequestDataSource buffers the whole body into a byte[]
+                                // so that it can be read again, which defeats the streaming upload.
+                                // The relay builder and the passthrough builder each supply their
+                                // own type, so both are handled here.
+                                DataSource dataSource = dataHandler.getDataSource();
+                                if (dataSource instanceof StreamingOnRequestDataSource) {
+                                    ((StreamingOnRequestDataSource) dataSource).setLastUse(true);
+                                } else if (dataSource instanceof
+                                        org.apache.synapse.transport.passthru.util.StreamingOnRequestDataSource) {
+                                    ((org.apache.synapse.transport.passthru.util.StreamingOnRequestDataSource)
+                                            dataSource).setLastUse(true);
+                                }
                                 InputStream inputStream = dataHandler.getInputStream();
                                 dataHandlerInputStream = inputStream;
                                 Object fileSizeObj = messageContext.getProperty("FILE_SIZE");
