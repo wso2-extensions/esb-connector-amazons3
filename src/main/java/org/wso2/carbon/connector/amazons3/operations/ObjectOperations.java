@@ -297,9 +297,15 @@ public class ObjectOperations extends AbstractConnectorOperation {
                                 // Mark this as the last read of the inbound stream. Without it
                                 // StreamingOnRequestDataSource buffers the whole body into a byte[]
                                 // so that it can be read again, which defeats the streaming upload.
+                                // The relay builder and the passthrough builder each supply their
+                                // own type, so both are handled here.
                                 DataSource dataSource = dataHandler.getDataSource();
                                 if (dataSource instanceof StreamingOnRequestDataSource) {
                                     ((StreamingOnRequestDataSource) dataSource).setLastUse(true);
+                                } else if (dataSource instanceof
+                                        org.apache.synapse.transport.passthru.util.StreamingOnRequestDataSource) {
+                                    ((org.apache.synapse.transport.passthru.util.StreamingOnRequestDataSource)
+                                            dataSource).setLastUse(true);
                                 }
                                 InputStream inputStream = dataHandler.getInputStream();
                                 dataHandlerInputStream = inputStream;
