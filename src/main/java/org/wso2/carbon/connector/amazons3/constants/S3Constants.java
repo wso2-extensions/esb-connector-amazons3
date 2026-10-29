@@ -121,4 +121,11 @@ public class S3Constants {
 
 
     public static final String UTF_8 = "UTF-8";
+
+    // adding this 2 patterns since artifact name in artifact.xml is different in the following 2 cases
+    // 1. connector dependency is added to pom.xml
+    // 2. connector zip is added to the connectors folder
+    public static final CharSequence LIBRARY_NAME_PATTEN1 = "amazons3-connector";
+    public static final CharSequence LIBRARY_NAME_PATTEN2 = "connector-amazons3";
+    public static final String CONNECTOR_LIBRARY_PACKAGE_TYPE = "org.wso2.carbon.connector";
 }
