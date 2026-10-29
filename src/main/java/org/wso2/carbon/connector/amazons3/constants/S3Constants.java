@@ -121,4 +121,7 @@ public class S3Constants {
 
 
     public static final String UTF_8 = "UTF-8";
+
+    public static final CharSequence CONNECTOR_LIBRARY_NAME = "amazons3-connector";
+    public static final String CONNECTOR_LIBRARY_PACKAGE_TYPE = "org.wso2.carbon.connector";
 }

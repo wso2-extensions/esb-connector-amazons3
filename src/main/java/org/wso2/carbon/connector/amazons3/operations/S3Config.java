@@ -2,11 +2,13 @@ package org.wso2.carbon.connector.amazons3.operations;
 
 import org.apache.synapse.ManagedLifecycle;
 import org.apache.synapse.MessageContext;
+import org.apache.synapse.config.SynapseConfiguration;
 import org.apache.synapse.core.SynapseEnvironment;
 import org.wso2.carbon.connector.amazons3.connection.S3ConnectionHandler;
 import org.wso2.carbon.connector.amazons3.constants.S3Constants;
 import org.wso2.carbon.connector.amazons3.exception.InvalidConfigurationException;
 import org.wso2.carbon.connector.amazons3.pojo.ConnectionConfiguration;
+import org.wso2.carbon.connector.amazons3.utils.ConnectorUndeployObserver;
 import org.wso2.carbon.connector.amazons3.utils.Error;
 import org.wso2.carbon.connector.amazons3.utils.S3ConnectorUtils;
 import org.wso2.carbon.connector.core.AbstractConnector;
@@ -17,7 +19,8 @@ import org.wso2.carbon.connector.core.util.ConnectorUtils;
 public class S3Config extends AbstractConnector implements ManagedLifecycle {
 
     public void init(SynapseEnvironment synapseEnvironment) {
-        //do nothing on deployment - configs unknown by that time
+        SynapseConfiguration synapseConfig = synapseEnvironment.getSynapseConfiguration();
+        synapseConfig.registerObserver(new ConnectorUndeployObserver(synapseConfig));
     }
 
     public void destroy() {
