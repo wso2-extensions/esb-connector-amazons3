@@ -25,8 +25,7 @@ import org.wso2.carbon.connector.amazons3.constants.S3Constants;
 import org.wso2.carbon.connector.core.connection.ConnectionHandler;
 
 /**
- * Listen for library un deploy events
- * and cleanup connections created by the connector.
+ * Listen for library un deploy events and cleanup connections created by the connector.
  */
 public class ConnectorUndeployObserver extends AbstractSynapseObserver {
 
@@ -42,8 +41,9 @@ public class ConnectorUndeployObserver extends AbstractSynapseObserver {
         String libraryPath = library.getFileName();
         // No need to use File.separator here since libraryPath we are getting from synapse is formatted with "/"
         String libraryName = libraryPath.substring(libraryPath.lastIndexOf("/"));
-        if (libraryName.contains(S3Constants.CONNECTOR_LIBRARY_NAME)
-            && library.getPackage().equals(S3Constants.CONNECTOR_LIBRARY_PACKAGE_TYPE)) {
+        if ((libraryName.contains(S3Constants.LIBRARY_NAME_PATTEN1) || libraryName.contains(
+            S3Constants.LIBRARY_NAME_PATTEN2)) && library.getPackage()
+            .equals(S3Constants.CONNECTOR_LIBRARY_PACKAGE_TYPE)) {
             if (log.isDebugEnabled()) {
                 log.debug(
                     "Amazons3 Connector is being un deployed. Closing all file connections created.");
